@@ -14,7 +14,8 @@ public class Model extends Observable {
 	private int solarPower;	
 	private int solarRate;
 	
-	private Model(){
+
+	private Model(int level){
 		seedList = new ArrayList<Seeds>();
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
@@ -31,27 +32,39 @@ public class Model extends Observable {
 				tempTile.getNext().setPrevious(tempTile);	//and link it back
 			}
 		}
+		
 		solarPower = 0;
 		solarRate = 5;
-	}
-	
-	private Model(int level){
-		new Model();
 		if(level == 1){												//load the zombies, etc... for level 1
 			//seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
 			//seedList.add(Seeds(new Shooter(null, 1), 40));
 			for(int x = 0; x < 10; x++){
-				waitingZombiesList.add(new DefZombie(null, 1)); 			//add some basic zombies
+				waitingZombiesList.add(new DefZombie(1)); 			//add some basic zombies
 			}
 		}
 	}
 	
-	public int main(){
-		
-		return 0;
+	public static void main(String arg[]){
+		int gameState = 0;
+		Model game = new Model(1);
+		while(gameState == 0){
+			//get player input
+			//possibly place a plant
+			game.update();
+			game.printGrid();
+			//gameState = game.winState();
+		}/*
+		if(gameState == 1){
+			//You won! Congraturation
+		}
+		else if(gameState == -1){
+			//You lost. Mission Failed
+		}*/
 	}
 	
-	public void update(){			
+	public void update(){	
+		Random generator = new Random();
+		
 		solarRate = 5;
 		for(Actor a: actorList){	
 			if(a.act() == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
@@ -67,7 +80,9 @@ public class Model extends Observable {
 			}
 		}
 		solarPower += solarRate;
-		addZombie(); //but not every turn, have a fixed or random chance
+		if(generator.nextInt(100) > 50){
+			addZombie(); 
+		}
 		//notify observers
 	}
 	
@@ -75,7 +90,8 @@ public class Model extends Observable {
 	//their public accessible attributes should be related to rendering
 	
 	private boolean addZombie(){				
-		Actor newZombie = waitingZombiesList.get(waitingZombiesList.size()); 				//pick the last one in line
+		int endOfList = waitingZombiesList.size() - 1;
+		Actor newZombie = waitingZombiesList.get(endOfList);
 		waitingZombiesList.remove(newZombie);
 		Random generator = new Random();
 		int y;
@@ -103,6 +119,7 @@ public class Model extends Observable {
 		return baseTile;
 	}
 	
+	/*
 	public boolean purchasePlant(int type){
 		if(seedList.get(type).purchasePlant(solarPower)){
 			solarPower -= seedList.get(type).getCost();
@@ -113,13 +130,10 @@ public class Model extends Observable {
 		}
 	}
 	
-	/*
-	public boolean placePlant(int x, int y, int type){
-		Actor newPlant;
+	public boolean placePlant(int x, int y, Actor purchasePlant){
 		Tile destination = getTile(x,y);
 		if(destination.getOccupant() == null){								//if the spot for the plant is empty
 			if(this.purchasePlant(type)){									//and if the plant can be successfully purchased
-				//newPlant = this.getSeedList().get(type).getPlantType();	//broken, will just make another reference to the plant
 				newPlant.setTile(destination);
 				destination.setOccupant(newPlant);
 				return true;
@@ -145,6 +159,20 @@ public class Model extends Observable {
 			return 1;										//game win if there are no zombies on the field, and no zombies waiting
 		}
 		return 0;
+	}
+	
+	private void printGrid(){
+		for (int y = 0; y < MAX_ROWS; y++){
+			Tile tempTile = gameGrid.get(y);
+			for(int x = 0; x < MAX_COLS; x++){
+				if(tempTile != null){
+					System.out.print(tempTile.toString());
+				}
+				tempTile = tempTile.getNext();
+			}
+			System.out.print("\n");
+		}
+		System.out.print("\n");
 	}
 	
 	public ArrayList<Actor> getActorList() {

@@ -29,10 +29,9 @@ public class Actor {
 	 * @param level
 	 * @param sprite
 	 */
-	public Actor(Tile tile, int maxHealth,
+	public Actor(int maxHealth,
 			int level, String sprite, boolean friendly) {
 		super();
-		this.tile = tile;
 		this.status = true;
 		this.currHealth = maxHealth;
 		this.maxHealth = maxHealth;

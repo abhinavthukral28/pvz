@@ -17,8 +17,8 @@ public class DefZombie extends Actor {
 	 * @param tile
 	 * @param level
 	 */
-	public DefZombie(Tile tile,int level) {
-		super(tile, (HF * level), level, "Z", false);
+	public DefZombie(int level) {
+		super((HF * level), level, "Z", false);
 	}
 	
 	/** 

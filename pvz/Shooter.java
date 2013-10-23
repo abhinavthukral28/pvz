@@ -16,8 +16,8 @@ public class Shooter extends Actor {
 	 * @param tile
 	 * @param level
 	 */
-	public Shooter(Tile tile, int level) {
-		super(tile,(HF * level), level, "S", true);
+	public Shooter(int level) {
+		super((HF * level), level, "S", true);
 	}
 	
 	/**
