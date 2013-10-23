@@ -31,6 +31,7 @@ public class Shooter extends Actor {
 	 * @return 2 if zombie successfully attacked else returns 0
 	 */
 	private int attack() {
+		// iterates through the grid to till it reaches the end of the grid
 		Tile tempTile = super.tile;
 		while(tempTile != null){
 			tempTile = tempTile.getPrevious();
