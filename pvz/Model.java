@@ -117,6 +117,7 @@ public class Model extends Observable {
 		return baseTile;
 	}
 	
+	/*
 	public boolean purchasePlant(int type){
 		if(seedList.get(type).purchasePlant(solarPower)){
 			solarPower -= seedList.get(type).getCost();
@@ -127,13 +128,10 @@ public class Model extends Observable {
 		}
 	}
 	
-	/*
-	public boolean placePlant(int x, int y, int type){
-		Actor newPlant;
+	public boolean placePlant(int x, int y, Actor purchasePlant){
 		Tile destination = getTile(x,y);
 		if(destination.getOccupant() == null){								//if the spot for the plant is empty
 			if(this.purchasePlant(type)){									//and if the plant can be successfully purchased
-				//newPlant = this.getSeedList().get(type).getPlantType();	//broken, will just make another reference to the plant
 				newPlant.setTile(destination);
 				destination.setOccupant(newPlant);
 				return true;
@@ -174,7 +172,7 @@ public class Model extends Observable {
 		}
 	}
 	
-public ArrayList<Actor> getActorList() {
+	public ArrayList<Actor> getActorList() {
 		return actorList;
 	}
 	
