@@ -1,8 +1,5 @@
 package pvz;
 
-import java.util.LinkedList;
-
-
 public class Tile{
 
 	//private LinkedList tile;
@@ -20,18 +17,25 @@ public class Tile{
 	 * @param actor is the actor assigned to the tile 
 	 */
 	
+	public Tile(){
+		next = null;
+		previous = null;
+		currActor = null;
+		tileSprite = ".";
+	}
+	
 	public Tile(Tile previous, Tile next, Actor actor){
-		
 		//make a new tile
-		tile = new Tile(previous, next, actor);
+		this.next = next;
+		this.previous = previous;
+		this.currActor = actor;
+		tileSprite = ".";
 		
 	}
 	
 	//return true if empty, false if occupied
 	public boolean isOccupied(){
-		
-		//check 
-		return tile.currActor == null;
+		return (currActor != null);
 	}
 	/**
 	 * 
@@ -52,17 +56,29 @@ public class Tile{
 		
 	}
 	public String toString(){
+		if(isOccupied()){
+			return currActor.getSprite();
+		}
+		else{
+			return tileSprite;
+		}
 		
 	}
+	
 	public Tile getNext(){
 		
 		return next;
 	}
 	
-	public Tile getPrevious{
+	public Tile getPrevious(){
 		return previous;
 	}
-	public setNext(Tile next){
+	
+	public void setNext(Tile next){
 		this.next = next;
+	}
+
+	public void setPrevious(Tile previous) {
+		this.previous = previous;
 	}
 }

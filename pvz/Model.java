@@ -8,7 +8,7 @@ public class Model extends Observable {
 	private static final int MAX_COLS = 12;
 	private ArrayList<Seeds> seedList;
 	private ArrayList<Actor> actorList;
-	private ArrayList<Zombie> waitingZombiesList;
+	private ArrayList<Actor> waitingZombiesList;
 	private ArrayList<Tile> gameGrid; 
 	private int solarPower;	
 	private int solarRate;
@@ -16,7 +16,7 @@ public class Model extends Observable {
 	private Model(){
 		seedList = new ArrayList<Seeds>();
 		actorList = new ArrayList<Actor>();
-		waitingZombiesList = new ArrayList<Zombie>();
+		waitingZombiesList = new ArrayList<Actor>();
 		gameGrid = new ArrayList<Tile>();
 		for(int y = 0; y < MAX_ROWS; y++){				//for each row
 			Tile newTile = new Tile();					
@@ -36,11 +36,11 @@ public class Model extends Observable {
 	
 	private Model(int level){
 		new Model();
-		if(level == 1){			//load the zombies, etc... for level 1
-			seedList.add(Seeds(new Sunflower(), 20, 4));		//add seedpackets for the two Plant types
-			seedList.add(Seeds(new Shooter(), 40, 5));
+		if(level == 1){												//load the zombies, etc... for level 1
+			seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
+			seedList.add(Seeds(new Shooter(null, 1), 40));
 			for(int x = 0; x < 10; x++){
-				waitingZombiesList.add(new Zombie()); //add some basic zombies
+				waitingZombiesList.add(new DefZombie()); 			//add some basic zombies
 			}
 		}
 	}
@@ -52,9 +52,9 @@ public class Model extends Observable {
 				solarPower+= 5;
 			}
 		}
-		for(Seed s: seedList){
+		/*for(Seeds s: seedList){
 			s.update();
-		}
+		}*/
 		for(Actor a: actorList){	
 			if(!a.isAlive()){
 				actorList.remove(a);
@@ -75,7 +75,7 @@ public class Model extends Observable {
 		return seedList;
 	}
 
-	public ArrayList<Zombie> getWaitingZombiesList() {
+	public ArrayList<Actor> getWaitingZombiesList() {
 		return waitingZombiesList;
 	}
 
@@ -89,16 +89,17 @@ public class Model extends Observable {
 
 	
 	private boolean addZombie(){				
-		Zombie newZombie = waitingZombiesList.get(waitingZombiesList.size()); 				//pick the last one in line
-		waitingZombiesList.remove(newZombie.indexOf());
+		Actor newZombie = waitingZombiesList.get(waitingZombiesList.size()); 				//pick the last one in line
+		waitingZombiesList.remove(newZombie);
 		int x, y, tries = 0;
 		//y = random row
 		//x = far right column
-		Tile destination = getTile(x,y));
+		Tile destination = getTile(x,y);
 		while(tries < 5){			//if the spot is occupied, choose another
 			if(destination.getOccupant() == null){
-				newZombie.setPosition(destination);
+				newZombie.setTile(destination);
 				destination.setOccupant(newZombie);
+				return true;
 			}
 			y = (y + 1) % MAX_COLS;
 			tries++;
@@ -108,7 +109,7 @@ public class Model extends Observable {
 	}
 
 	public Tile getTile(int x, int y){
-		Tile baseTile = gameGrid[y];
+		Tile baseTile = gameGrid.get(y);
 		for(int n = 0; n < x; n++){
 			baseTile = baseTile.getNext();
 		}
@@ -116,8 +117,8 @@ public class Model extends Observable {
 	}
 	
 	public boolean purchasePlant(int type){
-		if(seedList[type].purchasePlant(solarPower)){
-			solarPower -= seedList[type].getCost();
+		if(seedList.get(type).purchasePlant(solarPower)){
+			solarPower -= seedList.get(type).getCost();
 			return true;
 		}
 		else{
@@ -126,14 +127,14 @@ public class Model extends Observable {
 	}
 	
 	public boolean placePlant(int x, int y, int type){
-		Plant newPlant;
+		Actor newPlant;
 		Tile destination = getTile(x,y);
 		if(destination.getOccupant() == null){								//if the spot for the plant is empty
 			if(this.purchasePlant(type)){									//and if the plant can be successfully purchased
 				//newPlant = this.getSeedList().get(type).getPlantType();	//broken, will just make another reference to the plant
-				newPlant.setPos(destination);
+				newPlant.setTile(destination);
 				destination.setOccupant(newPlant);
-				return(addActor(newPlant));
+				return true;
 			}
 		}
 		return false;		
@@ -141,19 +142,19 @@ public class Model extends Observable {
 	
 	public int winState(){
 		for(int y = 0; y < MAX_ROWS; y++;){
-			if(actorAt(0, y) != null){
-				if(actorAt(0, y)){ 			//is a zombie
-					return -1; 				//game loss if there is a zombie in the first column
+			if(!getTile(0,y).isOccupied()){
+				if(getTile(0,y).getOccupant() /* is a zombie */){ 
+					return -1; 								//game loss if there is a zombie in the first column
 				}
 			}
 		}
 		if(waitingZombiesList.isEmpty()){
 			for(Actor a: actorList){
-				if(a){						//is a zombie
+				if(a /*is a zombie */){								
 					return 0;
 				}
 			}
-			return 1;						//game win if there are no zombies on the field, and no zombies waiting
+			return 1;										//game win if there are no zombies on the field, and no zombies waiting
 		}
 		return 0;
 	}
