@@ -48,14 +48,14 @@ public class DefZombie extends Actor {
 	 * move() method moves the zombie to the next tile 
 	 */
 	private void move() {
-		Tile nextTile = tile.getNext();
+		Tile nextTile = tile.getPrevious();				//the next tile is the tile to the right, so zombies walk backwards, to the left
 		if(nextTile != null){
 			if(nextTile.isOccupied()){
 				return;
 			}
 			else {
 				super.tile.setOccupant(null);
-				super.tile = nextTile;
+				this.setTile(nextTile);
 				super.tile.setOccupant(this);
 				return;
 			}

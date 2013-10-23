@@ -81,7 +81,7 @@ public class Model extends Observable {
 		}
 		solarPower += solarRate;
 		if(generator.nextInt(100) > 50){
-			addZombie(); 
+			addZombie();
 		}
 		//notify observers
 	}
@@ -97,11 +97,13 @@ public class Model extends Observable {
 		int y;
 		int tries = 0;
 		y = generator.nextInt(MAX_ROWS);
-		Tile destination = getTile(MAX_COLS ,y);
+		Tile destination = getTile(MAX_COLS, y);
 		while(tries < 5){			//if the spot is occupied, choose another
 			if(destination.getOccupant() == null){
 				newZombie.setTile(destination);
 				destination.setOccupant(newZombie);
+				actorList.add(newZombie);
+				System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
 				return true;
 			}
 			y = (y + 1) % MAX_COLS;
@@ -164,10 +166,8 @@ public class Model extends Observable {
 	private void printGrid(){
 		for (int y = 0; y < MAX_ROWS; y++){
 			Tile tempTile = gameGrid.get(y);
-			for(int x = 0; x < MAX_COLS; x++){
-				if(tempTile != null){
-					System.out.print(tempTile.toString());
-				}
+			while(tempTile != null){
+				System.out.print(tempTile.toString());
 				tempTile = tempTile.getNext();
 			}
 			System.out.print("\n");

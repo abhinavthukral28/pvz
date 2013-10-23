@@ -86,7 +86,7 @@ public class Actor {
 	/**
 	 * @return Sprite representation of the actor
 	 */
-	public String getSprite(){
+	public String toString(){
 		return sprite;
 	}
 	/**

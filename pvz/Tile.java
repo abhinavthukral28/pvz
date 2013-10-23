@@ -30,7 +30,6 @@ public class Tile{
 		this.previous = previous;
 		this.currActor = actor;
 		tileSprite = ".";
-		
 	}
 	
 	//return true if empty, false if occupied
@@ -42,7 +41,6 @@ public class Tile{
 	 * @return the Actor on this tile
 	 */
 	public Actor getOccupant(){
-		
 		return currActor;
 	}
 	
@@ -50,14 +48,13 @@ public class Tile{
 	 * @param actor is Actor to be assigned to the tile
 	 */
 	public void setOccupant(Actor actor){
-		
 		currActor = actor;
-		this.tileSprite = currActor.getSprite(); 
-		
+		//this.tileSprite = currActor.getSprite(); 
 	}
+	
 	public String toString(){
 		if(isOccupied()){
-			return currActor.getSprite();
+			return currActor.toString();
 		}
 		else{
 			return tileSprite;
