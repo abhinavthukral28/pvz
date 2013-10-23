@@ -95,6 +95,11 @@ public class Actor {
 	public boolean isFriendly(){
 		return friendly;
 	}
+	
+	/**
+	 * Placeholder method for actors which have a cost in terms of solar
+	 * @return 0;
+	 */
 	public int getCost() {
 		return 0;
 	}
