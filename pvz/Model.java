@@ -47,7 +47,19 @@ public class Model extends Observable {
 	}
 	
 	public int main(){
-		
+		int gameState = 0;
+		while(gameState == 0){
+			//get player input
+			//possibly place a plant
+			update();
+			gameState = winState();
+		}
+		if(gameState == 1){
+			//You won! Congraturation
+		}
+		else if(gameState == -1){
+			//You lost. Mission Failed
+		}
 		return 0;
 	}
 	
