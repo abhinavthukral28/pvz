@@ -14,7 +14,10 @@ public class Model extends Observable {
 	private int solarPower;	
 	private int solarRate;
 	
-
+	/**
+	 * 
+	 * @param level determines the game level and difficulty of the game generated. only 1 level is implemented currently
+	 */
 	private Model(int level){
 		seeds = new Seeds(level);
 		actorList = new ArrayList<Actor>();
@@ -62,6 +65,9 @@ public class Model extends Observable {
 		}*/
 	}
 	
+	/**
+	 * simulates the game system, updates the model. Every moving part moves.
+	 */
 	public void update(){	
 		Random generator = new Random();
 		
@@ -89,6 +95,10 @@ public class Model extends Observable {
 	//the current components of the level are accessible
 	//their public accessible attributes should be related to rendering
 	
+	/**
+	 * Moves a zombie from the waiting area onto the map. If there is no place to put a zombie, the zombie is returned.
+	 * @return True if a zombie was added, false otherwise
+	 */
 	private boolean addZombie(){				
 		if(waitingZombiesList.size() > 0){
 			int endOfList = waitingZombiesList.size() - 1;
@@ -115,15 +125,28 @@ public class Model extends Observable {
 		return false;						 	//all rows are blocked
 	}
 
+	/**
+	 * Searches for and returns a requested tile.
+	 * @param x coordinate of a Tile
+	 * @param y coordinate of a Tile
+	 * @return the Tile at the given location
+	 */
 	public Tile getTile(int x, int y){
-		Tile baseTile = gameGrid.get(y);
-		for(int n = 0; n < x; n++){
-			baseTile = baseTile.getRight();
+		if(x > 0 && x < MAX_COLS && y > 0 && y < MAX_ROWS){
+			Tile baseTile = gameGrid.get(y);
+			for(int n = 0; n < x; n++){
+				baseTile = baseTile.getRight();
+			}
+			return baseTile;
 		}
-		return baseTile;
+		return null;		//kind of rude
 	}
 	
-	
+	/**
+	 * Attempts to purchase a plant. Decreases solar reserves by the cost of the plant if successful.
+	 * @param type the kind of plant to be purchased
+	 * @return The newly purchased plant, or null if it is unaffordable
+	 */
 	private Actor purchasePlant(String type){
 		Actor actor = seeds.getPlant(type, solarPower);
 		if(actor != null){
@@ -135,21 +158,34 @@ public class Model extends Observable {
 		}
 	}
 	
+	/**
+	 * Puts a plant on the map, given a co-ordinate pair, and the name of a plant type.
+	 * @param x destination co-ordinate for the plant
+	 * @param y destination co-ordinate for the plant
+	 * @param type the type of plant to be placed
+	 * @return True if the plant was placed, false otherwise;
+	 */
 	public boolean placePlant(int x, int y, String type){
 		Tile destination = getTile(x,y);
-		if(destination.getOccupant() == null){//if the spot for the plant is empty
-			Actor newPlant = purchasePlant(type);
-			if (newPlant != null) {
-				newPlant.setTile(destination);
-				destination.setOccupant(newPlant);
-				return true;
+		if(destination != null){
+			if(destination.getOccupant() == null){
+				Actor newPlant = purchasePlant(type);			//this decreases your solarPower. we should split it into createPlant() and payForPlant() methods. 
+				if (newPlant != null) {							//otherwise there will be times where we will want to refund the player if they screw up.
+					newPlant.setTile(destination);
+					destination.setOccupant(newPlant);
+					return true;
+				}
 			}
-			
-		
 		}
 		return false;		
 	}
 	
+	/**
+	 * Checks the game state for a win or a loss.
+	 * Win if there are no zombies on the field, and no zombies waiting.
+	 * Loss if there is a zombie in the first column.
+	 * @return -1 if the player lost, 1 if they won, 0 otherwise
+	 */
 	public int winState(){
 		for(int y = 0; y < MAX_ROWS; y++){
 			if(!getTile(0,y).isOccupied()){
@@ -169,6 +205,9 @@ public class Model extends Observable {
 		return 0;
 	}
 	
+	/**
+	 * Primitive display method. A view system will be responsible for all of this in later versions.
+	 */
 	private void printGrid(){
 		for (int y = 0; y < MAX_ROWS; y++){
 			Tile tempTile = gameGrid.get(y);
@@ -181,21 +220,4 @@ public class Model extends Observable {
 		System.out.print("\n");
 	}
 	
-	public ArrayList<Actor> getActorList() {
-		return actorList;
-	}
-	
-
-	public ArrayList<Actor> getWaitingZombiesList() {
-		return waitingZombiesList;
-	}
-
-	public int getSolarPower() {
-		return solarPower;
-	}
-
-	public int getSolarRate() {
-		return solarRate;
-	}
-
 }
