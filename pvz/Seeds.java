@@ -1,13 +1,12 @@
 package pvz;
-import java.util.*;
 
 public class Seeds {
 	private int level;
-	private Map<String, Integer> map;
+	//private Map<String, Integer> map;
 		
 	public Seeds(int level){
 		this.level = level;
-		map = new HashMap<String,Integer>();
+		//map = new HashMap<String,Integer>();
 		//this.delay = delay;
 	
 	}
@@ -30,11 +29,11 @@ public class Seeds {
 	public Actor getPlant(String string, int suns) {//not a good idea! want to return a new plant of the given type
 		Actor actor = null;
 		if(string.equals("sunflower")){
-			actor = new SunFlower(null,level);
+			actor = new SunFlower(level);
 		}
 		
-		else if (string.equals("sunflower")){
-			actor = new SunFlower(null,level);
+		else if (string.equals("shooter")){
+			actor = new Shooter(level);
 		}
 		else{
 			return null;
@@ -47,12 +46,15 @@ public class Seeds {
 		}
 	}
 
-	
+	/*
+	 * for cooldown
+	 * to be implemented later
+	 *
 	private void MapPopulate(){
 		map.put("sunflower", 3);
 		map.put("shooter", 5);
 		
-	}
+	}*/
 	/*
 	public int getCooldown() {
 		return cooldown;

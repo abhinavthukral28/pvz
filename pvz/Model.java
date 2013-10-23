@@ -7,7 +7,7 @@ import java.util.Observable;
 public class Model extends Observable {
 	private static final int MAX_ROWS = 6;
 	private static final int MAX_COLS = 12;
-	private ArrayList<Seeds> seedList;
+	private Seeds seeds;
 	private ArrayList<Actor> actorList;
 	private ArrayList<Actor> waitingZombiesList;
 	private ArrayList<Tile> gameGrid; 
@@ -16,7 +16,7 @@ public class Model extends Observable {
 	
 
 	private Model(int level){
-		seedList = new ArrayList<Seeds>();
+		seeds = new Seeds(level);
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
 		gameGrid = new ArrayList<Tile>();
@@ -119,29 +119,33 @@ public class Model extends Observable {
 		return baseTile;
 	}
 	
-	/*
-	public boolean purchasePlant(int type){
-		if(seedList.get(type).purchasePlant(solarPower)){
-			solarPower -= seedList.get(type).getCost();
-			return true;
+	
+	private Actor purchasePlant(String type){
+		Actor actor = seeds.getPlant(type, solarPower);
+		if(actor != null){
+			solarPower -= actor.getCost();
+			return actor;
 		}
 		else{
-			return false;
+			return null;
 		}
 	}
 	
-	public boolean placePlant(int x, int y, Actor purchasePlant){
+	public boolean placePlant(int x, int y, String type){
 		Tile destination = getTile(x,y);
-		if(destination.getOccupant() == null){								//if the spot for the plant is empty
-			if(this.purchasePlant(type)){									//and if the plant can be successfully purchased
+		if(destination.getOccupant() == null){//if the spot for the plant is empty
+			Actor newPlant = purchasePlant(type);
+			if (newPlant != null) {
 				newPlant.setTile(destination);
 				destination.setOccupant(newPlant);
 				return true;
 			}
+			
+		
 		}
 		return false;		
 	}
-	*/
+	
 	public int winState(){
 		for(int y = 0; y < MAX_ROWS; y++){
 			if(!getTile(0,y).isOccupied()){
@@ -179,9 +183,6 @@ public class Model extends Observable {
 		return actorList;
 	}
 	
-	public ArrayList<Seeds> getSeedList() {
-		return seedList;
-	}
 
 	public ArrayList<Actor> getWaitingZombiesList() {
 		return waitingZombiesList;
