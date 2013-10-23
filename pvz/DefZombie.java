@@ -8,7 +8,6 @@ package pvz;
 public class DefZombie extends Actor {
 	private static final int HFDZ = 50; // Health Factor multiplies with level to increase max health
 	private static final int DFDZ = 10; // Damage Factor multiplies with level to increase damage
-	private static final int SFDZ = 1;	// Speed Factor for speed
 		
 
 	public DefZombie(Tile tile,int level, String sprite) {
@@ -16,13 +15,20 @@ public class DefZombie extends Actor {
 	}
 	
 	public void act(){
-		
+		if (tile.getNext() != null) {
+			if (tile.getNext().isOccupied()) {
+				attack(tile.getNext().getOccupant());
+			}
+			else{
+				move();
+			}
+		}
 	}
 	/**
 	 * still to be properly implemented based on the grid
 	 */
 	private void move() {
-		Tile nextTile = tile.getNextTile();
+		Tile nextTile = tile.getNext();
 		if(nextTile != null){
 			if(nextTile.isOccupied()){
 				return;

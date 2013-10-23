@@ -21,7 +21,7 @@ public class Actor {
 		this.currHealth = maxHealth;
 		this.maxHealth = maxHealth;
 		this.sprite = sprite;
-		this.level = 1;
+		this.level = level;
 	}
 	public void act(){
 		return;
