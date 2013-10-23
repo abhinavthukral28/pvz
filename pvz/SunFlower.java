@@ -3,18 +3,29 @@ package pvz;
 
 /**
  * @author Abhinav Thukral
- * 
+ * @version 1.0
  *
  */
 public class SunFlower extends Actor {
-	
+	// Default Health Factor multiplies with level to increase max health (Experimental)
+	private static final int HF = 25;
+	// Number of turns that have passed since the creation of the SunFlower
 	private int turn;
 
-	public SunFlower(Tile tile, int maxHealth, int level) {
-		super(tile, maxHealth, level, "F");
+	/**
+	 * 
+	 * @param tile
+	 * @param level
+	 */
+	public SunFlower(Tile tile, int level) {
+		super(tile,(HF * level), level, "F");
 		turn = 3;
 	}
 	
+	/** 
+	 * act() method for SunFlower, generates suns on every third turn since the creation of the plant
+	 * @return 5 if sun is generated else returns a 0
+	 */
 	public int act() {
 		if((this.turn % 3) == 0){
 			turn++;

@@ -6,15 +6,30 @@ package pvz;
  *
  */
 public class Shooter extends Actor {
-
-	public Shooter(Tile tile, int maxHealth, int level) {
-		super(tile, maxHealth, level, "S");
+	// Default Health Factor multiplies with level to increase max health (Experimental)
+	private static final int HF = 40;
+	// Default Damage Factor multiplies with level to increase damage (Experimental)
+	private static final int DF = 10; 
+	
+	/**
+	 * @param tile
+	 * @param level
+	 */
+	public Shooter(Tile tile, int level) {
+		super(tile,(HF * level), level, "S");
 	}
 	
+	/**
+	 * @return 2 if zombie successfully attacked else returns 0
+	 */
 	public int act() {
 		return attack();
 	}
 	
+	/**
+	 * attack() iterates through the grid to check if there is any zombie in the vicinity
+	 * @return 2 if zombie successfully attacked else returns 0
+	 */
 	private int attack() {
 		Tile tempTile = super.tile;
 		while(tempTile != null){
@@ -22,7 +37,7 @@ public class Shooter extends Actor {
 			if(tempTile != null && tempTile.isOccupied()){
 				Actor actor = tempTile.getOccupant();
 				if (actor instanceof DefZombie) {
-					actor.takeDamage(10);
+					actor.takeDamage(DF * super.level);
 					return 2;
 				}
 			}
