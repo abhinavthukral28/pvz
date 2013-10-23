@@ -90,26 +90,28 @@ public class Model extends Observable {
 	//their public accessible attributes should be related to rendering
 	
 	private boolean addZombie(){				
-		int endOfList = waitingZombiesList.size() - 1;
-		Actor newZombie = waitingZombiesList.get(endOfList);
-		waitingZombiesList.remove(newZombie);
-		Random generator = new Random();
-		int y;
-		int tries = 0;
-		y = generator.nextInt(MAX_ROWS);
-		Tile destination = getTile(MAX_COLS, y);
-		while(tries < 5){			//if the spot is occupied, choose another
-			if(destination.getOccupant() == null){
-				newZombie.setTile(destination);
-				destination.setOccupant(newZombie);
-				actorList.add(newZombie);
-				System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
-				return true;
+		if(waitingZombiesList.size() > 0){
+			int endOfList = waitingZombiesList.size() - 1;
+			Actor newZombie = waitingZombiesList.get(endOfList);
+			waitingZombiesList.remove(newZombie);
+			Random generator = new Random();
+			int y;
+			int tries = 0;
+			y = generator.nextInt(MAX_ROWS);
+			Tile destination = getTile(MAX_COLS, y);
+			while(tries < 5){			//if the spot is occupied, choose another
+				if(destination.getOccupant() == null){
+					newZombie.setTile(destination);
+					destination.setOccupant(newZombie);
+					actorList.add(newZombie);
+					System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
+					return true;
+				}
+				y = (y + 1) % MAX_COLS;
+				tries++;
 			}
-			y = (y + 1) % MAX_COLS;
-			tries++;
+			waitingZombiesList.add(newZombie);		//zombie goes back in line
 		}
-		waitingZombiesList.add(newZombie);		//zombie goes back in line
 		return false;						 	//all rows are blocked
 	}
 
