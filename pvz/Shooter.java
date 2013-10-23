@@ -10,6 +10,7 @@ public class Shooter extends Actor {
 	private static final int HF = 40;
 	// Default Damage Factor multiplies with level to increase damage (Experimental)
 	private static final int DF = 10; 
+	private static final int COST = 50;
 	
 	/**
 	 * @param tile
@@ -46,6 +47,10 @@ public class Shooter extends Actor {
 		}
 		return 0;
 		
+	}
+	
+	public int getCost(){
+		return COST;
 	}
 	
 	

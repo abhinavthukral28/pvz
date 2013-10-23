@@ -95,6 +95,9 @@ public class Actor {
 	public boolean isFriendly(){
 		return friendly;
 	}
+	public int getCost() {
+		return 0;
+	}
 	
 	
 	

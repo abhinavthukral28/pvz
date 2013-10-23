@@ -1,14 +1,12 @@
 package pvz;
 
 public class Seeds {
-	private Actor plantType;
-	private int cost;	
-	//private int cooldown;		//not needed for milestone 1
-	//private int delay;
+	private int level;
+	//private Map<String, Integer> map;
 		
-	public Seeds(Actor type, int cost/*, int delay*/){
-		plantType = type;
-		this.cost = cost;		
+	public Seeds(int level){
+		this.level = level;
+		//map = new HashMap<String,Integer>();
 		//this.delay = delay;
 	
 	}
@@ -27,23 +25,36 @@ public class Seeds {
 		return true;
 	}*/
 	
-	public boolean purchasePlant(int suns){
-		if(/*!isEnabled() || */suns < cost){		//can't purchase plant if it is on cooldown, or if you don't have enough sunlight
-			return false;
+
+	public Actor getPlant(String string, int suns) {//not a good idea! want to return a new plant of the given type
+		Actor actor = null;
+		if(string.equals("sunflower")){
+			actor = new SunFlower(level);
+		}
+		
+		else if (string.equals("shooter")){
+			actor = new Shooter(level);
 		}
 		else{
-			//cooldown = delay;
-			return true;
+			return null;
+		}
+		if(actor.getCost() > suns){
+			return null;
+		}
+		else{
+			return actor;
 		}
 	}
 
-	public Actor getPlantType() {				//not a good idea! want to return a new plant of the given type
-		return plantType;
-	}
-
-	public int getCost() {
-		return cost;
-	}
+	/*
+	 * for cooldown
+	 * to be implemented later
+	 *
+	private void MapPopulate(){
+		map.put("sunflower", 3);
+		map.put("shooter", 5);
+		
+	}*/
 	/*
 	public int getCooldown() {
 		return cooldown;
