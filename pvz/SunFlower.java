@@ -1,4 +1,4 @@
-package plantszombies;
+package pvz;
 
 public class SunFlower extends Actor {
 

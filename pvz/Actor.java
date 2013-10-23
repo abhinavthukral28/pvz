@@ -1,4 +1,4 @@
-package plantszombies;
+package pvz;
 
 /**
  * @author Abhinav Thukral
