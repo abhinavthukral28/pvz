@@ -23,8 +23,8 @@ public class Actor {
 		this.sprite = sprite;
 		this.level = level;
 	}
-	public void act(){
-		return;
+	public int act(){
+		return 0;
 	}
 	
 	public int takeDamage(int damage) {

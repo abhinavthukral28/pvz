@@ -11,18 +11,22 @@ public class DefZombie extends Actor {
 		
 
 	public DefZombie(Tile tile,int level, String sprite) {
-		super(tile, (HFDZ * level), level, "T");
+		super(tile, (HFDZ * level), level, "Z");
 	}
 	
-	public void act(){
+	public int act(){
 		if (tile.getNext() != null) {
 			if (tile.getNext().isOccupied()) {
 				attack(tile.getNext().getOccupant());
+				return 2;
 			}
 			else{
 				move();
+				return 1;
 			}
 		}
+		return 0;
+		
 	}
 	/**
 	 * still to be properly implemented based on the grid
