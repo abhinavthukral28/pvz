@@ -6,13 +6,27 @@ package pvz;
  *
  */
 public class Actor {
+
+	// The tile that the actor occupies
 	protected Tile tile;
+	// Status of the Actor if it is dead or alive
 	protected boolean status;
+	// Current Health of the Actor
 	protected int currHealth;
+	// Maximum health of the Actor
 	protected int maxHealth;
+	// The string/graphical representation of the Actor
 	protected String sprite;
-	protected int level;								// game level
+	// The level of the actor based on the level of the game
+	protected int level;								
 	
+	/**
+	 * Constructor for class Actor, usually only used by sub classes
+	 * @param tile
+	 * @param maxHealth
+	 * @param level
+	 * @param sprite
+	 */
 	public Actor(Tile tile, int maxHealth,
 			int level, String sprite) {
 		super();
@@ -23,10 +37,19 @@ public class Actor {
 		this.sprite = sprite;
 		this.level = level;
 	}
+	/**
+	 * 
+	 * @return 0 if nothing is done, just a place holder method for sub classes.
+	 */
 	public int act(){
 		return 0;
 	}
 	
+	/**
+	 * Reduces the currHealth of the Actor by integer amount specified in damage
+	 * @param damage
+	 * @return currentHealth
+	 */
 	public int takeDamage(int damage) {
 		currHealth = currHealth - damage;
 		if (currHealth <= 0) {
@@ -35,19 +58,32 @@ public class Actor {
 		return currHealth;
 	}
 	
+	/**
+	 * Die method for the actor, changes the status of the Actor to false
+	 */
 	private void die() {
 		status = false;
 		currHealth = 0;
 	}
 	
+	/**
+	 * Method for changing the tile that contains the Actor
+	 * @param tile
+	 */
 	public void setTile(Tile tile) {
 		this.tile = tile;
 	}
 	
+	/**
+	 * @return status that is true if its alive, otherwise false if its dead
+	 */
 	public boolean isAlive() {
 		return status;
 	}
 	
+	/**
+	 * @return Sprite representation of the actor
+	 */
 	public String getSprite(){
 		return sprite;
 	}
