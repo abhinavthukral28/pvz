@@ -2,8 +2,6 @@ package pvz;
 
 public class Tile{
 
-	//private LinkedList tile;
-	
 	private String tileSprite;
 	private Actor currActor;
 	private Tile next;
@@ -32,7 +30,9 @@ public class Tile{
 		tileSprite = ".";
 	}
 	
-	//return true if empty, false if occupied
+	/**
+	 * @return True if the tile has an Occupant, false otherwise
+	 */
 	public boolean isOccupied(){
 		return (currActor != null);
 	}
@@ -49,7 +49,6 @@ public class Tile{
 	 */
 	public void setOccupant(Actor actor){
 		currActor = actor;
-		//this.tileSprite = currActor.getSprite(); 
 	}
 	
 	public String toString(){
