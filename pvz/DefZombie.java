@@ -6,18 +6,35 @@ package pvz;
  *
  */
 public class DefZombie extends Actor {
-	private static final int HFDZ = 50; // Health Factor multiplies with level to increase max health
-	private static final int DFDZ = 10; // Damage Factor multiplies with level to increase damage
+	// Health Factor multiplies with level to increase max health (Experimental)
+	private static final int HFDZ = 50; 
+	// Damage Factor multiplies with level to increase damage (Experimental)
+	private static final int DFDZ = 10; 
 		
 
+	/**
+	 * Constructor for DefZombie 
+	 * @param tile
+	 * @param level
+	 * @param sprite
+	 */
 	public DefZombie(Tile tile,int level, String sprite) {
 		super(tile, (HFDZ * level), level, "Z");
 	}
 	
+	/* 
+	 * act() method for DefZombie makes the zombie move or attack
+	 * @returns 2 if the zombie attacks or returns 1 if zombie moves.
+	 *  
+	 */
 	public int act(){
 		if (tile.getNext() != null) {
 			if (tile.getNext().isOccupied()) {
-				attack(tile.getNext().getOccupant());
+				Actor actor = tile.getNext().getOccupant();
+				if (actor instanceof DefZombie) {
+					return 0;
+				}
+				attack(actor);
 				return 2;
 			}
 			else{
@@ -29,7 +46,7 @@ public class DefZombie extends Actor {
 		
 	}
 	/**
-	 * still to be properly implemented based on the grid
+	 * move() method moves the zombie to the next tile 
 	 */
 	private void move() {
 		Tile nextTile = tile.getNext();
@@ -46,6 +63,10 @@ public class DefZombie extends Actor {
 		
 	}
 	
+	/**
+	 * Attacks the Actor object passed causing damage
+	 * @param actor
+	 */
 	private void attack(Actor actor) {
 		actor.takeDamage(DFDZ * super.level);
 	}
