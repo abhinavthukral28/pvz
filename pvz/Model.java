@@ -55,7 +55,7 @@ public class Model extends Observable {
 			//possibly place a plant
 			game.update();
 			game.printGrid();
-			//gameState = game.winState();
+			gameState = game.state();
 		}/*
 		if(gameState == 1){
 			//You won! Congraturation
@@ -110,12 +110,14 @@ public class Model extends Observable {
 			y = generator.nextInt(MAX_ROWS);
 			Tile destination = getTile(MAX_COLS, y);
 			while(tries < 5){			//if the spot is occupied, choose another
-				if(destination.getOccupant() == null){
-					newZombie.setTile(destination);
-					destination.setOccupant(newZombie);
-					actorList.add(newZombie);
-					System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
-					return true;
+				if(destination != null){
+					if(destination.getOccupant() == null){
+						newZombie.setTile(destination);
+						destination.setOccupant(newZombie);
+						actorList.add(newZombie);
+						System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
+						return true;
+					}
 				}
 				y = (y + 1) % MAX_COLS;
 				tries++;
@@ -132,7 +134,7 @@ public class Model extends Observable {
 	 * @return the Tile at the given location
 	 */
 	public Tile getTile(int x, int y){
-		if(x > 0 && x < MAX_COLS && y > 0 && y < MAX_ROWS){
+		if(x >= 0 && x <= MAX_COLS && y >= 0 && y < MAX_ROWS){
 			Tile baseTile = gameGrid.get(y);
 			for(int n = 0; n < x; n++){
 				baseTile = baseTile.getRight();
@@ -186,11 +188,15 @@ public class Model extends Observable {
 	 * Loss if there is a zombie in the first column.
 	 * @return -1 if the player lost, 1 if they won, 0 otherwise
 	 */
-	public int winState(){
-		for(int y = 0; y < MAX_ROWS; y++){
-			if(!getTile(0,y).isOccupied()){
-				if(!getTile(0,y).getOccupant().isFriendly()){ 
-					return -1; 								//game loss if there is a zombie in the first column
+	public int state(){
+		Tile tempTile = null;
+		for(int y = 0; y <= MAX_ROWS; y++){
+			tempTile = getTile(0,y);
+			if(tempTile != null){
+				if(tempTile.isOccupied()){
+					if(!getTile(0,y).getOccupant().isFriendly()){ 
+						return -1; 								//game loss if there is a zombie in the first column
+					}
 				}
 			}
 		}
