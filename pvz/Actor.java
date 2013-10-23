@@ -48,6 +48,10 @@ public class Actor {
 		return status;
 	}
 	
+	public String getSprite(){
+		return sprite;
+	}
+	
 	
 	
 }
