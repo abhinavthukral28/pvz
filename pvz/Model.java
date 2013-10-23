@@ -27,7 +27,7 @@ public class Model extends Observable {
 					tempTile = tempTile.getNext();
 				}
 				tempTile.setNext(new Tile());			//link on a new tile
-				tempTile.getNext().setLast(tempTile);	//and link it back
+				tempTile.getNext().setPrevious(tempTile);	//and link it back
 			}
 		}
 		solarPower = 0;
@@ -40,7 +40,7 @@ public class Model extends Observable {
 			seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
 			seedList.add(Seeds(new Shooter(null, 1), 40));
 			for(int x = 0; x < 10; x++){
-				waitingZombiesList.add(new DefZombie()); 			//add some basic zombies
+				waitingZombiesList.add(new DefZombie(null, 1)); 			//add some basic zombies
 			}
 		}
 	}

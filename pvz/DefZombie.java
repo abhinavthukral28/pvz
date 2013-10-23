@@ -54,7 +54,9 @@ public class DefZombie extends Actor {
 				return;
 			}
 			else {
+				super.tile.setOccupant(null);
 				super.tile = nextTile;
+				super.tile.setOccupant(this);
 				return;
 			}
 			
