@@ -141,16 +141,16 @@ public class Model extends Observable {
 	}
 	
 	public int winState(){
-		for(int y = 0; y < MAX_ROWS; y++;){
+		for(int y = 0; y < MAX_ROWS; y++){
 			if(!getTile(0,y).isOccupied()){
-				if(getTile(0,y).getOccupant() /* is a zombie */){ 
+				if(!getTile(0,y).getOccupant().isFriendly()){ 
 					return -1; 								//game loss if there is a zombie in the first column
 				}
 			}
 		}
 		if(waitingZombiesList.isEmpty()){
 			for(Actor a: actorList){
-				if(a /*is a zombie */){								
+				if(!a.isFriendly()){								
 					return 0;
 				}
 			}

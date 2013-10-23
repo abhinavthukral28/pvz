@@ -18,7 +18,9 @@ public class Actor {
 	// The string/graphical representation of the Actor
 	protected String sprite;
 	// The level of the actor based on the level of the game
-	protected int level;								
+	protected int level;		
+	// True if the Actor is allied with the player
+	protected boolean friendly;
 	
 	/**
 	 * Constructor for class Actor, usually only used by sub classes
@@ -28,7 +30,7 @@ public class Actor {
 	 * @param sprite
 	 */
 	public Actor(Tile tile, int maxHealth,
-			int level, String sprite) {
+			int level, String sprite, boolean friendly) {
 		super();
 		this.tile = tile;
 		this.status = true;
@@ -36,6 +38,7 @@ public class Actor {
 		this.maxHealth = maxHealth;
 		this.sprite = sprite;
 		this.level = level;
+		this.friendly = friendly;
 	}
 	/**
 	 * 
@@ -86,6 +89,12 @@ public class Actor {
 	 */
 	public String getSprite(){
 		return sprite;
+	}
+	/**
+	 * @return Friendly allegience of actor. True for plants, false for zombies
+	 */
+	public boolean isFriendly(){
+		return friendly;
 	}
 	
 	
