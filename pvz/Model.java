@@ -1,6 +1,7 @@
 package pvz;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Observable;
 
 public class Model extends Observable {
@@ -37,12 +38,17 @@ public class Model extends Observable {
 	private Model(int level){
 		new Model();
 		if(level == 1){												//load the zombies, etc... for level 1
-			seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
-			seedList.add(Seeds(new Shooter(null, 1), 40));
+			//seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
+			//seedList.add(Seeds(new Shooter(null, 1), 40));
 			for(int x = 0; x < 10; x++){
 				waitingZombiesList.add(new DefZombie(null, 1)); 			//add some basic zombies
 			}
 		}
+	}
+	
+	public int main(){
+		
+		return 0;
 	}
 	
 	public void update(){			
@@ -67,34 +73,15 @@ public class Model extends Observable {
 	
 	//the current components of the level are accessible
 	//their public accessible attributes should be related to rendering
-	public ArrayList<Actor> getActorList() {
-		return actorList;
-	}
-	
-	public ArrayList<Seeds> getSeedList() {
-		return seedList;
-	}
-
-	public ArrayList<Actor> getWaitingZombiesList() {
-		return waitingZombiesList;
-	}
-
-	public int getSolarPower() {
-		return solarPower;
-	}
-
-	public int getSolarRate() {
-		return solarRate;
-	}
-
 	
 	private boolean addZombie(){				
 		Actor newZombie = waitingZombiesList.get(waitingZombiesList.size()); 				//pick the last one in line
 		waitingZombiesList.remove(newZombie);
-		int x, y, tries = 0;
-		//y = random row
-		//x = far right column
-		Tile destination = getTile(x,y);
+		Random generator = new Random();
+		int y;
+		int tries = 0;
+		y = generator.nextInt(MAX_ROWS);
+		Tile destination = getTile(MAX_COLS ,y);
 		while(tries < 5){			//if the spot is occupied, choose another
 			if(destination.getOccupant() == null){
 				newZombie.setTile(destination);
@@ -126,6 +113,7 @@ public class Model extends Observable {
 		}
 	}
 	
+	/*
 	public boolean placePlant(int x, int y, int type){
 		Actor newPlant;
 		Tile destination = getTile(x,y);
@@ -139,7 +127,7 @@ public class Model extends Observable {
 		}
 		return false;		
 	}
-	
+	*/
 	public int winState(){
 		for(int y = 0; y < MAX_ROWS; y++){
 			if(!getTile(0,y).isOccupied()){
@@ -158,4 +146,25 @@ public class Model extends Observable {
 		}
 		return 0;
 	}
+	
+	public ArrayList<Actor> getActorList() {
+		return actorList;
+	}
+	
+	public ArrayList<Seeds> getSeedList() {
+		return seedList;
+	}
+
+	public ArrayList<Actor> getWaitingZombiesList() {
+		return waitingZombiesList;
+	}
+
+	public int getSolarPower() {
+		return solarPower;
+	}
+
+	public int getSolarRate() {
+		return solarRate;
+	}
+
 }
