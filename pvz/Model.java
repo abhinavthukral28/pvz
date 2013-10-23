@@ -14,7 +14,8 @@ public class Model extends Observable {
 	private int solarPower;	
 	private int solarRate;
 	
-	private Model(){
+
+	private Model(int level){
 		seedList = new ArrayList<Seeds>();
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
@@ -31,12 +32,9 @@ public class Model extends Observable {
 				tempTile.getNext().setPrevious(tempTile);	//and link it back
 			}
 		}
+		
 		solarPower = 0;
 		solarRate = 5;
-	}
-	
-	private Model(int level){
-		new Model();
 		if(level == 1){												//load the zombies, etc... for level 1
 			//seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
 			//seedList.add(Seeds(new Shooter(null, 1), 40));
@@ -47,15 +45,15 @@ public class Model extends Observable {
 	}
 	
 	public static void main(String arg[]){
-		//int gameState = 0;
+		int gameState = 0;
 		Model game = new Model(1);
-		/*while(gameState == 0){
+		while(gameState == 0){
 			//get player input
 			//possibly place a plant
 			game.update();
-			printGrid();
-			gameState = game.winState();
-		}
+			game.printGrid();
+			//gameState = game.winState();
+		}/*
 		if(gameState == 1){
 			//You won! Congraturation
 		}
@@ -64,7 +62,9 @@ public class Model extends Observable {
 		}*/
 	}
 	
-	public void update(){			
+	public void update(){	
+		Random generator = new Random();
+		
 		solarRate = 5;
 		for(Actor a: actorList){	
 			if(a.act() == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
@@ -80,7 +80,9 @@ public class Model extends Observable {
 			}
 		}
 		solarPower += solarRate;
-		addZombie(); //but not every turn, have a fixed or random chance
+		if(generator.nextInt(100) > 50){
+			addZombie(); 
+		}
 		//notify observers
 	}
 	
@@ -88,7 +90,8 @@ public class Model extends Observable {
 	//their public accessible attributes should be related to rendering
 	
 	private boolean addZombie(){				
-		Actor newZombie = waitingZombiesList.get(waitingZombiesList.size()); 				//pick the last one in line
+		int endOfList = waitingZombiesList.size() - 1;
+		Actor newZombie = waitingZombiesList.get(endOfList);
 		waitingZombiesList.remove(newZombie);
 		Random generator = new Random();
 		int y;
@@ -163,12 +166,13 @@ public class Model extends Observable {
 			Tile tempTile = gameGrid.get(y);
 			for(int x = 0; x < MAX_COLS; x++){
 				if(tempTile != null){
-					System.out.println(tempTile.toString());
+					System.out.print(tempTile.toString());
 				}
 				tempTile = tempTile.getNext();
 			}
-			System.out.println("\n");
+			System.out.print("\n");
 		}
+		System.out.print("\n");
 	}
 	
 	public ArrayList<Actor> getActorList() {
