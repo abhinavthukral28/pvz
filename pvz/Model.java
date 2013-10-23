@@ -48,11 +48,13 @@ public class Model extends Observable {
 	
 	public int main(){
 		int gameState = 0;
+		Model game = new Model(1);
 		while(gameState == 0){
 			//get player input
 			//possibly place a plant
-			update();
-			gameState = winState();
+			game.update();
+			printGrid();
+			gameState = game.winState();
 		}
 		if(gameState == 1){
 			//You won! Congraturation
@@ -159,7 +161,20 @@ public class Model extends Observable {
 		return 0;
 	}
 	
-	public ArrayList<Actor> getActorList() {
+	private void printGrid(){
+		for (int y = 0; y < MAX_ROWS; y++){
+			Tile tempTile = gameGrid.get(y);
+			for(int x = 0; x < MAX_COLS; x++){
+				if(tempTile != null){
+					System.out.println(tempTile.toString());
+				}
+				tempTile = tempTile.getNext();
+			}
+			System.out.println("\n");
+		}
+	}
+	
+public ArrayList<Actor> getActorList() {
 		return actorList;
 	}
 	
