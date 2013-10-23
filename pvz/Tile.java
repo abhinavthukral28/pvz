@@ -4,28 +4,28 @@ public class Tile{
 
 	private String tileSprite;
 	private Actor currActor;
-	private Tile next;
-	private Tile previous;
+	private Tile rightTile;
+	private Tile leftTile;
 	
 	/**
 	 * 
 	 * @author AlhetiMamoon
-	 * @param previous is the previous tile 
-	 * @param next	is the next tile 
+	 * @param leftTile is the previous tile 
+	 * @param rightTile	is the next tile 
 	 * @param actor is the actor assigned to the tile 
 	 */
 	
 	public Tile(){
-		next = null;
-		previous = null;
+		rightTile = null;
+		leftTile = null;
 		currActor = null;
 		tileSprite = ".";
 	}
 	
 	public Tile(Tile previous, Tile next, Actor actor){
 		//make a new tile
-		this.next = next;
-		this.previous = previous;
+		this.rightTile = next;
+		this.leftTile = previous;
 		this.currActor = actor;
 		tileSprite = ".";
 	}
@@ -61,20 +61,20 @@ public class Tile{
 		
 	}
 	
-	public Tile getNext(){
+	public Tile getRight(){
 		
-		return next;
+		return rightTile;
 	}
 	
-	public Tile getPrevious(){
-		return previous;
+	public Tile getLeft(){
+		return leftTile;
 	}
 	
-	public void setNext(Tile next){
-		this.next = next;
+	public void getRight(Tile next){
+		this.rightTile = next;
 	}
 
-	public void setPrevious(Tile previous) {
-		this.previous = previous;
+	public void setLeft(Tile previous) {
+		this.leftTile = previous;
 	}
 }

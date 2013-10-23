@@ -25,11 +25,11 @@ public class Model extends Observable {
 			gameGrid.add(newTile);						//add a new tile at the start of the row
 			for(int x = 0; x < MAX_COLS; x++){			//for each column in the row
 				Tile tempTile = gameGrid.get(y);
-				while(tempTile.getNext() != null){		//navigate to the end of the row
-					tempTile = tempTile.getNext();
+				while(tempTile.getRight() != null){		//navigate to the end of the row
+					tempTile = tempTile.getRight();
 				}
-				tempTile.setNext(new Tile());			//link on a new tile
-				tempTile.getNext().setPrevious(tempTile);	//and link it back
+				tempTile.getRight(new Tile());			//link on a new tile
+				tempTile.getRight().setLeft(tempTile);	//and link it back
 			}
 		}
 		
@@ -116,7 +116,7 @@ public class Model extends Observable {
 	public Tile getTile(int x, int y){
 		Tile baseTile = gameGrid.get(y);
 		for(int n = 0; n < x; n++){
-			baseTile = baseTile.getNext();
+			baseTile = baseTile.getRight();
 		}
 		return baseTile;
 	}
@@ -168,7 +168,7 @@ public class Model extends Observable {
 			Tile tempTile = gameGrid.get(y);
 			while(tempTile != null){
 				System.out.print(tempTile.toString());
-				tempTile = tempTile.getNext();
+				tempTile = tempTile.getRight();
 			}
 			System.out.print("\n");
 		}

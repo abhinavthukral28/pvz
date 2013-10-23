@@ -27,9 +27,9 @@ public class DefZombie extends Actor {
 	 *  
 	 */
 	public int act(){
-		if (tile.getNext() != null) {
-			if (tile.getNext().isOccupied()) {
-				Actor actor = tile.getNext().getOccupant();
+		if (tile.getLeft() != null) {
+			if (tile.getLeft().isOccupied()) {
+				Actor actor = tile.getLeft().getOccupant();
 				if (actor instanceof DefZombie) {
 					return 0;
 				}
@@ -48,7 +48,7 @@ public class DefZombie extends Actor {
 	 * move() method moves the zombie to the next tile 
 	 */
 	private void move() {
-		Tile nextTile = tile.getPrevious();				//the next tile is the tile to the right, so zombies walk backwards, to the left
+		Tile nextTile = tile.getLeft();				//the next tile is the tile to the right, so zombies walk backwards, to the left
 		if(nextTile != null){
 			if(nextTile.isOccupied()){
 				return;
