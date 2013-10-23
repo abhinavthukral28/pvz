@@ -6,24 +6,25 @@ package pvz;
  *
  */
 public class Actor {
-	protected int x;									// x position
-	protected int y;									// y position
+	protected Tile tile;
 	protected boolean status;
 	protected int currHealth;
 	protected int maxHealth;
 	protected String sprite;
 	protected int level;								// game level
 	
-	public Actor(int x, int y, int maxHealth,
+	public Actor(Tile tile, int maxHealth,
 			int level, String sprite) {
 		super();
-		this.x = x;
-		this.y = y;
+		this.tile = tile;
 		this.status = true;
 		this.currHealth = maxHealth;
 		this.maxHealth = maxHealth;
 		this.sprite = sprite;
 		this.level = 1;
+	}
+	public void act(){
+		return;
 	}
 	
 	public int takeDamage(int damage) {
@@ -38,29 +39,15 @@ public class Actor {
 		status = false;
 		currHealth = 0;
 	}
-	/**
-	 * setPoaition is yet to be fully implemented depending on the implementation of the grid (to be discussed in meeting)
-	 * @param x
-	 * @param y
-	 */
 	
-	public void setPostion(int x, int y){
-		this.x = this.x + x;
-		this.y = this.y + y;
+	public void setTile(Tile tile) {
+		this.tile = tile;
 	}
 	
-	
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
 	public boolean isAlive() {
 		return status;
 	}
+	
 	
 	
 }

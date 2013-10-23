@@ -11,18 +11,32 @@ public class DefZombie extends Actor {
 	private static final int SFDZ = 1;	// Speed Factor for speed
 		
 
-	public DefZombie(int x, int y,int level, String sprite) {
-		super(x, y, (HFDZ * level), level, "T");
+	public DefZombie(Tile tile,int level, String sprite) {
+		super(tile, (HFDZ * level), level, "T");
+	}
+	
+	public void act(){
+		
 	}
 	/**
 	 * still to be properly implemented based on the grid
 	 */
-	public void move() {
-		super.x = super.x + 1 * SFDZ;
-		super.y = super.y + 1 * SFDZ;
+	private void move() {
+		Tile nextTile = tile.getNextTile();
+		if(nextTile != null){
+			if(nextTile.isOccupied()){
+				return;
+			}
+			else {
+				super.tile = nextTile;
+				return;
+			}
+			
+		}
+		
 	}
 	
-	public void attack(Actor actor) {
+	private void attack(Actor actor) {
 		actor.takeDamage(DFDZ * super.level);
 	}
 	
