@@ -6,29 +6,25 @@ import java.util.LinkedList;
 public class Tile{
 
 	//private LinkedList tile;
-	private int x;
-	private int y;
+	
 	private String tileSprite;
 	private Actor currActor;
-	private Tile tile;
+	private Tile next;
+	private Tile previous;
 	
 	/**
 	 * 
-	 * @param x the x coordinate
-	 * @param y the y coordinate
-	 * @param actor the actor to be assigned to the tile
+	 * @author AlhetiMamoon
+	 * @param previous is the previous tile 
+	 * @param next	is the next tile 
+	 * @param actor is the actor assigned to the tile 
 	 */
 	
-	public Tile(int x, int y, Actor actor){
+	public Tile(Tile previous, Tile next, Actor actor){
 		
-		//check for the range of X and Y
-		if (x > 9 || x < 1 || y < 1 || y > 4){
-			System.out.println("Enter valid x, y values");
-			return;
-		}
-		
-		tile = new Tile(x, y, actor);
 		//make a new tile
+		tile = new Tile(previous, next, actor);
+		
 	}
 	
 	//return true if empty, false if occupied
@@ -57,7 +53,16 @@ public class Tile{
 	}
 	public String toString(){
 		
+	}
+	public Tile getNext(){
 		
-		
+		return next;
+	}
+	
+	public Tile getPrevious{
+		return previous;
+	}
+	public setNext(Tile next){
+		this.next = next;
 	}
 }
