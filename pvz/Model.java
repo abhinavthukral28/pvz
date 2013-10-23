@@ -41,15 +41,15 @@ public class Model extends Observable {
 			//seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
 			//seedList.add(Seeds(new Shooter(null, 1), 40));
 			for(int x = 0; x < 10; x++){
-				waitingZombiesList.add(new DefZombie(null, 1)); 			//add some basic zombies
+				waitingZombiesList.add(new DefZombie(1)); 			//add some basic zombies
 			}
 		}
 	}
 	
-	public int main(){
-		int gameState = 0;
+	public static void main(String arg[]){
+		//int gameState = 0;
 		Model game = new Model(1);
-		while(gameState == 0){
+		/*while(gameState == 0){
 			//get player input
 			//possibly place a plant
 			game.update();
@@ -61,8 +61,7 @@ public class Model extends Observable {
 		}
 		else if(gameState == -1){
 			//You lost. Mission Failed
-		}
-		return 0;
+		}*/
 	}
 	
 	public void update(){			

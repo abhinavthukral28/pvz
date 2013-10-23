@@ -17,8 +17,8 @@ public class SunFlower extends Actor {
 	 * @param tile
 	 * @param level
 	 */
-	public SunFlower(Tile tile, int level) {
-		super(tile,(HF * level), level, "F", true);
+	public SunFlower(int level) {
+		super((HF * level), level, "F", true);
 		turn = 3;
 	}
 	
