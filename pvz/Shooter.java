@@ -36,7 +36,7 @@ public class Shooter extends Actor {
 		// iterates through the grid to till it reaches the end of the grid
 		Tile tempTile = super.tile;
 		while(tempTile != null){
-			tempTile = tempTile.getLeft();
+			tempTile = tempTile.getRight();
 			if(tempTile != null && tempTile.isOccupied()){
 				Actor actor = tempTile.getOccupant();
 				if (actor instanceof DefZombie) {
