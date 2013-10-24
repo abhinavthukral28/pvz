@@ -47,16 +47,7 @@ public class Model extends Observable {
 		}
 	}
 	
-	public static void main(String arg[]){
-		int gameState = 0;
-		Model game = new Model(1);
-		while(gameState == 0){
-			game.update();
-			game.printGrid();
-			gameState = game.state();
-		}
-	}
-	
+
 	/**
 	 * simulates the game system, updates the model. Every moving part moves.
 	 */
@@ -81,6 +72,8 @@ public class Model extends Observable {
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
+		printGrid();
+		System.out.println("You have " + solarPower + " sun points to spend.");
 		//notify observers
 	}
 	
@@ -164,6 +157,7 @@ public class Model extends Observable {
 			if(destination.getOccupant() == null){
 				Actor newPlant = purchasePlant(type);			//this decreases your solarPower. we should split it into createPlant() and payForPlant() methods. 
 				if (newPlant != null) {							//otherwise there will be times where we will want to refund the player if they screw up.
+					actorList.add(newPlant);
 					newPlant.setTile(destination);
 					destination.setOccupant(newPlant);
 					return true;
@@ -205,7 +199,7 @@ public class Model extends Observable {
 	/**
 	 * Primitive display method. A view system will be responsible for all of this in later versions.
 	 */
-	private void printGrid(){
+	public void printGrid(){
 		for (int y = 0; y < MAX_ROWS; y++){
 			Tile tempTile = gameGrid.get(y);
 			while(tempTile != null){
