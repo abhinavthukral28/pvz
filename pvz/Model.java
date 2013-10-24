@@ -18,7 +18,7 @@ public class Model extends Observable {
 	 * 
 	 * @param level determines the game level and difficulty of the game generated. only 1 level is implemented currently
 	 */
-	private Model(int level){
+	public Model(int level){
 		seeds = new Seeds(level);
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
