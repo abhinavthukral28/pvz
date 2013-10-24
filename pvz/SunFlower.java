@@ -17,7 +17,6 @@ public class SunFlower extends Actor {
 
 	/**
 	 * 
-	 * @param tile
 	 * @param level
 	 */
 	public SunFlower(int level) {
@@ -38,6 +37,9 @@ public class SunFlower extends Actor {
 		return 0;
 	}
 	
+	/**
+	 * @return the cost of the plant
+	 */
 	public int getCost(){
 		return COST;
 	}
