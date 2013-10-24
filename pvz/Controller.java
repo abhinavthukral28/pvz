@@ -3,13 +3,14 @@ package pvz;
 import java.util.Scanner;
 
 public class Controller {
-	private String plantChosen;
-	private int row,col;
-	private Scanner scanInput;
-	private Scanner readInput;
+	private static String plantChosen;
+	private static int row;
+	private static int col;
+	private static Scanner scanInput;
+	private static Scanner readInput;
 	private static Model gameModel;
 	
-	public Tile getTile(){
+	public static Tile getTile(){
 		System.out.println("Where do you want to place the plant. Example: 0 1,4 5 (Max rows up to 6, max column up to 12).");
 		//gameModel=new Model(1);
 		readInput=new Scanner(System.in);
@@ -45,7 +46,7 @@ public class Controller {
 	}
 	
 	
-	public String setStringPlant(){
+	public static String setStringPlant(){
 		System.out.println("What plant would you like to buy? (Type 1 or 2) 1:Sunflower 2:Shooter");
 		readInput=new Scanner(System.in);
 		scanInput=new Scanner(readInput.nextLine());
