@@ -10,7 +10,7 @@ public class SunFlower extends Actor {
 	// Default Health Factor multiplies with level to increase max health (Experimental)
 	private static final int HF = 25;
 	// The solar cost of the plant
-	private static final int COST = 30;
+	private static final int COST = 1;
 	// Number of turns that have passed since the creation of the SunFlower
 	private int turn;
 	

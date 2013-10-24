@@ -16,30 +16,23 @@ public class Controller {
 		readInput=new Scanner(System.in);
 		scanInput=new Scanner(readInput.nextLine());
 		
-		if(scanInput.hasNext())
-		{
-			try
-			{
-			row=Integer.parseInt(scanInput.next());
-			if(scanInput.hasNext())
-			{
-				col=Integer.parseInt(scanInput.next());
-				return gameModel.getTile(col, row);
-				
+		if(scanInput.hasNext()){
+			try{
+				row=Integer.parseInt(scanInput.next());
+				if(scanInput.hasNext()){
+					col=Integer.parseInt(scanInput.next());
+					return gameModel.getTile(col, row);
+				}
+				else{
+					System.out.println("Invalid command: No value for column was entered.");
+				}
 			}
-			else
-			{
-				System.out.println("Invalid command: No value for column was entered.");
-			}
-			}
-			catch(Exception e)
-			{
+			catch(Exception e){
 				System.out.println("Invalid value was entered.");
 			}
 		
 		}
-		else
-		{
+		else{
 			System.out.println("Invaild command: No value for row was entered. ");
 		}
 		return null;
@@ -47,7 +40,7 @@ public class Controller {
 	
 	
 	public static String setStringPlant(){
-		System.out.println("What plant would you like to buy? (Type 1 or 2) 1:Sunflower 2:Shooter");
+		System.out.println("What plant would you like to buy? \n 1: Sunflower\n 2: Shooter\n Anything else cancels.");
 		readInput=new Scanner(System.in);
 		scanInput=new Scanner(readInput.nextLine());
 		if(scanInput.hasNext()){
@@ -86,6 +79,7 @@ public class Controller {
 		int gameState = 0;
 		String newPlant = "";
 		Tile tempTile = null;
+		gameModel.update();
 		while(gameState == 0){
 			newPlant = setStringPlant();
 			if(newPlant != ""){
@@ -94,6 +88,7 @@ public class Controller {
 					gameModel.placePlant(tempTile, newPlant);
 				}
 			}
+			//gameModel.printGrid();
 			gameModel.update();
 			gameState = gameModel.state();
 		}

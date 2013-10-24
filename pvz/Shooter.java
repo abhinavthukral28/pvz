@@ -11,7 +11,7 @@ public class Shooter extends Actor {
 	// Default Damage Factor multiplies with level to increase damage (Experimental)
 	private static final int DF = 10; 
 	// The solar cost of the plant
-	private static final int COST = 50;
+	private static final int COST = 2;
 	
 	/**
 	 * @param tile
