@@ -27,6 +27,7 @@ public class Actor {
 	 * @param maxHealth
 	 * @param level
 	 * @param sprite
+	 * @param friendly
 	 */
 	public Actor(int maxHealth,
 			int level, String sprite, boolean friendly) {

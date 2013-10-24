@@ -17,7 +17,6 @@ public class SunFlower extends Actor {
 
 	/**
 	 * 
-	 * @param tile
 	 * @param level
 	 */
 	public SunFlower(int level) {

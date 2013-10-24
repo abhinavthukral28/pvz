@@ -14,7 +14,6 @@ public class DefZombie extends Actor {
 
 	/**
 	 * Constructor for DefZombie 
-	 * @param tile
 	 * @param level
 	 */
 	public DefZombie(int level) {
