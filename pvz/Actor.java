@@ -65,6 +65,8 @@ public class Actor {
 	private void die() {
 		status = false;
 		currHealth = 0;
+		this.tile.setOccupant(null);
+		setTile(null);
 	}
 	
 	/**
