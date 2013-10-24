@@ -56,18 +56,19 @@ public class Model extends Observable {
 		
 		solarRate = 5;
 		for(Actor a: actorList){	
-			if(a.act() == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
-				solarPower+= 5;
+			if(a.isAlive()){
+				if(a.act() == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
+					solarPower+= 5;
+				}
 			}
 		}
-		/*for(Seeds s: seedList){
-			s.update();
-		}*/
+/*
 		for(Actor a: actorList){	
 			if(!a.isAlive()){
 				actorList.remove(a);
 			}
 		}
+		*/
 		solarPower += solarRate;
 		if(generator.nextInt(100) > 50){
 			addZombie();
@@ -187,7 +188,7 @@ public class Model extends Observable {
 		}
 		if(waitingZombiesList.isEmpty()){
 			for(Actor a: actorList){
-				if(!a.isFriendly()){								
+				if(!a.isFriendly() && a.isAlive()){								
 					return 0;
 				}
 			}
