@@ -24,7 +24,6 @@ public class Actor {
 	
 	/**
 	 * Constructor for class Actor, usually only used by sub classes
-	 * @param tile
 	 * @param maxHealth
 	 * @param level
 	 * @param sprite
