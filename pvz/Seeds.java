@@ -8,28 +8,20 @@ public class Seeds {
 	private int level;
 	//private Map<String, Integer> map;
 		
+	/**
+	 * initializes the seeds
+	 * @param level
+	 */
 	public Seeds(int level){
 		this.level = level;
-		//map = new HashMap<String,Integer>();
-		//this.delay = delay;
-	
 	}
 	
-	/*
-	public void update(){
-		if(cooldown > 0){
-			cooldown--;
-		}
-	}
-		
-	public boolean isEnabled(){
-		if(cooldown > 0){
-			return false;
-		}
-		return true;
-	}*/
-	
-
+	/**
+	 * 
+	 * @param string
+	 * @param suns
+	 * @return requested Plant if it exists else returns null
+	 */
 	public Actor getPlant(String string, int suns) {
 		Actor actor = null;
 		if(string.equals("sunflower")){
@@ -42,6 +34,7 @@ public class Seeds {
 		else{
 			return null;
 		}
+		// Check if there are enough suns for the plant
 		if(actor.getCost() > suns){
 			return null;
 		}
