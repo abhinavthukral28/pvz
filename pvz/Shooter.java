@@ -14,7 +14,6 @@ public class Shooter extends Actor {
 	private static final int COST = 2;
 	
 	/**
-	 * @param tile
 	 * @param level
 	 */
 	public Shooter(int level) {
@@ -49,7 +48,9 @@ public class Shooter extends Actor {
 		return 0;
 		
 	}
-	
+	/**
+	 * @return The cost of the plant
+	 */
 	public int getCost(){
 		return COST;
 	}
