@@ -30,7 +30,7 @@ public class Seeds {
 	}*/
 	
 
-	public Actor getPlant(String string, int suns) {//not a good idea! want to return a new plant of the given type
+	public Actor getPlant(String string, int suns) {
 		Actor actor = null;
 		if(string.equals("sunflower")){
 			actor = new SunFlower(level);

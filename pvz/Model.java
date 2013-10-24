@@ -51,18 +51,10 @@ public class Model extends Observable {
 		int gameState = 0;
 		Model game = new Model(1);
 		while(gameState == 0){
-			//get player input
-			//possibly place a plant
 			game.update();
 			game.printGrid();
 			gameState = game.state();
-		}/*
-		if(gameState == 1){
-			//You won! Congraturation
 		}
-		else if(gameState == -1){
-			//You lost. Mission Failed
-		}*/
 	}
 	
 	/**
@@ -167,8 +159,7 @@ public class Model extends Observable {
 	 * @param type the type of plant to be placed
 	 * @return True if the plant was placed, false otherwise;
 	 */
-	public boolean placePlant(int x, int y, String type){
-		Tile destination = getTile(x,y);
+	public boolean placePlant(Tile destination, String type){
 		if(destination != null){
 			if(destination.getOccupant() == null){
 				Actor newPlant = purchasePlant(type);			//this decreases your solarPower. we should split it into createPlant() and payForPlant() methods. 
