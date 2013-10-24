@@ -11,19 +11,23 @@ public class Controller {
 	
 	public Tile setTile(String plantName)
 	{
-		System.out.println("Where do you want to place the plant. Example: 0 1,4 5 (Max rows up to 6, max column up to 12).");
+		int rowInput;
+		int colInput;
+		Tile tempTile;
 		gameModel=new Model(1);
 		readInput=new Scanner(System.in);
 		scanInput=new Scanner(readInput.nextLine());
-
+		System.out.println("Where do you want to place the plant. Example: 0 1,4 5 (Max rows up to 6, max column up to 12).");
 		if(scanInput.hasNext())
 		{
 			try
 			{
-			int rowInput=Integer.parseInt(scanInput.next());
+				rowInput=Integer.parseInt(scanInput.next());
 			if(scanInput.hasNext())
 			{
-				int colInput=Integer.parseInt(scanInput.next());
+				colInput=Integer.parseInt(scanInput.next());
+				tempTile=gameModel.getTile(rowInput, colInput);
+				gameModel.placePlant(tempTile, plantName);
 				
 			}
 			else
@@ -41,12 +45,6 @@ public class Controller {
 		{
 			System.out.println("Invaild command: No value for row was entered. ");
 		}
-		return null;
-	}
-	
-	
-	public Tile getTile(int row, int col)
-	{
 		return null;
 	}
 	
@@ -92,15 +90,13 @@ public class Controller {
 			return false;
 	      }
 
-
-
 	public static void main(String arg[])
 	{
 		int gameState = 0;
 		//Model gameModel=new Model(1);
 		while(gameState == 0){
 
-		
+
 		/*//get player input
 			//possibly place a plant
 			update();
