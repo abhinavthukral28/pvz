@@ -14,24 +14,7 @@ public class Seeds {
 	 */
 	public Seeds(int level){
 		this.level = level;
-		//map = new HashMap<String,Integer>();
-		//this.delay = delay;
-	
 	}
-	
-	/*
-	public void update(){
-		if(cooldown > 0){
-			cooldown--;
-		}
-	}
-		
-	public boolean isEnabled(){
-		if(cooldown > 0){
-			return false;
-		}
-		return true;
-	}*/
 	
 	/**
 	 * 
