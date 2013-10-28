@@ -59,9 +59,6 @@ public class Controller {
 					case 2:
 						plantChosen="shooter";
 						break;
-					default:
-						plantChosen="";
-						break;
 				    }
 					return plantChosen;
 				}
@@ -82,7 +79,7 @@ public class Controller {
 		gameModel.update();
 		while(gameState == 0){
 			newPlant = setStringPlant();
-			if(newPlant != ""){
+			if(newPlant != null){
 				tempTile = getTile();
 				if(tempTile != null){
 					gameModel.placePlant(tempTile, newPlant);
