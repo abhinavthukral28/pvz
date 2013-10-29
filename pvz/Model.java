@@ -31,7 +31,7 @@ public class Model extends Observable {
 				while(tempTile.getRight() != null){		//navigate to the end of the row
 					tempTile = tempTile.getRight();
 				}
-				tempTile.setRight(new Tile());			//link on a new tile
+				tempTile.getRight(new Tile());			//link on a new tile
 				tempTile.getRight().setLeft(tempTile);	//and link it back
 			}
 		}
