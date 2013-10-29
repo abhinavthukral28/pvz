@@ -44,6 +44,8 @@ abstract class Actor {
 	 * if nothing is done, just a place holder method for sub classes.
 	 */
 	 abstract int act();
+	 
+	
 	
 	/**
 	 * Reduces the currHealth of the Actor by integer amount specified in damage
@@ -75,7 +77,13 @@ abstract class Actor {
 	public void setTile(Tile tile) {
 		this.tile = tile;
 	}
-	
+	/**
+	 * 
+	 * @return tile of the Actor
+	 */
+	public Tile getTile() {
+		return tile;
+	}	
 	/**
 	 * @return status that is true if its alive, otherwise false if its dead
 	 */
