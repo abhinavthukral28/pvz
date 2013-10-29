@@ -72,6 +72,12 @@ public class DefZombie extends Actor {
 	private void attack(Actor actor) {
 		actor.takeDamage(DF * super.level);
 	}
+	/**
+	 * @return 0 as in this version the player does not get to play zombie, Maybe implement it in future versions
+	 */
+	public int getCost(){
+		return 0;
+	}
 	
 
 }
