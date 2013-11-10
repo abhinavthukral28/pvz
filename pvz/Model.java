@@ -211,5 +211,9 @@ public class Model extends Observable {
 		}
 		System.out.print("\n");
 	}
+	public ArrayList<Actor> getZombies(){
+		
+		return this.waitingZombiesList;
+	}
 	
 }
