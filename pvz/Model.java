@@ -5,20 +5,25 @@ import java.util.Random;
 import java.util.Observable;
 
 public class Model extends Observable {
-	private static final int MAX_ROWS = 6;
-	private static final int MAX_COLS = 12;
+	public static final int MAX_ROWS = 6;
+	public static final int MAX_COLS = 12;
 	private Seeds seeds;
 	private ArrayList<Actor> actorList;
 	private ArrayList<Actor> waitingZombiesList;
 	private ArrayList<Tile> gameGrid; 
 	private int solarPower;	
 	private int solarRate;
+	private int level;
+	private ArrayList<View> observerViews;
+	
+
 	
 	/**
 	 * 
 	 * @param level determines the game level and difficulty of the game generated. only 1 level is implemented currently
 	 */
 	public Model(int level){
+		this.level = level;
 		seeds = new Seeds(level);
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
@@ -36,12 +41,10 @@ public class Model extends Observable {
 			}
 		}
 		
-		solarPower = 0;
+		solarPower = 10;
 		solarRate = 5;
 		if(level == 1){												//load the zombies, etc... for level 1
-			//seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
-			//seedList.add(Seeds(new Shooter(null, 1), 40));
-			for(int x = 0; x < 10; x++){
+			for(int x = 0; x < 5; x++){
 				waitingZombiesList.add(new DefZombie(1)); 			//add some basic zombies
 			}
 		}
@@ -62,20 +65,14 @@ public class Model extends Observable {
 				}
 			}
 		}
-/*
-		for(Actor a: actorList){	
-			if(!a.isAlive()){
-				actorList.remove(a);
-			}
-		}
-		*/
+
 		solarPower += solarRate;
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
-		printGrid();
-		System.out.println("You have " + solarPower + " sun points to spend.");
-		//notify observers
+		//printGrid();
+		//System.out.println("You have " + solarPower + " sun points to spend.");
+		//notifyViews();
 	}
 	
 	//the current components of the level are accessible
@@ -101,7 +98,7 @@ public class Model extends Observable {
 						newZombie.setTile(destination);
 						destination.setOccupant(newZombie);
 						actorList.add(newZombie);
-						System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
+						//System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
 						return true;
 					}
 				}
@@ -199,7 +196,7 @@ public class Model extends Observable {
 	
 	/**
 	 * Primitive display method. A view system will be responsible for all of this in later versions.
-	 */
+	 *//*
 	public void printGrid(){
 		for (int y = 0; y < MAX_ROWS; y++){
 			Tile tempTile = gameGrid.get(y);
@@ -211,5 +208,65 @@ public class Model extends Observable {
 		}
 		System.out.print("\n");
 	}
+	*/
+	public ArrayList<Actor> getZombies(){
+		
+		return this.waitingZombiesList;
+	}
+
+
+	public ArrayList<Tile> getGameGrid() {
+		return gameGrid;
+	}
+
+
+	public int getSolarPower() {
+		return solarPower;
+	}
+
+
+	public int getSolarRate() {
+		return solarRate;
+	}
+
+
+	public int getLevel() {
+		return level;
+	}
+
+
+	public ArrayList<Actor> getActorList() {
+		return actorList;
+	}
+
+
+	public void setActorList(ArrayList<Actor> actorList) {
+		this.actorList = actorList;
+	}
+
+
+	public ArrayList<Actor> getWaitingZombiesList() {
+		return waitingZombiesList;
+	}
+
+
+	public void setWaitingZombiesList(ArrayList<Actor> waitingZombiesList) {
+		this.waitingZombiesList = waitingZombiesList;
+	}
 	
+	/*
+	public boolean addView(View newView){
+		return observerViews.add(newView);
+	}
+	
+	public boolean removeView(View toRemove){
+		return observerViews.remove(toRemove);
+	}
+	
+	public void notifyViews(){
+		for(View v: observerViews){
+			v.update(this, null);
+		}
+	}
+	*/
 }

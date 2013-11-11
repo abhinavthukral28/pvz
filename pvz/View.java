@@ -35,10 +35,10 @@ public class View extends JFrame implements Observer {
 	private static JPanel sunFlowerPanel;
 	private static JPanel zombiePanel;
 	private static JPanel statusPanel;
-	private static final String zombie="19460096_s.jpg";
-	private static final String sunflowerpic="sunflower.jpg";
-	private static final String peaShooter="peashooter.png";
-	private static final String grass="grass3b.gif";
+	private static final String zombie="images/19460096_s.jpg";
+	private static final String sunflowerpic="images/sunflower.jpg";
+	private static final String peaShooter="images/peashooter.png";
+	private static final String grass="images/grass3b.gif";
 	private JButton zombies[];
 	private JButton plants[];
 	private JMenu mainMenu;
@@ -87,6 +87,7 @@ public class View extends JFrame implements Observer {
 			zombies[i].setIcon(new ImageIcon(zombie));
 			zombiePanel.add(zombies[i]);
 		}
+		
 		zombiePanel.setLayout(new GridLayout(0,1));
 		sunFlowerPanel.setLayout(new FlowLayout());
 		for (int i=0; i<5; i++){
@@ -136,9 +137,6 @@ public class View extends JFrame implements Observer {
 		ArrayList<Tile> tempArrayList = ((Model)o).getGameGrid();
 		int x=0;
 		int y=0;
-		if(((Model)o).getOptionChoosen().equals("sunflower"))
-		{
-		}
 		for(Tile tempTile: tempArrayList)
 		{
 			while(tempTile.getRight() != null)
@@ -169,21 +167,20 @@ public class View extends JFrame implements Observer {
 		}
 	}
 
-	public JMenuItem getNewGame()
-	{
+	public JMenuItem getNewGame(){
 		return startGame;
 	}
-	public JMenuItem getExitGame()
-	{
+	public JMenuItem getExitGame(){
 		return closeGame;
 	}
-	public JButton[][] getGridList()
-	{
+	public JButton[][] getGridList(){
 		return b;
 	}
+	
 	public static void main(String arg[]){
-		
 		View newview = new View();
+		Controller newController = new Controller(1);
+		newController.addView(newview);
 	}
 	
 
