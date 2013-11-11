@@ -15,6 +15,7 @@ import org.junit.Test;
 public class ShooterTest {
 	private DefZombie zombie;
 	private Tile tile;
+	private Tile tileInline;
 	private Shooter shooter;
 	/**
 	 * @throws java.lang.Exception
@@ -32,8 +33,11 @@ public class ShooterTest {
 			tempTile.getRight(new Tile());	
 			tempTile.getRight().setLeft(tempTile);
 		}
+		shooter.setTile(tile);
 		tile.setOccupant(shooter);
-		tile.getRight().getRight().setOccupant(zombie);
+		tileInline = tile.getRight().getRight();
+		zombie.setTile(tileInline);
+		tileInline.setOccupant(zombie);
 	}
 
 	/**
@@ -42,11 +46,13 @@ public class ShooterTest {
 	@Test
 	public void testAct() {
 		assertTrue(shooter.act() == 2);
+		assertTrue(zombie.getCurrHealth() < zombie.getMaxHealth());
 		//removimg zombie and adding another plant to test friendly fire
-		tile.getRight().getRight().setOccupant(new SunFlower(1));
+		tileInline.setOccupant(new SunFlower(1));
+		tileInline.getOccupant().setTile(tileInline);
 		assertTrue(shooter.act() == 0);
 		//removing both zombie and flower
-		tile.getRight().getRight().setOccupant(null);
+		tileInline.setOccupant(null);
 		assertTrue(shooter.act() == 0);
 	}
 

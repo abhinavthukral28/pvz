@@ -25,6 +25,7 @@ public class ActorDefZombieTest {
 		tile.setLeft(prevTile);
 		tile.getRight(nextTile);
 		actor.setTile(tile);
+		tile.setOccupant(actor);
 		
 	}
 	/**
@@ -36,9 +37,13 @@ public class ActorDefZombieTest {
 		Tile leftTile = tile.getLeft();
 		//Testing attack
 		leftTile.setOccupant(new DefZombie(1));
+		leftTile.getOccupant().setTile(leftTile);
 		assertTrue(0 == actor.act());
 		leftTile.setOccupant(new SunFlower(1));
+		leftTile.getOccupant().setTile(leftTile);
 		assertTrue(2 == actor.act());
+		assertTrue(leftTile.getOccupant().getCurrHealth() < leftTile.getOccupant().getMaxHealth());
+		
 		//Testing move
 		leftTile.setOccupant(null);
 		assertTrue(1 == actor.act());
@@ -56,11 +61,11 @@ public class ActorDefZombieTest {
 		assertTrue(actor.isAlive());
 		// for random int damage
 		Random r = new Random();
-		int damage = r.nextInt(50);
-		assertTrue((50 - damage) == actor.takeDamage(damage));
+		int damage = r.nextInt(actor.getMaxHealth());
+		assertTrue((actor.getMaxHealth() - damage) == actor.takeDamage(damage));
 		//Also tests is alive
 		assertTrue(actor.isAlive());
-		assertTrue(actor.takeDamage(100) == 0);
+		assertTrue(actor.takeDamage(1000) == 0);
 		//Also tests private method die()
 		assertFalse(actor.isAlive());
 		

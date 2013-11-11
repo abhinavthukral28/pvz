@@ -6,7 +6,7 @@ package pvz;
  * work n progress
  *
  */
-abstract class Actor {
+public abstract class Actor {
 
 	// The tile that the actor occupies
 	protected Tile tile;
@@ -47,6 +47,12 @@ abstract class Actor {
 	 
 	
 	
+	public int getCurrHealth() {
+		return currHealth;
+	}
+	public int getMaxHealth() {
+		return maxHealth;
+	}
 	/**
 	 * Reduces the currHealth of the Actor by integer amount specified in damage
 	 * @param damage
