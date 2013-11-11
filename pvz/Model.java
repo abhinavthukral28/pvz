@@ -13,12 +13,15 @@ public class Model extends Observable {
 	private ArrayList<Tile> gameGrid; 
 	private int solarPower;	
 	private int solarRate;
+	private int level;
+	private ArrayList<View> observerViews;
 	
 	/**
 	 * 
 	 * @param level determines the game level and difficulty of the game generated. only 1 level is implemented currently
 	 */
 	public Model(int level){
+		this.level = level;
 		seeds = new Seeds(level);
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
@@ -39,9 +42,7 @@ public class Model extends Observable {
 		solarPower = 0;
 		solarRate = 5;
 		if(level == 1){												//load the zombies, etc... for level 1
-			//seedList.add(Seeds(new SunFlower(null, 1), 20));		//add seedpackets for the two Plant types
-			//seedList.add(Seeds(new Shooter(null, 1), 40));
-			for(int x = 0; x < 10; x++){
+			for(int x = 0; x < 5; x++){
 				waitingZombiesList.add(new DefZombie(1)); 			//add some basic zombies
 			}
 		}
@@ -62,20 +63,14 @@ public class Model extends Observable {
 				}
 			}
 		}
-/*
-		for(Actor a: actorList){	
-			if(!a.isAlive()){
-				actorList.remove(a);
-			}
-		}
-		*/
+
 		solarPower += solarRate;
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
 		printGrid();
 		System.out.println("You have " + solarPower + " sun points to spend.");
-		//notify observers
+		notifyViews();
 	}
 	
 	//the current components of the level are accessible
@@ -211,5 +206,42 @@ public class Model extends Observable {
 		}
 		System.out.print("\n");
 	}
+	public ArrayList<Actor> getZombies(){
+		
+		return this.waitingZombiesList;
+	}
+
+
+	public ArrayList<Tile> getGameGrid() {
+		return gameGrid;
+	}
+
+
+	public int getSolarPower() {
+		return solarPower;
+	}
+
+
+	public int getSolarRate() {
+		return solarRate;
+	}
+
+
+	public int getLevel() {
+		return level;
+	}
+
+	public boolean addView(View newView){
+		return observerViews.add(newView);
+	}
 	
+	public boolean removeView(View toRemove){
+		return observerViews.remove(toRemove);
+	}
+	
+	public void notifyViews(){
+		for(View v: observerViews){
+			v.update(this, null);
+		}
+	}
 }
