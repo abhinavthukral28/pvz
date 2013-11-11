@@ -5,8 +5,8 @@ import java.util.Random;
 import java.util.Observable;
 
 public class Model extends Observable {
-	private static final int MAX_ROWS = 6;
-	private static final int MAX_COLS = 12;
+	public static final int MAX_ROWS = 6;
+	public static final int MAX_COLS = 12;
 	private Seeds seeds;
 	private ArrayList<Actor> actorList;
 	private ArrayList<Actor> waitingZombiesList;
@@ -15,6 +15,8 @@ public class Model extends Observable {
 	private int solarRate;
 	private int level;
 	private ArrayList<View> observerViews;
+	
+
 	
 	/**
 	 * 
@@ -39,7 +41,7 @@ public class Model extends Observable {
 			}
 		}
 		
-		solarPower = 0;
+		solarPower = 10;
 		solarRate = 5;
 		if(level == 1){												//load the zombies, etc... for level 1
 			for(int x = 0; x < 5; x++){
@@ -68,9 +70,9 @@ public class Model extends Observable {
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
-		printGrid();
-		System.out.println("You have " + solarPower + " sun points to spend.");
-		notifyViews();
+		//printGrid();
+		//System.out.println("You have " + solarPower + " sun points to spend.");
+		//notifyViews();
 	}
 	
 	//the current components of the level are accessible
@@ -96,7 +98,7 @@ public class Model extends Observable {
 						newZombie.setTile(destination);
 						destination.setOccupant(newZombie);
 						actorList.add(newZombie);
-						System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
+						//System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
 						return true;
 					}
 				}
@@ -194,7 +196,7 @@ public class Model extends Observable {
 	
 	/**
 	 * Primitive display method. A view system will be responsible for all of this in later versions.
-	 */
+	 *//*
 	public void printGrid(){
 		for (int y = 0; y < MAX_ROWS; y++){
 			Tile tempTile = gameGrid.get(y);
@@ -206,6 +208,7 @@ public class Model extends Observable {
 		}
 		System.out.print("\n");
 	}
+	*/
 	public ArrayList<Actor> getZombies(){
 		
 		return this.waitingZombiesList;
@@ -230,7 +233,8 @@ public class Model extends Observable {
 	public int getLevel() {
 		return level;
 	}
-
+	
+	/*
 	public boolean addView(View newView){
 		return observerViews.add(newView);
 	}
@@ -244,4 +248,5 @@ public class Model extends Observable {
 			v.update(this, null);
 		}
 	}
+	*/
 }
