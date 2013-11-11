@@ -233,6 +233,26 @@ public class Model extends Observable {
 	public int getLevel() {
 		return level;
 	}
+
+
+	public ArrayList<Actor> getActorList() {
+		return actorList;
+	}
+
+
+	public void setActorList(ArrayList<Actor> actorList) {
+		this.actorList = actorList;
+	}
+
+
+	public ArrayList<Actor> getWaitingZombiesList() {
+		return waitingZombiesList;
+	}
+
+
+	public void setWaitingZombiesList(ArrayList<Actor> waitingZombiesList) {
+		this.waitingZombiesList = waitingZombiesList;
+	}
 	
 	/*
 	public boolean addView(View newView){

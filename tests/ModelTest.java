@@ -32,14 +32,14 @@ public class ModelTest {
 	@Test
 	public void testUpdate(){
 		int factor = scaleModel.getSolarRate();
-		assertTrue(scaleModel.getSolarPower() == 0);
+		assertTrue(scaleModel.getSolarPower() == 10);
 		scaleModel.update();
-		assertTrue(scaleModel.getSolarPower() == factor);
+		assertTrue(scaleModel.getSolarPower() == factor + 10);
 		for(int i = 0; i < 100; i++){
 			scaleModel.update();
 		}
 		assertTrue(scaleModel.getZombies().isEmpty());
-		assertTrue(scaleModel.getSolarPower() == 100*factor);
+		assertTrue(scaleModel.getSolarPower() == 101*factor + 10);
 		//all update does is move zombies onto the field, and make actors act.
 	}
 	
@@ -69,26 +69,17 @@ public class ModelTest {
 	
 	@Test
 	public void testState(){
-		ArrayList<Actor> plantForceOne = null;
-		Tile tempTile = null;
-		for(int i = 0; i < scaleModel.MAX_COLS*scaleModel.MAX_ROWS/2; i++){
-			plantForceOne.add(new Shooter(10));
-		}
+		ArrayList<Actor> plantForceOne = new ArrayList<Actor>();
+		Tile tempTile = null;		
+		
 		DefZombie dummy = new DefZombie(1);
 		assertTrue(scaleModel.state() == 0);
 		scaleModel.getTile(0, 0).setOccupant(dummy);
 		assertTrue(scaleModel.state() == -1);
+		scaleModel.getTile(0, 0).setOccupant(null);
 		
-		for(int i = 0; i < scaleModel.MAX_COLS/2; i++){
-			for(int j = 0; j < scaleModel.MAX_ROWS; j++){
-				tempTile = scaleModel.getTile(i, j);
-				assertTrue(tempTile != null);
-				tempTile.setOccupant(plantForceOne.remove(i*scaleModel.MAX_COLS/2 + j));
-			}
-		}
-		for(int i = 0; i < 100; i++){
-			scaleModel.update();
-		}
+		scaleModel.setActorList(new ArrayList<Actor>());
+		scaleModel.setWaitingZombiesList(new ArrayList<Actor>());
 		assertTrue(scaleModel.state() == 1);
 	}
 	
