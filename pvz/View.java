@@ -35,10 +35,10 @@ public class View extends JFrame implements Observer {
 	private static JPanel sunFlowerPanel;
 	private static JPanel zombiePanel;
 	private static JPanel statusPanel;
-	private static final String zombie="19460096_s.jpg";
-	private static final String sunflowerpic="sunflower.jpg";
-	private static final String peaShooter="peashooter.png";
-	private static final String grass="grass3b.gif";
+	private static final String zombie="images/19460096_s.jpg";
+	private static final String sunflowerpic="images/sunflower.jpg";
+	private static final String peaShooter="images/peashooter.png";
+	private static final String grass="images/grass3b.gif";
 	private static final int MAX_ROWS = 6;
 	private static final int MAX_COLS = 12;
 	private JButton zombies[];
