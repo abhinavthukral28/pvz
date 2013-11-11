@@ -1,10 +1,11 @@
 package pvz;
 
 /**
+ * Abstract Class Actor implements many common functions for plants and Zombies.
+ * It acts as a super class to all plants and zombies
  * @author Abhinav Thukral
  * @version 1.0
- * work n progress
- *
+ * 
  */
 public abstract class Actor {
 
@@ -41,15 +42,21 @@ public abstract class Actor {
 	}
 	/**
 	 * 
-	 * if nothing is done, just a place holder method for sub classes.
+	 * just a place holder method for sub classes.
 	 */
 	 abstract int act();
 	 
 	
 	
+	/**
+	 * @return current Health
+	 */
 	public int getCurrHealth() {
 		return currHealth;
 	}
+	/**
+	 * @return Maximum Health
+	 */
 	public int getMaxHealth() {
 		return maxHealth;
 	}

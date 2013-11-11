@@ -1,6 +1,7 @@
 package pvz;
 
 /**
+ * Class DefZombie is the basic zombie for the game
  * @author Abhinav Thukral
  * @version 1.0;
  *

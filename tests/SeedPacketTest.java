@@ -12,6 +12,7 @@ import org.junit.Test;
 import pvz.*;
 
 /**
+ * This class tests SeedPacket class
  * @author Abhinav Thukral
  *
  */
@@ -28,7 +29,7 @@ public class SeedPacketTest {
 	}
 
 	/**
-	 * Test method for {@link pvz.SeedPacket#getPlant(java.lang.String, int)}.
+	 * Test method for getPlant().
 	 */
 	@Test
 	public void testGetPlant() {
