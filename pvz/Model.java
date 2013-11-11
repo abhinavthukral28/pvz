@@ -7,6 +7,7 @@ import java.util.Observable;
 public class Model extends Observable {
 	private static final int MAX_ROWS = 6;
 	private static final int MAX_COLS = 12;
+	private String choice;
 	private Seeds seeds;
 	private ArrayList<Actor> actorList;
 	private ArrayList<Actor> waitingZombiesList;
@@ -14,7 +15,7 @@ public class Model extends Observable {
 	private int solarPower;	
 	private int solarRate;
 	private int level;
-	private ArrayList<View> observerViews;
+	//private ArrayList<View> observerViews;
 	
 	/**
 	 * 
@@ -46,6 +47,7 @@ public class Model extends Observable {
 				waitingZombiesList.add(new DefZombie(1)); 			//add some basic zombies
 			}
 		}
+		this.setChanged();
 	}
 	
 
@@ -68,9 +70,10 @@ public class Model extends Observable {
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
-		printGrid();
-		System.out.println("You have " + solarPower + " sun points to spend.");
-		notifyViews();
+		this.setChanged();
+		//printGrid();
+		//System.out.println("You have " + solarPower + " sun points to spend.");
+		//notifyViews();
 	}
 	
 	//the current components of the level are accessible
@@ -231,7 +234,7 @@ public class Model extends Observable {
 		return level;
 	}
 
-	public boolean addView(View newView){
+/*	public boolean addView(View newView){
 		return observerViews.add(newView);
 	}
 	
@@ -243,5 +246,16 @@ public class Model extends Observable {
 		for(View v: observerViews){
 			v.update(this, null);
 		}
+	}
+*/
+	public String getChoice()
+	{
+		return choice;
+	}
+	
+	public void setChoice(String choosen)
+	{
+		this.setChanged();
+		choice=choosen;
 	}
 }

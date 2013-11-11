@@ -35,12 +35,15 @@ public class View extends JFrame implements Observer {
 	private static JPanel sunFlowerPanel;
 	private static JPanel zombiePanel;
 	private static JPanel statusPanel;
-	private static final String zombie="images/19460096_s.jpg";
-	private static final String sunflowerpic="images/sunflower.jpg";
-	private static final String peaShooter="images/peashooter.png";
-	private static final String grass="images/grass3b.gif";
+	private static final String zombie="19460096_s.jpg";
+	private static final String sunflowerpic="sunflower.jpg";
+	private static final String peaShooter="peashooter.png";
+	private static final String grass="grass3b.gif";
+	private static final int MAX_ROWS = 6;
+	private static final int MAX_COLS = 12;
 	private JButton zombies[];
 	private JButton plants[];
+	private JButton skipTurn;
 	private JMenu mainMenu;
 	private JMenuBar menuBar;
 	private JMenuItem startGame;
@@ -56,8 +59,10 @@ public class View extends JFrame implements Observer {
 		
 		zombies = new JButton[5];
 		plants = new JButton[5];
+		skipTurn = new JButton("Skip Turn");
+		skipTurn.setEnabled(false);
 		//Initializing the grid 
-		b = new JButton[9][5];
+		b = new JButton[MAX_ROWS][MAX_COLS];
 		money =  new JLabel("Sun Power = 0");
 		
 		
@@ -72,12 +77,12 @@ public class View extends JFrame implements Observer {
 		statusPanel.add(money);
 		//setting the layout of the game grid
 		mainPanel.setLayout(new BorderLayout(40,5));
-		gridPanel.setLayout(new GridLayout(5,9));
+		gridPanel.setLayout(new GridLayout(MAX_ROWS,MAX_COLS));
 
-		for(int y =0; y<5; y++){
-			for (int x=0; x<9; x++){
+		for(int x =0; x<MAX_ROWS; x++){
+			for (int y=0; y<MAX_COLS; y++){
 				b[x][y] = new JButton();
-				
+				b[x][y].setEnabled(false);
 				gridPanel.add(b[x][y]);
 			}
 		}
@@ -87,7 +92,6 @@ public class View extends JFrame implements Observer {
 			zombies[i].setIcon(new ImageIcon(zombie));
 			zombiePanel.add(zombies[i]);
 		}
-		
 		zombiePanel.setLayout(new GridLayout(0,1));
 		sunFlowerPanel.setLayout(new FlowLayout());
 		for (int i=0; i<5; i++){
@@ -95,6 +99,7 @@ public class View extends JFrame implements Observer {
 			plants[i] = new JButton();
 			plants[i].setIcon(new ImageIcon(grass));
 			sunFlowerPanel.add(plants[i]);
+			sunFlowerPanel.add(skipTurn);
 		}
 		
 		statusPanel.setLayout(new FlowLayout());
@@ -137,26 +142,40 @@ public class View extends JFrame implements Observer {
 		ArrayList<Tile> tempArrayList = ((Model)o).getGameGrid();
 		int x=0;
 		int y=0;
-		for(Tile tempTile: tempArrayList)
+		Tile tCol;
+		if (((Model)o).getChoice()==null)
 		{
-			while(tempTile.getRight() != null)
-			{
-				if(tempTile.getOccupant() instanceof DefZombie)
+			this.setGridButtons(false);
+		}
+		else if(((Model)o).getChoice().equals("sunflower") || ((Model)o).getChoice().equals("shooter"))
+		{
+			this.setGridButtons(true);
+		}
+		for(Tile tRow: tempArrayList)
+		{
+			tCol=tRow;
+			y=0;
+			do{
+				if(y>MAX_COLS || x> MAX_ROWS)
+				{
+					break;
+				}
+				if(tCol.getOccupant() instanceof DefZombie)
 				{
 					b[x][y].setIcon(new ImageIcon(zombie));
-					y++;
 				}
-				else if(tempTile.getOccupant() instanceof Shooter)
+				else if(tCol.getOccupant() instanceof Shooter)
 				{
 					b[x][y].setIcon(new ImageIcon(peaShooter));
-					y++;
 				}
-				else if(tempTile.getOccupant() instanceof SunFlower)
+				else if(tCol.getOccupant() instanceof SunFlower)
 				{
 					b[x][y].setIcon(new ImageIcon(sunflowerpic));
-					y++;
 				}
-			}
+				y++;
+				tCol=tCol.getRight();
+			}while(tCol.getRight() != null);
+			
 			x++;
 		}
 		money.setText("Sun Power = " + ((Model)o).getSolarPower());
@@ -164,24 +183,59 @@ public class View extends JFrame implements Observer {
 		{
 			plants[0].setIcon(new ImageIcon(sunflowerpic));
 			plants[1].setIcon(new ImageIcon(peaShooter));
+			skipTurn.setEnabled(true);
 		}
 	}
 
-	public JMenuItem getNewGame(){
+	public void addAction(Controller c)
+	{
+
+		startGame.addActionListener(c);;
+	    closeGame.addActionListener(c);;
+	    skipTurn.addActionListener(c);
+		for(int x =0; x<MAX_ROWS; x++){
+			for (int y=0; y<MAX_COLS; y++){
+				b[x][y].addActionListener(c);
+			}
+		}
+		for (int i=0; i<5; i++){
+			
+			zombies[i].addActionListener(c);
+		}
+
+		for (int k=0; k<5; k++){
+			
+			plants[k].addActionListener(c);
+		}
+	}
+	public JButton getSkipTurn()
+	{
+		return skipTurn;
+	}
+	public JMenuItem getNewGame()
+	{
 		return startGame;
 	}
-	public JMenuItem getExitGame(){
+	public JMenuItem getExitGame()
+	{
 		return closeGame;
 	}
-	public JButton[][] getGridList(){
+	public JButton[][] getGridList()
+	{
 		return b;
 	}
-	
-	public static void main(String arg[]){
-		View newview = new View();
-		Controller newController = new Controller(1);
-		newController.addView(newview);
+	public JButton[] getPlantsList()
+	{
+		return plants;
 	}
-	
-
+	public void setGridButtons(boolean bool)
+	{
+		for(int x =0; x<MAX_ROWS; x++){
+			for (int y=0; y<MAX_COLS; y++){
+				b[x][y].setEnabled(bool);
+				b[x][y].setIcon(null);
+			}
+		}
+	}
 }
+
