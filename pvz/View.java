@@ -87,6 +87,7 @@ public class View extends JFrame implements Observer {
 			zombies[i].setIcon(new ImageIcon(zombie));
 			zombiePanel.add(zombies[i]);
 		}
+		
 		zombiePanel.setLayout(new GridLayout(0,1));
 		sunFlowerPanel.setLayout(new FlowLayout());
 		for (int i=0; i<5; i++){
@@ -181,6 +182,10 @@ public class View extends JFrame implements Observer {
 	public static void main(String arg[]){
 		
 		View newview = new View();
+		Model newModel = new Model(1);
+		Controller newController = new Controller(1);
+		newController.addView(newview);
+		newController.addModel(newModel);
 	}
 	
 
