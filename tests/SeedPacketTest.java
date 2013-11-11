@@ -15,20 +15,20 @@ import pvz.*;
  * @author Abhinav Thukral
  *
  */
-public class SeedsTest {
+public class SeedPacketTest {
 
-	private Seeds seed;
+	private SeedPacket seed;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.seed = new Seeds(1);
+		this.seed = new SeedPacket(1);
 	}
 
 	/**
-	 * Test method for {@link pvz.Seeds#getPlant(java.lang.String, int)}.
+	 * Test method for {@link pvz.SeedPacket#getPlant(java.lang.String, int)}.
 	 */
 	@Test
 	public void testGetPlant() {

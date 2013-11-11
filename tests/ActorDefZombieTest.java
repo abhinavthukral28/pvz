@@ -23,7 +23,7 @@ public class ActorDefZombieTest {
 		Tile nextTile = new Tile();
 		tile = new Tile();
 		tile.setLeft(prevTile);
-		tile.getRight(nextTile);
+		tile.setRight(nextTile);
 		actor.setTile(tile);
 		tile.setOccupant(actor);
 		

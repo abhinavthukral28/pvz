@@ -70,7 +70,7 @@ public class Tile{
 		return leftTile;
 	}
 	
-	public void getRight(Tile next){
+	public void setRight(Tile next){
 		this.rightTile = next;
 	}
 

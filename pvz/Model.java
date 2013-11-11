@@ -8,7 +8,7 @@ public class Model extends Observable {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	private String choice;
-	private Seeds seeds;
+	private SeedPacket seeds;
 	private ArrayList<Actor> actorList;
 	private ArrayList<Actor> waitingZombiesList;
 	private ArrayList<Tile> gameGrid; 
@@ -25,7 +25,7 @@ public class Model extends Observable {
 	 */
 	public Model(int level){
 		this.level = level;
-		seeds = new Seeds(level);
+		seeds = new SeedPacket(level);
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
 		gameGrid = new ArrayList<Tile>();
@@ -37,7 +37,7 @@ public class Model extends Observable {
 				while(tempTile.getRight() != null){		//navigate to the end of the row
 					tempTile = tempTile.getRight();
 				}
-				tempTile.getRight(new Tile());			//link on a new tile
+				tempTile.setRight(new Tile());			//link on a new tile
 				tempTile.getRight().setLeft(tempTile);	//and link it back
 			}
 		}

@@ -30,7 +30,7 @@ public class ShooterTest {
 			while(tempTile.getRight() != null){
 				tempTile = tempTile.getRight();
 			}
-			tempTile.getRight(new Tile());	
+			tempTile.setRight(new Tile());	
 			tempTile.getRight().setLeft(tempTile);
 		}
 		shooter.setTile(tile);

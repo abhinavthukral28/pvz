@@ -7,7 +7,7 @@ package pvz;
  *	@author Stuart
  *	@author Abhinav
  */
-public class Seeds {
+public class SeedPacket {
 	private int level;
 	//private Map<String, Integer> map;
 		
@@ -15,7 +15,7 @@ public class Seeds {
 	 * initializes the seeds
 	 * @param level
 	 */
-	public Seeds(int level){
+	public SeedPacket(int level){
 		this.level = level;
 	}
 	
