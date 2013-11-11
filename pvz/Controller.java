@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
  *
  */
 
+
 public class Controller implements ActionListener{
 	
 	//The controller hard wired to the Model and View through
@@ -21,9 +22,8 @@ public class Controller implements ActionListener{
 	private int level;
 	
 	public Controller(int level){
-		
 		this.level = level;
-
+		pvz = new Model(level);
 	}
 
 	@Override
@@ -51,11 +51,12 @@ public class Controller implements ActionListener{
 
 		
 	}
+	/*
 	public void addModel(Model m){
 		
 		this.pvz = m;
 		
-	}
+	}*/
 	
 	public void addView(View v){
 		

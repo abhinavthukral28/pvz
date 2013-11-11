@@ -167,25 +167,20 @@ public class View extends JFrame implements Observer {
 		}
 	}
 
-	public JMenuItem getNewGame()
-	{
+	public JMenuItem getNewGame(){
 		return startGame;
 	}
-	public JMenuItem getExitGame()
-	{
+	public JMenuItem getExitGame(){
 		return closeGame;
 	}
-	public JButton[][] getGridList()
-	{
+	public JButton[][] getGridList(){
 		return b;
 	}
+	
 	public static void main(String arg[]){
-		
 		View newview = new View();
-		Model newModel = new Model(1);
 		Controller newController = new Controller(1);
 		newController.addView(newview);
-		newController.addModel(newModel);
 	}
 	
 
