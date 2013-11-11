@@ -6,7 +6,7 @@ package pvz;
  * work n progress
  *
  */
-public class Actor {
+public abstract class Actor {
 
 	// The tile that the actor occupies
 	protected Tile tile;
@@ -41,12 +41,18 @@ public class Actor {
 	}
 	/**
 	 * 
-	 * @return 0 if nothing is done, just a place holder method for sub classes.
+	 * if nothing is done, just a place holder method for sub classes.
 	 */
-	public int act(){
-		return 0;
-	}
+	 abstract int act();
+	 
 	
+	
+	public int getCurrHealth() {
+		return currHealth;
+	}
+	public int getMaxHealth() {
+		return maxHealth;
+	}
 	/**
 	 * Reduces the currHealth of the Actor by integer amount specified in damage
 	 * @param damage
@@ -77,7 +83,13 @@ public class Actor {
 	public void setTile(Tile tile) {
 		this.tile = tile;
 	}
-	
+	/**
+	 * 
+	 * @return tile of the Actor
+	 */
+	public Tile getTile() {
+		return tile;
+	}	
 	/**
 	 * @return status that is true if its alive, otherwise false if its dead
 	 */
@@ -100,11 +112,8 @@ public class Actor {
 	
 	/**
 	 * Placeholder method for actors which have a cost in terms of solar
-	 * @return 0;
 	 */
-	public int getCost() {
-		return 0;
-	}
+	 abstract int getCost();
 	
 	
 	
