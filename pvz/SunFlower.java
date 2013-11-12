@@ -2,6 +2,7 @@ package pvz;
 
 
 /**
+ * This class creates a SunFlower plant
  * @author Abhinav Thukral
  * @version 1.0
  *

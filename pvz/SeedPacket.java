@@ -2,7 +2,7 @@ package pvz;
 
 
 /**
- * Seeds class used to add new plants to the grid
+ * SeedPacket class used to add new plants to the grid
  * Note: Sections related to the delay have been commented and will be implemented in the next mile stone as per the requirement
  *	@author Stuart
  *	@author Abhinav

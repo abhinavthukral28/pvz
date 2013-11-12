@@ -8,7 +8,7 @@ public class Tile{
 	private Tile leftTile;
 	
 	/**
-	 * 
+	 * The basic element of the game grid which can contain a zombie or a plant
 	 * @author AlhetiMamoon
 	 * @param leftTile is the previous tile 
 	 * @param rightTile	is the next tile 
@@ -61,19 +61,31 @@ public class Tile{
 		
 	}
 	
+	/**
+	 * @return rightTile
+	 */
 	public Tile getRight(){
 		
 		return rightTile;
 	}
 	
+	/**
+	 * @return leftTile
+	 */
 	public Tile getLeft(){
 		return leftTile;
 	}
 	
+	/**
+	 * @param rightTile 
+	 */
 	public void setRight(Tile next){
 		this.rightTile = next;
 	}
 
+	/**
+	 * @param previousTile
+	 */
 	public void setLeft(Tile previous) {
 		this.leftTile = previous;
 	}

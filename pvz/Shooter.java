@@ -1,6 +1,7 @@
 package pvz;
 
 /**
+ * The Shooter class creates a pea shooting plant
  * @author Abhinav Thukral
  * @version 1.0
  *
