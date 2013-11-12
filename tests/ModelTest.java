@@ -29,6 +29,11 @@ public class ModelTest {
 		
 	}
 	
+	
+	/**
+	 * update gathers solar power and advances zombies onto the grid
+	 * this tests to see that solar power grows at the appropriate rate
+	 */
 	@Test
 	public void testUpdate(){
 		int factor = scaleModel.getSolarRate();
@@ -40,9 +45,12 @@ public class ModelTest {
 		}
 		assertTrue(scaleModel.getZombies().isEmpty());
 		assertTrue(scaleModel.getSolarPower() == 101*factor + 10);
-		//all update does is move zombies onto the field, and make actors act.
 	}
 	
+	/**
+	 * getTile looks up a tile based on its co-ordinates.
+	 * this tests that tiles are accessible and initialised as expected by the constructor
+	 */
 	@Test
 	public void testGetTile(){
 		Tile tempTile;
@@ -67,11 +75,12 @@ public class ModelTest {
 		}
 	}
 	
+	/**
+	 * state returns -1 if the player has lost, 1 if they have won, 0 otherwise
+	 * tests that the player has lost when there is a zombie in their home row, and has won when there are no zombies active or waiting
+	 */
 	@Test
-	public void testState(){
-		ArrayList<Actor> plantForceOne = new ArrayList<Actor>();
-		Tile tempTile = null;		
-		
+	public void testState(){	
 		DefZombie dummy = new DefZombie(1);
 		assertTrue(scaleModel.state() == 0);
 		scaleModel.getTile(0, 0).setOccupant(dummy);
@@ -83,6 +92,9 @@ public class ModelTest {
 		assertTrue(scaleModel.state() == 1);
 	}
 	
+	/**
+	 * Tests that actorList is populated with living, unfriendly zombies when Model is initialised
+	 */
 	@Test
 	public void testGetZombies(){
 		ArrayList<Actor> dummies = scaleModel.getZombies();
@@ -93,6 +105,9 @@ public class ModelTest {
 		}
 	}
 	
+	/**
+	 * Tests the gameGrid, traverses the linked list, verifying that it is initialised properly
+	 */
 	@Test
 	public void testGetGameGrid(){
 		ArrayList<Tile> testList = scaleModel.getGameGrid();
@@ -107,11 +122,9 @@ public class ModelTest {
 		}
 	}
 	
-	@Test
-	public void testGetLevel(){
-		assertTrue(scaleModel.getLevel() == 1);
-	}
-	
+	/**
+	 * Verifies that a plant is properly placed and paid for.
+	 */
 	@Test
 	public void testPlacePlant(){
 		int firstVal = scaleModel.getSolarPower();
