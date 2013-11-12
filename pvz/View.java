@@ -59,6 +59,7 @@ public class View extends JFrame implements Observer {
 		
 		zombies = new JButton[5];
 		plants = new JButton[5];
+		//house.setIcon(arg0);
 		skipTurn = new JButton("Skip Turn");
 		skipTurn.setEnabled(false);
 		//Initializing the grid 
@@ -135,7 +136,12 @@ public class View extends JFrame implements Observer {
 		frame.setVisible(true);
 		
 	}
-	
+	/**
+	 * This method updates the View with any changes that occurred in the Model.
+	 * It will update the game grid and the money.
+	 * @param o, arg -o is the object that this class instance is observing. 
+	 * -arg is any arguments passed in
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		
@@ -143,14 +149,17 @@ public class View extends JFrame implements Observer {
 		int x=0;
 		int y=0;
 		Tile tCol;
+		//check to see if the user chose a non-valid or skip button
 		if (((Model)o).getChoice()==null)
 		{
 			this.setGridButtons(false);
 		}
+		//check to see if the user choose a sunflower or a shooter
 		else if(((Model)o).getChoice().equals("sunflower") || ((Model)o).getChoice().equals("shooter"))
 		{
 			this.setGridButtons(true);
 		}
+		//go through the game grid to update the position of zombies and the static position of plants
 		for(Tile tRow: tempArrayList)
 		{
 			tCol=tRow;
@@ -178,7 +187,9 @@ public class View extends JFrame implements Observer {
 			
 			x++;
 		}
+		//update the sun money
 		money.setText("Sun Power = " + ((Model)o).getSolarPower());
+		//initialize the first level view
 		if(((Model)o).getLevel() == 1)
 		{
 			plants[0].setIcon(new ImageIcon(sunflowerpic));
@@ -186,53 +197,89 @@ public class View extends JFrame implements Observer {
 			skipTurn.setEnabled(true);
 		}
 	}
-
+	/**
+	 * Adds the actionlistener controller c to the GUI components.
+	 * @param c -c is the controller object that is assigned to listen to this object instances GUI components.
+	 */
 	public void addAction(Controller c)
 	{
-
+		//adds actionlistener to the menu items
 		startGame.addActionListener(c);;
 	    closeGame.addActionListener(c);;
+	    //adds actionlistener to the skipTurn button
 	    skipTurn.addActionListener(c);
+	    //adds actionlistener to the game grid
 		for(int x =0; x<MAX_ROWS; x++){
 			for (int y=0; y<MAX_COLS; y++){
 				b[x][y].addActionListener(c);
 			}
 		}
+		//adds actionlistener to zombie list
 		for (int i=0; i<5; i++){
 			
 			zombies[i].addActionListener(c);
 		}
-
+		//adds actionlistener to plants list
 		for (int k=0; k<5; k++){
 			
 			plants[k].addActionListener(c);
 		}
 	}
+	/**
+	 * Return skipTurn button.
+	 * @return JButton - returns a button
+	 */
 	public JButton getSkipTurn()
 	{
 		return skipTurn;
 	}
+	/**
+	 * Return startGame JMenuItem.
+	 * @return JMenuItem -returns a JMenuItem
+	 */
 	public JMenuItem getNewGame()
 	{
 		return startGame;
 	}
+	/**
+	 * Return closeGame JMenuItem.
+	 * @return JMenuItem -returns a JMenuItem
+	 */
 	public JMenuItem getExitGame()
 	{
 		return closeGame;
 	}
+	/**
+	 * Returns the game grid.
+	 * @return JButton[][] -Returns a JButton 
+	 */
 	public JButton[][] getGridList()
 	{
 		return b;
 	}
+	/**
+	 *  Returns the plants available to choose from.
+	 * @return plants -returns plant list
+	 */
 	public JButton[] getPlantsList()
 	{
+		
 		return plants;
 	}
+	/**
+	 * Sets the buttons enabled according to the given parameter.
+	 * Also assigns the image to a null value, this will clear 
+	 * the Game grid of the previous positions.
+	 * @param bool -accepts a bool
+	 */
 	public void setGridButtons(boolean bool)
 	{
 		for(int x =0; x<MAX_ROWS; x++){
 			for (int y=0; y<MAX_COLS; y++){
 				b[x][y].setEnabled(bool);
+				//set the button to nullto avoid 
+				//the zombie drawn in areas where it left 
+				//becuase of it's movement 
 				b[x][y].setIcon(null);
 			}
 		}

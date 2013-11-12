@@ -27,6 +27,10 @@ public class Controller implements ActionListener{
 		gameInterface.addAction(this);
 	}
 
+	/*
+	 * This action performed method will handle all the events caused by the view using the MVC style.
+	 * @param ActionEven e -The source of the interrupt
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == gameInterface.getNewGame()){
@@ -103,10 +107,7 @@ public class Controller implements ActionListener{
 		
 	}*/
 	
-	public void addView(View v){
-		
-		this.gameInterface = v;
-	}
+
 
 	public static void main(String arg[]){
 		

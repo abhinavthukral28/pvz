@@ -272,11 +272,19 @@ public class Model extends Observable {
 		}
 	}
 	*/
+	/**
+	 * Returns the choice
+	 * @return String - the string representation of the choice
+	 */
 	public String getChoice()
 	{
 		return choice;
 	}
 	
+	/**
+	 *  Sets the choice 
+	 * @param choosen -the choice the user has choosen
+	 */
 	public void setChoice(String choosen)
 	{
 		this.setChanged();
