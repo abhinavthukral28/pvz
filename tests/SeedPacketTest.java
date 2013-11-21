@@ -5,6 +5,10 @@ package tests;
 
 
 import static org.junit.Assert.*;
+import model.Actor;
+import model.SeedPacket;
+import model.Shooter;
+import model.SunFlower;
 
 import org.junit.Before;
 import org.junit.Test;

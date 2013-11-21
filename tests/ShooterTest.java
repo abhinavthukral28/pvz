@@ -4,6 +4,10 @@
 package tests;
 import pvz.*;
 import static org.junit.Assert.*;
+import model.DefZombie;
+import model.Shooter;
+import model.SunFlower;
+import model.Tile;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +46,7 @@ public class ShooterTest {
 	}
 
 	/**
-	 * Test method for {@link pvz.Shooter#act()}.
+	 * Test method for {@link model.Shooter#act()}.
 	 */
 	@Test
 	public void testAct() {

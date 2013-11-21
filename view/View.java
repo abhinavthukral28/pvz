@@ -1,4 +1,4 @@
-package pvz;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -15,6 +15,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import pvz.Controller;
+import model.DefZombie;
+import model.Model;
+import model.Shooter;
+import model.SunFlower;
+import model.Tile;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 

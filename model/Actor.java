@@ -1,4 +1,4 @@
-package pvz;
+package model;
 
 /**
  * Abstract Class Actor implements many common functions for plants and Zombies.

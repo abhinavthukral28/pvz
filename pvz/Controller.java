@@ -3,6 +3,9 @@ package pvz;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import view.View;
+import model.Model;
+
 /**
  * 
  * Class Controller is the design controller 

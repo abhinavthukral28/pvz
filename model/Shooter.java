@@ -1,4 +1,4 @@
-package pvz;
+package model;
 
 /**
  * The Shooter class creates a pea shooting plant

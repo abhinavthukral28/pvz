@@ -8,14 +8,14 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import model.Actor;
+import model.DefZombie;
+import model.Model;
+import model.Shooter;
+import model.Tile;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import pvz.Actor;
-import pvz.DefZombie;
-import pvz.Model;
-import pvz.Shooter;
-import pvz.Tile;
 
 public class ModelTest {
 	private Model scaleModel;
