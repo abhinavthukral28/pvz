@@ -13,7 +13,7 @@ import model.SunFlower;
 import org.junit.Before;
 import org.junit.Test;
 
-import pvz.*;
+import controller.*;
 
 /**
  * This class tests SeedPacket class

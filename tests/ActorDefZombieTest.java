@@ -1,7 +1,6 @@
 package tests;
 import java.util.Random;
 
-import pvz.*;
 import static org.junit.Assert.*;
 import model.DefZombie;
 import model.SunFlower;
@@ -9,6 +8,8 @@ import model.Tile;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import controller.*;
 
 /**
  * Tests DefZombie class and Actor class

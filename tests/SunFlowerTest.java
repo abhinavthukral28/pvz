@@ -2,12 +2,13 @@
  * 
  */
 package tests;
-import pvz.*;
 import static org.junit.Assert.*;
 import model.SunFlower;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import controller.*;
 
 /**
  * @author Abhinav Thukral
