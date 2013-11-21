@@ -112,8 +112,5 @@ public class Controller implements ActionListener{
 	
 
 
-	public static void main(String arg[]){
-		
-		Controller c = new Controller(1);
-	}
+	
 }
