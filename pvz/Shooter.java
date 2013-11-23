@@ -18,7 +18,7 @@ public class Shooter extends Plant {
 	 * @param level
 	 */
 	public Shooter(int level) {
-		super((HF * level), level, "S", true);
+		super((HF * level), level, "S");
 	}
 	
 	/**

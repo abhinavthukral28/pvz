@@ -8,8 +8,8 @@ package pvz;
  */
 public abstract class Plant extends Actor{
 
-public Plant(int maxHealth, int level, String sprite, boolean friendly) {
-	super(maxHealth, level, sprite, friendly);
+public Plant(int maxHealth, int level, String sprite) {
+	super(maxHealth, level, sprite, true);
 }
 	/** 
 	 * act() method for plants

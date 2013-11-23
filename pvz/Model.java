@@ -135,11 +135,11 @@ public class Model extends Observable {
 	 * @param type the kind of plant to be purchased
 	 * @return The newly purchased plant, or null if it is unaffordable
 	 */
-	private Actor purchasePlant(String type){
-		Actor actor = seeds.getPlant(type, solarPower);
-		if(actor != null){
-			solarPower -= actor.getCost();
-			return actor;
+	private Plant purchasePlant(String type){
+		Plant plant = seeds.getPlant(type, solarPower);
+		if(plant != null){
+			solarPower -= plant.getCost();
+			return plant;
 		}
 		else{
 			return null;

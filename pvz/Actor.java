@@ -117,11 +117,4 @@ public abstract class Actor {
 		return friendly;
 	}
 	
-	/**
-	 * Placeholder method for actors which have a cost in terms of solar
-	 */
-	 abstract int getCost();
-	
-	
-	
 }
