@@ -7,7 +7,7 @@ package pvz;
  * @version 1.0
  *
  */
-public class SunFlower extends Actor {
+public class SunFlower extends Plant {
 	// Default Health Factor multiplies with level to increase max health (Experimental)
 	private static final int HF = 25;
 	// The solar cost of the plant

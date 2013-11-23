@@ -6,7 +6,7 @@ package pvz;
  * @version 1.0
  *
  */
-public class Shooter extends Actor {
+public class Shooter extends Plant {
 	// Default Health Factor multiplies with level to increase max health (Experimental)
 	private static final int HF = 40;
 	// Default Damage Factor multiplies with level to increase damage (Experimental)
