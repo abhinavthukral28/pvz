@@ -2,11 +2,13 @@
  * 
  */
 package tests;
-import pvz.*;
 import static org.junit.Assert.*;
+import model.SunFlower;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import controller.*;
 
 /**
  * @author Abhinav Thukral
@@ -26,7 +28,7 @@ public class SunFlowerTest {
 	}
 
 	/**
-	 * Test method for {@link pvz.SunFlower#act()}.
+	 * Test method for {@link model.SunFlower#act()}.
 	 */
 	@Test
 	public void testAct() {

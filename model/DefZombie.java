@@ -1,4 +1,4 @@
-package pvz;
+package model;
 
 /**
  * Class DefZombie is the basic zombie for the game

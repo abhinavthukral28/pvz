@@ -1,4 +1,4 @@
-package pvz;
+package model;
 
 import java.util.ArrayList;
 import java.util.Random;

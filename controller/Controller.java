@@ -1,7 +1,10 @@
-package pvz;
+package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import view.View;
+import model.Model;
 
 /**
  * 
@@ -109,8 +112,5 @@ public class Controller implements ActionListener{
 	
 
 
-	public static void main(String arg[]){
-		
-		Controller c = new Controller(1);
-	}
+	
 }
