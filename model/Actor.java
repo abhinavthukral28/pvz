@@ -18,27 +18,32 @@ public abstract class Actor {
 	// Maximum health of the Actor
 	protected int maxHealth;
 	// The string/graphical representation of the Actor
-	protected String sprite;
+	protected string;
 	// The level of the actor based on the level of the game
 	protected int level;		
 	// True if the Actor is allied with the player
 	protected boolean friendly;
+	// True if current health is less than 40% of max health
+	protected boolean cracked;
+	// The graphical representation of the Actor
+	protected Sprite sprite;
 	
 	/**
 	 * Constructor for class Actor, usually only used by sub classes
 	 * @param maxHealth
 	 * @param level
-	 * @param sprite
+	 * @param string
 	 */
 	public Actor(int maxHealth,
-			int level, String sprite, boolean friendly) {
+			int level, String string, boolean friendly) {
 		super();
 		this.status = true;
 		this.currHealth = maxHealth;
 		this.maxHealth = maxHealth;
-		this.sprite = sprite;
+		this.string = string;
 		this.level = level;
 		this.friendly = friendly;
+		this.cracked = false;
 	}
 	/**
 	 * This method defines the activity that any given plant can do during the game
@@ -67,6 +72,9 @@ public abstract class Actor {
 	 */
 	public int takeDamage(int damage) {
 		currHealth = currHealth - damage;
+		if (currHealth < (maxHealth * 0.4) && !this.cracked){
+			this.cracked = true;
+		}
 		if (currHealth <= 0) {
 			die();
 		}
@@ -108,13 +116,31 @@ public abstract class Actor {
 	 * @return Sprite representation of the actor
 	 */
 	public String toString(){
+		return string;
+	}
+	/**
+	 * @return the sprite
+	 */
+	public Sprite getSprite() {
 		return sprite;
+	}
+	/**
+	 * @param sprite the sprite to set
+	 */
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 	/**
 	 * @return Friendly allegience of actor. True for plants, false for zombies
 	 */
 	public boolean isFriendly(){
 		return friendly;
+	}
+	/**
+	 * @return True if current health is less than 40% of max health, false otherwise
+	 */
+	public boolean isCracked() {
+		return cracked;
 	}
 	
 }
