@@ -28,7 +28,7 @@ public class SnowShooter extends Plant {
 	 * @see model.Actor#act()
 	 */
 	@Override
-	int act() {
+	public int act() {
 		return attack();
 	}
 	

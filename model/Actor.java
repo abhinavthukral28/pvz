@@ -49,7 +49,7 @@ public abstract class Actor {
 	 * This method defines the activity that any given plant can do during the game
 	 * @return
 	 */
-	 abstract int act();
+	 abstract public int act();
 	 
 	
 	
