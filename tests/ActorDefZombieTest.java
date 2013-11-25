@@ -9,7 +9,6 @@ import model.Tile;
 import org.junit.Before;
 import org.junit.Test;
 
-import controller.*;
 
 /**
  * Tests DefZombie class and Actor class

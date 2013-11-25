@@ -1,7 +1,7 @@
 package model;
 
 /**
- * PoleZobie creates a Zombie that can 
+ * PoleZobie creates a Zombie that can move 2 steps at a time or jump a plant only once
  * @author Abhinav Thukral
  *
  */
@@ -12,6 +12,9 @@ public class PoleZombie extends Zombie {
 	private static final int DF = 10; 
 	// false if zombie can jump
 	private boolean jumped;
+	// boolean frozen to see if the zombie has been frozen
+	private boolean isFrozen;
+
 
 	/**
 	 * @param level
@@ -19,6 +22,7 @@ public class PoleZombie extends Zombie {
 	public PoleZombie(int level) {
 		super((HF * level), level, "PZ");
 		this.jumped = false;
+		this.isFrozen = false;
 	}
 	
 
@@ -58,18 +62,29 @@ public class PoleZombie extends Zombie {
 	}
 
 	protected int move(){
-		int i = 0;
-		while(i<2 && super.move() > 0){
-			i++;	
-		}
-		if(i<2){
-			return jump();
+		if(this.isFrozen){
+			return super.move();
 		}
 		else{
-			return 1;
+			int i = 0;
+			while(i<2 && super.move() > 0){
+				i++;	
+			}
+			if(i<2){
+				return jump();
+			}
+			else{
+				return 1;
+			}
+			
 		}
+		
 
 	}
+	/**
+	 * Makes the zobie jump a plant
+	 * @return
+	 */
 
 	private int jump(){
 		if(!this.jumped){
@@ -85,6 +100,7 @@ public class PoleZombie extends Zombie {
 							super.tile.setOccupant(null);
 							this.setTile(nextLeft);
 							super.tile.setOccupant(this);
+							this.jumped = true;
 							return 1;
 						}
 					}
@@ -97,6 +113,14 @@ public class PoleZombie extends Zombie {
 			return -1;
 		}
 		return 0;
+	}
+
+
+	/**
+	 * @param isFrozen the isFrozen to set
+	 */
+	public void setFrozen(boolean isFrozen) {
+		this.isFrozen = isFrozen;
 	}
 
 
