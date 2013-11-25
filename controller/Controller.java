@@ -49,44 +49,39 @@ public class Controller implements ActionListener{
 		{
 			pvz.setChoice(null);
 			pvz.update();
-			pvz.notifyObservers();
 		}
-		if(pvz!=null)
-		{
-			
-		
-			for(int plantInd=0; plantInd<gameInterface.getPlantsList().length;plantInd++)
-			{
-				if(e.getSource() == gameInterface.getPlantsList()[plantInd] )
-				{
-					switch(plantInd)
-					{
+		if(pvz!=null){
+			for(int plantInd=0; plantInd<gameInterface.getPlantsList().length;plantInd++){
+				if(e.getSource() == gameInterface.getPlantsList()[plantInd] ){
+					switch(plantInd){
 						case 0:
 							pvz.setChoice("sunflower");
-							pvz.notifyObservers();
 							break;
 						case 1:
 							pvz.setChoice("shooter");
-							pvz.notifyObservers();
+							break;
+						case 2:
+							pvz.setChoice("snowshooter");
+							break;
+						case 3:
+							pvz.setChoice("walnut");
+							break;
+						case 4:
+							pvz.setChoice("potato");
 							break;
 						default:
 							pvz.setChoice(null);
-							pvz.notifyObservers();
 							break;
 					}
 				}
 			}
-		for(int row = 0; row < gameInterface.getGridList().length; row++)
-		{
-			for(int col = 0; col<gameInterface.getGridList()[row].length; col++ )
-			{
-				if(e.getSource() == gameInterface.getGridList()[row][col] )
-				{
-					if(pvz.getChoice()!=null)
-					{
-						pvz.placePlant(pvz.getTile(col, row), pvz.getChoice());
-						pvz.update();
-						pvz.notifyObservers();
+		for(int row = 0; row < gameInterface.getGridList().length; row++){
+			for(int col = 0; col<gameInterface.getGridList()[row].length; col++ ){
+				if(e.getSource() == gameInterface.getGridList()[row][col] )	{
+					if(pvz.getChoice()!=null)	{
+						if(pvz.placePlant(pvz.getTile(col, row), pvz.getChoice())){
+							pvz.update();
+						}
 					}
 				}
 			}
@@ -103,14 +98,4 @@ public class Controller implements ActionListener{
 	}
 		
 	}
-	/*
-	public void addModel(Model m){
-		
-		this.pvz = m;
-		
-	}*/
-	
-
-
-	
 }

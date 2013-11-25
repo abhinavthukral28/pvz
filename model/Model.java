@@ -41,7 +41,6 @@ public class Model extends Observable {
 				tempTile.getRight().setLeft(tempTile);	//and link it back
 			}
 		}
-		
 		solarPower = 10;
 		solarRate = 5;
 		if(level == 1){												//load the zombies, etc... for level 1
@@ -76,6 +75,7 @@ public class Model extends Observable {
 		//printGrid();
 		//System.out.println("You have " + solarPower + " sun points to spend.");
 		//notifyViews();
+		notifyObservers();
 	}
 	
 	//the current components of the level are accessible
@@ -289,5 +289,6 @@ public class Model extends Observable {
 	{
 		this.setChanged();
 		choice=choosen;
+		notifyObservers();
 	}
 }

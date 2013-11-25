@@ -11,7 +11,7 @@ public class PotatoMine extends Plant {
 	private static final int HF = 30;
 	private static final int DF =  40;
 	// Default Sprite for the Plant
-	private static final String DEFSPRITE = "images/patatoMine.jpg";
+	private static final String DEFSPRITE = "images/potatoMine.jpg";
 	private int turn;
 	/**
 	 * @param level
@@ -37,11 +37,7 @@ public class PotatoMine extends Plant {
 				tile.getOccupant().takeDamage(DF);
 				return 2;
 			}
-			
 		}
-		
 		return 0;
 	}
-	
-
 }
