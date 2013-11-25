@@ -1,4 +1,4 @@
-package pvz;
+package model;
 
 public abstract class Zombie extends Actor {
 

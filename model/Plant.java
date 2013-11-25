@@ -1,5 +1,5 @@
 
-package pvz;
+package model;
 /**
  * The Plant class 
  * @author Abhinav Thukral

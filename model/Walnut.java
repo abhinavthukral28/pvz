@@ -1,7 +1,8 @@
 /**
  * 
  */
-package pvz;
+package model;
+
 
 /**
  * Walnut class creates a walnut which is a defensive plant such that several attacks by a zombie are required to break it
