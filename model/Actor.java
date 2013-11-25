@@ -26,7 +26,7 @@ public abstract class Actor {
 	// True if current health is less than 40% of max health
 	protected boolean cracked;
 	// The graphical representation of the Actor
-	protected Sprite sprite;
+	protected String sprite;
 	
 	/**
 	 * Constructor for class Actor, usually only used by sub classes
@@ -121,13 +121,13 @@ public abstract class Actor {
 	/**
 	 * @return the sprite
 	 */
-	public Sprite getSprite() {
+	public String getSprite() {
 		return sprite;
 	}
 	/**
 	 * @param sprite the sprite to set
 	 */
-	public void setSprite(Sprite sprite) {
+	public void setSprite(String sprite) {
 		this.sprite = sprite;
 	}
 	/**

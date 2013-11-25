@@ -12,12 +12,18 @@ public class ExplosiveZombie extends Zombie {
 	// Default Health Factor multiplies with level to increase max health
 	private static final int HF = 50; 
 	// Default Damage Factor multiplies with level to increase damage 
-	private static final int DF = 20; 
+	private static final int DF = 20;
+	// Default Sprite for the Zombie
+	private static final String DEFSPRITE = "";
+	// Cracked Sprite for the Zombie
+	private static final String CRACKEDSPRITE = "";
 	/**
 	 * @param level
 	 */
 	public ExplosiveZombie(int level) {
 		super((HF * level), level, "ZE");
+		super.sprite = DEFSPRITE;
+		super.crackedSprite = CRACKEDSPRITE;
 	}
 
 	/* (non-Javadoc)
@@ -48,14 +54,25 @@ public class ExplosiveZombie extends Zombie {
 	}
 	
 	public int takeDamage(int damage){
+		Tile tile = super.tile;
 		super.takeDamage(damage);
 		if(!isAlive()){
-			explode();
+			explode(tile);
 		}
 		return super.currHealth;
 	}
 	
-	private void explode(){
-		
+	private void explode(Tile tempTile){
+		while(tempTile != null){
+			tempTile = tempTile.getLeft();
+			if(tempTile != null && tempTile.isOccupied()){
+				Actor actor = tempTile.getOccupant();
+				if (actor instanceof Plant) {
+					actor.takeDamage(1000);
+					return;
+				}
+			}
+				
+		}
 	}
 }

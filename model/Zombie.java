@@ -1,11 +1,14 @@
 package model;
 
+
+
 public abstract class Zombie extends Actor {
 
-	public Zombie(int maxHealth, int level, String sprite) {
-		super(maxHealth, level, sprite, false);
+	public Zombie(int maxHealth, int level, String string) {
+		super(maxHealth, level, string, false);
 	}
 	
+	protected String crackedSprite;
 	/**
 	 * Attacks the Actor object passed causing damage
 	 * @param actor
@@ -32,5 +35,14 @@ public abstract class Zombie extends Actor {
 		return -1;
 	}
 	
+	 public String getSprite(){
+		 if(super.isCracked()){
+			 return crackedSprite;
+		 }
+		 else{
+			 return super.sprite;
+		 }
+		 
+	 }
 	
 }
