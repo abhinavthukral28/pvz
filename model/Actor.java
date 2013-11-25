@@ -35,7 +35,7 @@ public abstract class Actor {
 	 * @param string
 	 */
 	public Actor(int maxHealth,
-			int level, String string, boolean friendly) {
+			int level, String string, boolean friendly, String sprite){
 		super();
 		this.status = true;
 		this.currHealth = maxHealth;
@@ -44,6 +44,7 @@ public abstract class Actor {
 		this.level = level;
 		this.friendly = friendly;
 		this.cracked = false;
+		this.sprite = sprite;
 	}
 	/**
 	 * This method defines the activity that any given plant can do during the game

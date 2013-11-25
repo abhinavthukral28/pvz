@@ -10,8 +10,8 @@ public abstract class Plant extends Actor{
 	
 	protected int cost;
 
-public Plant(int maxHealth, int level, String sprite, int cost) {
-	super(maxHealth, level, sprite, true);
+public Plant(int maxHealth, int level, String string, int cost, String sprite) {
+	super(maxHealth, level, string, true, sprite);
 	this.cost = cost;
 }
 

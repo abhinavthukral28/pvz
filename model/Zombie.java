@@ -3,12 +3,14 @@ package model;
 
 
 public abstract class Zombie extends Actor {
+	protected String crackedSprite;
 
-	public Zombie(int maxHealth, int level, String string) {
-		super(maxHealth, level, string, false);
+	public Zombie(int maxHealth, int level, String string, String sprite, String crackedSprite) {
+		super(maxHealth, level, string, false, sprite);
+		this.crackedSprite = crackedSprite;
 	}
 	
-	protected String crackedSprite;
+	
 	/**
 	 * Attacks the Actor object passed causing damage
 	 * @param actor

@@ -10,12 +10,14 @@ public class PatatoMine extends Plant {
 	private static final int COST = 7;
 	private static final int HF = 30;
 	private static final int DF =  40;
+	// Default Sprite for the Plant
+	private static final String DEFSPRITE = "";
 	private int turn;
 	/**
 	 * @param level
 	 */
 	public PatatoMine(int level) {
-		super((HF*level), level, "P", COST);
+		super((HF*level), level, "P", COST, DEFSPRITE);
 		turn = 0;
 	}
 

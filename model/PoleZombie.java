@@ -14,13 +14,16 @@ public class PoleZombie extends Zombie {
 	private boolean jumped;
 	// boolean frozen to see if the zombie has been frozen
 	private boolean isFrozen;
-
+	// Default Sprite for the Zombie
+	private static final String DEFSPRITE = "";
+	// Cracked Sprite for the Zombie
+	private static final String CRACKEDSPRITE = "";
 
 	/**
 	 * @param level
 	 */
 	public PoleZombie(int level) {
-		super((HF * level), level, "PZ");
+		super((HF * level), level, "PZ", DEFSPRITE, CRACKEDSPRITE);
 		this.jumped = false;
 		this.isFrozen = false;
 	}

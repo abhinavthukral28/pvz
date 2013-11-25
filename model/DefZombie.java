@@ -11,6 +11,10 @@ public class DefZombie extends Zombie {
 	private static final int HF = 50; 
 	// Default Damage Factor multiplies with level to increase damage (Experimental)
 	private static final int DF = 10; 
+	// Default Sprite for the Zombie
+	private static final String DEFSPRITE = "";
+	// Cracked Sprite for the Zombie
+	private static final String CRACKEDSPRITE = "";
 
 
 	/**
@@ -19,7 +23,7 @@ public class DefZombie extends Zombie {
 	 * @param level
 	 */
 	public DefZombie(int level) {
-		super((HF * level), level, "Z");
+		super((HF * level), level, "Z", DEFSPRITE, CRACKEDSPRITE);
 	}
 
 	/** 

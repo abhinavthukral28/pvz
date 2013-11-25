@@ -12,6 +12,8 @@ public class SunFlower extends Plant {
 	private static final int HF = 25;
 	// The solar cost of the plant
 	private static final int COST = 1;
+	// Default Sprite for the Plant
+	private static final String DEFSPRITE = "";
 	// Number of turns that have passed since the creation of the SunFlower
 	private int turn;
 	
@@ -21,7 +23,7 @@ public class SunFlower extends Plant {
 	 * @param level
 	 */
 	public SunFlower(int level) {
-		super((HF * level), level, "F", COST);
+		super((HF * level), level, "F", COST, DEFSPRITE);
 		turn = 3;
 	}
 	

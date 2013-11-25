@@ -21,9 +21,7 @@ public class ExplosiveZombie extends Zombie {
 	 * @param level
 	 */
 	public ExplosiveZombie(int level) {
-		super((HF * level), level, "ZE");
-		super.sprite = DEFSPRITE;
-		super.crackedSprite = CRACKEDSPRITE;
+		super((HF * level), level, "ZE", DEFSPRITE, CRACKEDSPRITE);
 	}
 
 	/* (non-Javadoc)

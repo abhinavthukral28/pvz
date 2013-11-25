@@ -16,12 +16,14 @@ public class SnowShooter extends Plant {
 		private static final int DF = 10; 
 		// The solar cost of the plant
 		private static final int COST = 4;
+		// Default Sprite for the Plant
+		private static final String DEFSPRITE = "";
 		
 	/**
 	 * @param level
 	 */
 	public SnowShooter(int level) {
-		super((HF*level), level, "SS", COST);
+		super((HF*level), level, "SS", COST, DEFSPRITE);
 	}
 
 	/* (non-Javadoc)

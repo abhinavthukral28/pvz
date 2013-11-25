@@ -13,12 +13,14 @@ public class Shooter extends Plant {
 	private static final int DF = 10; 
 	// The solar cost of the plant
 	private static final int COST = 2;
+	// Default Sprite for the Plant
+	private static final String DEFSPRITE = "";
 	
 	/**
 	 * @param level
 	 */
 	public Shooter(int level) {
-		super((HF * level), level, "S", COST);
+		super((HF * level), level, "S", COST, DEFSPRITE);
 	}
 	
 	/**
