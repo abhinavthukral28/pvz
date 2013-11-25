@@ -5,7 +5,7 @@ package model;
  * @author Abhinav Thukral
  * 
  */
-public class PatatoMine extends Plant {
+public class PotatoMine extends Plant {
 
 	private static final int COST = 7;
 	private static final int HF = 30;
@@ -16,7 +16,7 @@ public class PatatoMine extends Plant {
 	/**
 	 * @param level
 	 */
-	public PatatoMine(int level) {
+	public PotatoMine(int level) {
 		super((HF*level), level, "P", COST, DEFSPRITE);
 		turn = 0;
 	}

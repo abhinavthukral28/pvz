@@ -14,7 +14,7 @@ public class Walnut extends Plant {
 	private static final String CRACKEDSPRITE = "";
 	
 
-	public Walnut(int maxHealth, int level, String sprite) {
+	public Walnut(int level) {
 		super(HF * level, level, "o", COST, DEFSPRITE);
 	}
 
