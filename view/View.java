@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -43,9 +44,9 @@ public class View extends JFrame implements Observer {
 	private static JPanel sunFlowerPanel;
 	private static JPanel zombiePanel;
 	private static JPanel statusPanel;
-	private static final String zombie="images/19460096_s.jpg";
+	private static final String zombie="images/healthyZombie.png";
 	private static final String sunflowerpic="images/sunflower.jpg";
-	private static final String peaShooter="images/peashooter.png";
+	private static final String peaShooter="images/peashooter.jpg";
 	private static final String grass="images/grass3b.gif";
 	private static final int MAX_ROWS = 6;
 	private static final int MAX_COLS = 12;
@@ -91,6 +92,7 @@ public class View extends JFrame implements Observer {
 		for(int x =0; x<MAX_ROWS; x++){
 			for (int y=0; y<MAX_COLS; y++){
 				b[x][y] = new JButton();
+				
 				b[x][y].setEnabled(false);
 				gridPanel.add(b[x][y]);
 			}
