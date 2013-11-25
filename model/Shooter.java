@@ -39,7 +39,7 @@ public class Shooter extends Plant {
 			tempTile = tempTile.getRight();
 			if(tempTile != null && tempTile.isOccupied()){
 				Actor actor = tempTile.getOccupant();
-				if (actor instanceof DefZombie) {
+				if (actor instanceof Zombie) {
 					actor.takeDamage(DF * super.level);
 					return 2;
 				}
