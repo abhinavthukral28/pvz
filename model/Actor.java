@@ -18,7 +18,7 @@ public abstract class Actor {
 	// Maximum health of the Actor
 	protected int maxHealth;
 	// The string/graphical representation of the Actor
-	protected string;
+	protected String string;
 	// The level of the actor based on the level of the game
 	protected int level;		
 	// True if the Actor is allied with the player
