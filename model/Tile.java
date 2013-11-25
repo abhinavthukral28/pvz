@@ -1,4 +1,4 @@
-package pvz;
+package model;
 
 public class Tile{
 
