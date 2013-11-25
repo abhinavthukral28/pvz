@@ -13,7 +13,7 @@ public class SunFlower extends Plant {
 	// The solar cost of the plant
 	private static final int COST = 1;
 	// Default Sprite for the Plant
-	private static final String DEFSPRITE = "";
+	private static final String DEFSPRITE = "images/sunflower.jpg";
 	// Number of turns that have passed since the creation of the SunFlower
 	private int turn;
 	

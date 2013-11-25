@@ -11,7 +11,7 @@ public class PatatoMine extends Plant {
 	private static final int HF = 30;
 	private static final int DF =  40;
 	// Default Sprite for the Plant
-	private static final String DEFSPRITE = "";
+	private static final String DEFSPRITE = "images/patatoMine.jpg";
 	private int turn;
 	/**
 	 * @param level
