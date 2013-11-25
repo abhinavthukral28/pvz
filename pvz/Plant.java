@@ -7,14 +7,19 @@ package pvz;
  *
  */
 public abstract class Plant extends Actor{
+	
+	protected int cost;
 
-public Plant(int maxHealth, int level, String sprite) {
+public Plant(int maxHealth, int level, String sprite, int cost) {
 	super(maxHealth, level, sprite, true);
+	this.cost = cost;
 }
 
 	/**
 	 * @return the cost of the plant
 	 */
-	public abstract int getCost(); 
+	public int getCost(){
+		return cost;
+	}
 
 }

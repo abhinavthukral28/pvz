@@ -21,7 +21,7 @@ public class SunFlower extends Plant {
 	 * @param level
 	 */
 	public SunFlower(int level) {
-		super((HF * level), level, "F");
+		super((HF * level), level, "F", COST);
 		turn = 3;
 	}
 	
