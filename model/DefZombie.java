@@ -3,7 +3,7 @@ package model;
 /**
  * Class DefZombie is the basic zombie for the game
  * @author Abhinav Thukral
- * @version 1.0;
+ * @version 1.5
  *
  */
 public class DefZombie extends Zombie {
@@ -11,7 +11,7 @@ public class DefZombie extends Zombie {
 	private static final int HF = 50; 
 	// Default Damage Factor multiplies with level to increase damage (Experimental)
 	private static final int DF = 10; 
-		
+
 
 	/**
 	 * Constructor for DefZombie 
@@ -21,31 +21,29 @@ public class DefZombie extends Zombie {
 	public DefZombie(int level) {
 		super((HF * level), level, "Z");
 	}
-	
+
 	/** 
 	 * act() method for DefZombie makes the zombie move or attack
 	 * @returns 2 if the zombie attacks or returns 1 if zombie moves.
 	 *  
 	 */
 	public int act(){
-		if (tile.getLeft() != null) {
-			if (tile.getLeft().isOccupied()) {
-				Actor actor = tile.getLeft().getOccupant();
-				if (actor instanceof Zombie) {
-					return 0;
-				}
-				attack(actor);
-				return 2;
+		int move = super.move();
+		if(move == 0){
+			Actor actor = tile.getLeft().getOccupant();
+			if (actor instanceof Zombie) {
+				return 0;
 			}
-			else{
-				super.move();
-				return 1;
-			}
+			attack(actor);
+			return 2;	
+			
 		}
-		return 0;
-		
+		else{
+			return move;
+		}
 	}
-	
+
+
 	/**
 	 * Attacks the Actor object passed causing damage
 	 * @param actor
@@ -59,6 +57,6 @@ public class DefZombie extends Zombie {
 	protected int move(){
 		return super.move();
 	}
-	
+
 
 }

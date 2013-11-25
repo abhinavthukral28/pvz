@@ -52,7 +52,7 @@ public class ActorDefZombieTest {
 		leftTile.setOccupant(null);
 		assertTrue(1 == actor.act());
 		tile.setLeft(null);
-		assertTrue(0 == actor.act());
+		assertTrue(-1 == actor.act());
 		
 	}
 /**

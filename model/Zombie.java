@@ -5,6 +5,11 @@ public abstract class Zombie extends Actor {
 	public Zombie(int maxHealth, int level, String sprite) {
 		super(maxHealth, level, sprite, false);
 	}
+	
+	/**
+	 * Attacks the Actor object passed causing damage
+	 * @param actor
+	 */
 	protected abstract void attack(Actor actor);
 	
 	/**
