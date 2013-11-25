@@ -4,7 +4,7 @@ package model;
  * Abstract Class Actor implements many common functions for plants and Zombies.
  * It acts as a super class to all plants and zombies
  * @author Abhinav Thukral
- * @version 1.0
+ * @version 2.0
  * 
  */
 public abstract class Actor {
@@ -41,8 +41,8 @@ public abstract class Actor {
 		this.friendly = friendly;
 	}
 	/**
-	 * 
-	 * just a place holder method for sub classes.
+	 * This method defines the activity that any given plant can do during the game
+	 * @return
 	 */
 	 abstract int act();
 	 

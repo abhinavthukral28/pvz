@@ -38,11 +38,7 @@ public class SunFlower extends Plant {
 		return 0;
 	}
 	
-	/**
-	 * @return the cost of the plant
-	 */
-	public int getCost(){
-		return COST;
-	}
+	
+	
 	
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package model;
 
 
@@ -16,18 +13,10 @@ public class Walnut extends Plant {
 
 	public Walnut(int maxHealth, int level, String sprite) {
 		super(HF * level, level, "o", COST);
-		// TODO Auto-generated constructor stub
+		this.cracked = false;
 	}
 
-	/* (non-Javadoc)
-	 * @see pvz.Plant#getCost()
-	 */
-	@Override
-	public int getCost() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see pvz.Actor#act()
 	 */
@@ -37,8 +26,6 @@ public class Walnut extends Plant {
 		
 	}
 
-
-
 	/* (non-Javadoc)
 	 * @see pvz.Actor#takeDamage(int)
 	 */
@@ -47,11 +34,14 @@ public class Walnut extends Plant {
 
 		super.takeDamage(damage);
 		if (super.currHealth < (HF * 0.4)){
-			this.cracked = false;
+			this.cracked = true;
 		}
 		return super.currHealth;
 	}
-
+/**
+ * isCracked tells if the walnut is near 'death' such that the GUI can be updated
+ * @return
+ */
 	public boolean isCracked() {
 		return cracked;
 	}

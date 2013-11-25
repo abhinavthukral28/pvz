@@ -49,12 +49,7 @@ public class Shooter extends Plant {
 		return 0;
 		
 	}
-	/**
-	 * @return The cost of the plant
-	 */
-	public int getCost(){
-		return COST;
-	}
+	
 	
 	
 
