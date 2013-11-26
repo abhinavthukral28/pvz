@@ -19,8 +19,9 @@ public class Walnut extends Plant {
 	}
 
 	
-	/* (non-Javadoc)
-	 * @see pvz.Actor#act()
+	/* 
+	 * Act method for this class
+	 * @returns 0 for no movement, 1 for movement and 2 for successful attack
 	 */
 	@Override
 	public int act() {

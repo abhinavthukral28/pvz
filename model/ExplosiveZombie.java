@@ -32,8 +32,9 @@ public class ExplosiveZombie extends Zombie {
 		actor.takeDamage(DF * super.level);
 	}
 
-	/* (non-Javadoc)
-	 * @see model.Actor#act()
+	/** 
+	 * Act method for this class
+	 * @returns 0 for no movement, 1 for movement and 2 for successful attack
 	 */
 	@Override
 	public int act() {
@@ -51,6 +52,9 @@ public class ExplosiveZombie extends Zombie {
 		}
 	}
 	
+	/**
+	 * overriding the Actor's take damage to cause an explosion when it dies.
+	 */
 	public int takeDamage(int damage){
 		Tile tile = super.tile;
 		super.takeDamage(damage);
@@ -60,6 +64,10 @@ public class ExplosiveZombie extends Zombie {
 		return super.currHealth;
 	}
 	
+	/**
+	 * causes Actor to explode
+	 * @param tempTile
+	 */
 	private void explode(Tile tempTile){
 		while(tempTile != null){
 			tempTile = tempTile.getLeft();
