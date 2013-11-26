@@ -17,7 +17,7 @@ public class SnowShooter extends Plant {
 		// The solar cost of the plant
 		private static final int COST = 4;
 		// Default Sprite for the Plant
-		private static final String DEFSPRITE = "";
+		private static final String DEFSPRITE = "images/peashooterFreeze.jpg";
 		
 	/**
 	 * @param level

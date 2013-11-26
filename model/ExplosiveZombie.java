@@ -14,9 +14,9 @@ public class ExplosiveZombie extends Zombie {
 	// Default Damage Factor multiplies with level to increase damage 
 	private static final int DF = 20;
 	// Default Sprite for the Zombie
-	private static final String DEFSPRITE = "";
+	private static final String DEFSPRITE = "images/HealthyExplosiveZombie.jpg";
 	// Cracked Sprite for the Zombie
-	private static final String CRACKEDSPRITE = "";
+	private static final String CRACKEDSPRITE = "images/damagedExplosiveZombie.png";
 	/**
 	 * @param level
 	 */

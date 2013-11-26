@@ -15,9 +15,9 @@ public class PoleZombie extends Zombie {
 	// boolean frozen to see if the zombie has been frozen
 	private boolean isFrozen;
 	// Default Sprite for the Zombie
-	private static final String DEFSPRITE = "";
+	private static final String DEFSPRITE = "images/PoleZombie.jpg";
 	// Cracked Sprite for the Zombie
-	private static final String CRACKEDSPRITE = "";
+	private static final String CRACKEDSPRITE = "images/damagedPoleZombie.jpg";
 
 	/**
 	 * @param level

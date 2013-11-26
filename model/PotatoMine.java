@@ -35,6 +35,7 @@ public class PotatoMine extends Plant {
 		if(tile != null && tile.isOccupied() && this.turn > 2){
 			if(!(tile.getOccupant().isFriendly())){
 				tile.getOccupant().takeDamage(DF);
+				this.takeDamage(1000);
 				return 2;
 			}
 		}
