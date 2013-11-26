@@ -1,6 +1,11 @@
 package model;
 
-
+/**
+ * The Zombie class, an abstract super class for zombies
+ * @author Abhinav Thukral
+ * @version 1.0
+ *
+ */
 
 public abstract class Zombie extends Actor {
 	protected String crackedSprite;
@@ -36,7 +41,9 @@ public abstract class Zombie extends Actor {
 		}
 		return -1;
 	}
-	
+	/**
+	 * @returns a cracked sprite if the health has fallen below 40% of max health
+	 */
 	 public String getSprite(){
 		 if(super.isCracked()){
 			 return crackedSprite;
