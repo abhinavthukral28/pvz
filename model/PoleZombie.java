@@ -44,12 +44,17 @@ public class PoleZombie extends Zombie {
 	public int act() {
 		int move = move();
 		if(move == 0){
-			Actor actor = tile.getLeft().getOccupant();
-			if (actor instanceof Zombie) {
-				return 0;
+			if(tile.getLeft() != null){
+				if(tile.getLeft().isOccupied()){
+					Actor actor = tile.getLeft().getOccupant();
+					if (actor instanceof Zombie) {
+						return 0;
+					}
+					attack(actor);
+					return 2;
+				}
 			}
-			attack(actor);
-			return 2;	
+			return 0;
 		}
 		else{
 			return move;
