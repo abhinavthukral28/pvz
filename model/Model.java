@@ -27,7 +27,6 @@ public class Model extends Observable {
 	public void update(){	
 		Random generator = new Random();
 		
-		currPlayer.solarRate = 5;
 		for(Actor a: currLevel.actorList){	
 			if(a.isAlive()){
 				if(a.act() == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
@@ -35,8 +34,6 @@ public class Model extends Observable {
 				}
 			}
 		}
-
-		currPlayer.solarPower += currPlayer.solarRate;
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
@@ -99,7 +96,7 @@ public class Model extends Observable {
 	 * @return The newly purchased plant, or null if it is unaffordable
 	 */
 	private Plant purchasePlant(String type){
-		Plant plant = currPlayer.seeds.getPlant(type, currPlayer.solarPower);
+		Plant plant = currPlayer.getPlant(type);
 		if(plant != null){
 			currPlayer.solarPower -= plant.getCost();
 			return plant;
@@ -226,7 +223,7 @@ public class Model extends Observable {
 	 */
 	public String getChoice()
 	{
-		return currPlayer.choice;
+		return currPlayer.getChoice();
 	}
 	
 	/**
@@ -236,7 +233,7 @@ public class Model extends Observable {
 	public void setChoice(String choosen)
 	{
 		this.setChanged();
-		currPlayer.choice=choosen;
+		currPlayer.setChoice(choosen);
 		notifyObservers();
 	}
 }

@@ -2,6 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Contains the data associated with the current level.
+ * The Actors, the oncoming zombies, and the grid.
+ * @author StuartMacdonald
+ *
+ */
+
 public class LevelData {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
