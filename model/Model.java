@@ -15,9 +15,6 @@ public class Model extends Observable {
 	private int solarPower;	
 	private int solarRate;
 	private int level;
-	//private ArrayList<View> observerViews;
-	
-
 	
 	/**
 	 * 
@@ -43,10 +40,14 @@ public class Model extends Observable {
 		}
 		solarPower = 10;
 		solarRate = 5;
-		if(level == 1){												//load the zombies, etc... for level 1
-			for(int x = 0; x < 5; x++){
-				waitingZombiesList.add(new DefZombie(1)); 			//add some basic zombies
-			}
+		for(int x = 0; x < (5 + level); x++){
+			waitingZombiesList.add(new DefZombie(level)); 			//add some basic zombies
+		}
+		for(int x = 0; x < (level); x++){
+			waitingZombiesList.add(new PoleZombie(level)); 			//add some basic zombies
+		}
+		for(int x = 0; x < (level+2); x++){
+			waitingZombiesList.add(new ExplosiveZombie(level)); 			//add some basic zombies
 		}
 		this.setChanged();
 	}
@@ -72,14 +73,9 @@ public class Model extends Observable {
 			addZombie();
 		}
 		this.setChanged();
-		//printGrid();
-		//System.out.println("You have " + solarPower + " sun points to spend.");
-		//notifyViews();
 		notifyObservers();
 	}
-	
-	//the current components of the level are accessible
-	//their public accessible attributes should be related to rendering
+
 	
 	/**
 	 * Moves a zombie from the waiting area onto the map. If there is no place to put a zombie, the zombie is returned.
@@ -101,7 +97,6 @@ public class Model extends Observable {
 						newZombie.setTile(destination);
 						destination.setOccupant(newZombie);
 						actorList.add(newZombie);
-						//System.out.println("A zombie appeared at "+ MAX_COLS + " " + y);
 						return true;
 					}
 				}
@@ -257,21 +252,6 @@ public class Model extends Observable {
 		this.waitingZombiesList = waitingZombiesList;
 	}
 	
-	/*
-	public boolean addView(View newView){
-		return observerViews.add(newView);
-	}
-	
-	public boolean removeView(View toRemove){
-		return observerViews.remove(toRemove);
-	}
-	
-	public void notifyViews(){
-		for(View v: observerViews){
-			v.update(this, null);
-		}
-	}
-	*/
 	/**
 	 * Returns the choice
 	 * @return String - the string representation of the choice

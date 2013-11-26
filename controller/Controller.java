@@ -88,6 +88,7 @@ public class Controller implements ActionListener{
 		}
         if(pvz.state() == 1){
             System.out.println("You won. You killed all the zombies.");
+            //TODO advance level here
             System.exit(0);
         }
         else if(pvz.state() == -1){
