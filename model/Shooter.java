@@ -6,19 +6,21 @@ package model;
  * @version 1.0
  *
  */
-public class Shooter extends Actor {
+public class Shooter extends Plant {
 	// Default Health Factor multiplies with level to increase max health (Experimental)
 	private static final int HF = 40;
 	// Default Damage Factor multiplies with level to increase damage (Experimental)
 	private static final int DF = 10; 
 	// The solar cost of the plant
 	private static final int COST = 2;
+	// Default Sprite for the Plant
+	private static final String DEFSPRITE = "images/peashooter.jpg";
 	
 	/**
 	 * @param level
 	 */
 	public Shooter(int level) {
-		super((HF * level), level, "S", true);
+		super((HF * level), level, "S", COST, DEFSPRITE);
 	}
 	
 	/**
@@ -39,7 +41,7 @@ public class Shooter extends Actor {
 			tempTile = tempTile.getRight();
 			if(tempTile != null && tempTile.isOccupied()){
 				Actor actor = tempTile.getOccupant();
-				if (actor instanceof DefZombie) {
+				if (actor instanceof Zombie) {
 					actor.takeDamage(DF * super.level);
 					return 2;
 				}
@@ -49,12 +51,7 @@ public class Shooter extends Actor {
 		return 0;
 		
 	}
-	/**
-	 * @return The cost of the plant
-	 */
-	public int getCost(){
-		return COST;
-	}
+	
 	
 	
 

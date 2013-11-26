@@ -4,7 +4,7 @@ package model;
  * Abstract Class Actor implements many common functions for plants and Zombies.
  * It acts as a super class to all plants and zombies
  * @author Abhinav Thukral
- * @version 1.0
+ * @version 2.0
  * 
  */
 public abstract class Actor {
@@ -18,33 +18,39 @@ public abstract class Actor {
 	// Maximum health of the Actor
 	protected int maxHealth;
 	// The string/graphical representation of the Actor
-	protected String sprite;
+	protected String string;
 	// The level of the actor based on the level of the game
 	protected int level;		
 	// True if the Actor is allied with the player
 	protected boolean friendly;
+	// True if current health is less than 40% of max health
+	protected boolean cracked;
+	// The graphical representation of the Actor
+	protected String sprite;
 	
 	/**
 	 * Constructor for class Actor, usually only used by sub classes
 	 * @param maxHealth
 	 * @param level
-	 * @param sprite
+	 * @param string
 	 */
 	public Actor(int maxHealth,
-			int level, String sprite, boolean friendly) {
+			int level, String string, boolean friendly, String sprite){
 		super();
 		this.status = true;
 		this.currHealth = maxHealth;
 		this.maxHealth = maxHealth;
-		this.sprite = sprite;
+		this.string = string;
 		this.level = level;
 		this.friendly = friendly;
+		this.cracked = false;
+		this.sprite = sprite;
 	}
 	/**
-	 * 
-	 * just a place holder method for sub classes.
+	 * This method defines the activity that any given plant can do during the game
+	 * @return
 	 */
-	 abstract int act();
+	 abstract public int act();
 	 
 	
 	
@@ -67,6 +73,9 @@ public abstract class Actor {
 	 */
 	public int takeDamage(int damage) {
 		currHealth = currHealth - damage;
+		if (currHealth < (maxHealth * 0.4) && !this.cracked){
+			this.cracked = true;
+		}
 		if (currHealth <= 0) {
 			die();
 		}
@@ -108,7 +117,19 @@ public abstract class Actor {
 	 * @return Sprite representation of the actor
 	 */
 	public String toString(){
+		return string;
+	}
+	/**
+	 * @return the sprite
+	 */
+	public String getSprite() {
 		return sprite;
+	}
+	/**
+	 * @param sprite the sprite to set
+	 */
+	public void setSprite(String sprite) {
+		this.sprite = sprite;
 	}
 	/**
 	 * @return Friendly allegience of actor. True for plants, false for zombies
@@ -116,12 +137,11 @@ public abstract class Actor {
 	public boolean isFriendly(){
 		return friendly;
 	}
-	
 	/**
-	 * Placeholder method for actors which have a cost in terms of solar
+	 * @return True if current health is less than 40% of max health, false otherwise
 	 */
-	 abstract int getCost();
-	
-	
+	public boolean isCracked() {
+		return cracked;
+	}
 	
 }

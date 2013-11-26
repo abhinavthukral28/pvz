@@ -7,11 +7,13 @@ package model;
  * @version 1.0
  *
  */
-public class SunFlower extends Actor {
+public class SunFlower extends Plant {
 	// Default Health Factor multiplies with level to increase max health (Experimental)
 	private static final int HF = 25;
 	// The solar cost of the plant
 	private static final int COST = 1;
+	// Default Sprite for the Plant
+	private static final String DEFSPRITE = "images/sunflower.jpg";
 	// Number of turns that have passed since the creation of the SunFlower
 	private int turn;
 	
@@ -21,7 +23,7 @@ public class SunFlower extends Actor {
 	 * @param level
 	 */
 	public SunFlower(int level) {
-		super((HF * level), level, "F", true);
+		super((HF * level), level, "F", COST, DEFSPRITE);
 		turn = 3;
 	}
 	
@@ -38,11 +40,7 @@ public class SunFlower extends Actor {
 		return 0;
 	}
 	
-	/**
-	 * @return the cost of the plant
-	 */
-	public int getCost(){
-		return COST;
-	}
+	
+	
 	
 }

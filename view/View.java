@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import controller.Controller;
  * 
  * @author AlhetiMamoon
  * @author Fady Ibrahim
+ * @author Stuart Macdonald
  * 
  * Class View is responsible receiving updates of the interface from the Model and projecting it to the user 
  */
@@ -43,12 +45,17 @@ public class View extends JFrame implements Observer {
 	private static JPanel sunFlowerPanel;
 	private static JPanel zombiePanel;
 	private static JPanel statusPanel;
-	private static final String zombie="images/19460096_s.jpg";
+	private static final String zombie="images/damagedExplosiveZombie.png";
 	private static final String sunflowerpic="images/sunflower.jpg";
-	private static final String peaShooter="images/peashooter.png";
+	private static final String peaShooter="images/peashooter.jpg";
 	private static final String grass="images/grass3b.gif";
+	private static final String walnut = "images/walnut.jpg";
+	private static final String potato = "images/potatoMine.jpg";
+	private static final String snowShooter = "images/peashooterFreeze.jpg";							//TODO
 	private static final int MAX_ROWS = 6;
 	private static final int MAX_COLS = 12;
+	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_HEIGHT = 600;
 	private JButton zombies[];
 	private JButton plants[];
 	private JButton skipTurn;
@@ -108,9 +115,8 @@ public class View extends JFrame implements Observer {
 			plants[i] = new JButton();
 			plants[i].setIcon(new ImageIcon(grass));
 			sunFlowerPanel.add(plants[i]);
-			sunFlowerPanel.add(skipTurn);
 		}
-		
+		sunFlowerPanel.add(skipTurn);
 		statusPanel.setLayout(new FlowLayout());
 		
 		//adding panels to the main pane
@@ -138,7 +144,7 @@ public class View extends JFrame implements Observer {
 		frame = new JFrame("PVZ");
 		frame.setJMenuBar(menuBar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(300,400);
+		frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 		
 		frame.setContentPane(mainPanel);
 		frame.setVisible(true);
@@ -158,50 +164,38 @@ public class View extends JFrame implements Observer {
 		int y=0;
 		Tile tCol;
 		//check to see if the user chose a non-valid or skip button
-		if (((Model)o).getChoice()==null)
-		{
+		if (((Model)o).getChoice()==null){
 			this.setGridButtons(false);
 		}
-		//check to see if the user choose a sunflower or a shooter
-		else if(((Model)o).getChoice().equals("sunflower") || ((Model)o).getChoice().equals("shooter"))
-		{
+		//check to see if the user has chosen a plant
+		else if(((Model)o).getChoice() != null){
 			this.setGridButtons(true);
 		}
 		//go through the game grid to update the position of zombies and the static position of plants
-		for(Tile tRow: tempArrayList)
-		{
+		for(Tile tRow: tempArrayList){
 			tCol=tRow;
 			y=0;
 			do{
-				if(y>MAX_COLS || x> MAX_ROWS)
-				{
+				if(y>MAX_COLS || x> MAX_ROWS){
 					break;
 				}
-				if(tCol.getOccupant() instanceof DefZombie)
-				{
-					b[x][y].setIcon(new ImageIcon(zombie));
-				}
-				else if(tCol.getOccupant() instanceof Shooter)
-				{
-					b[x][y].setIcon(new ImageIcon(peaShooter));
-				}
-				else if(tCol.getOccupant() instanceof SunFlower)
-				{
-					b[x][y].setIcon(new ImageIcon(sunflowerpic));
+				if(tCol.getOccupant() != null){										
+					b[x][y].setIcon(new ImageIcon(tCol.getOccupant().getSprite()));
 				}
 				y++;
 				tCol=tCol.getRight();
 			}while(tCol.getRight() != null);
-			
 			x++;
 		}
 		//update the sun money
 		money.setText("Sun Power = " + ((Model)o).getSolarPower());
 		//initialize the first level view
-		if(((Model)o).getLevel() == 1)
-		{
+		if(((Model)o).getLevel() == 1){
 			plants[0].setIcon(new ImageIcon(sunflowerpic));
 			plants[1].setIcon(new ImageIcon(peaShooter));
+			plants[2].setIcon(new ImageIcon(snowShooter));
+			plants[3].setIcon(new ImageIcon(walnut));
+			plants[4].setIcon(new ImageIcon(potato)); 
 			skipTurn.setEnabled(true);
 		}
 	}
@@ -209,11 +203,10 @@ public class View extends JFrame implements Observer {
 	 * Adds the actionlistener controller c to the GUI components.
 	 * @param c -c is the controller object that is assigned to listen to this object instances GUI components.
 	 */
-	public void addAction(Controller c)
-	{
+	public void addAction(Controller c){
 		//adds actionlistener to the menu items
-		startGame.addActionListener(c);;
-	    closeGame.addActionListener(c);;
+		startGame.addActionListener(c);
+	    closeGame.addActionListener(c);
 	    //adds actionlistener to the skipTurn button
 	    skipTurn.addActionListener(c);
 	    //adds actionlistener to the game grid
@@ -224,12 +217,10 @@ public class View extends JFrame implements Observer {
 		}
 		//adds actionlistener to zombie list
 		for (int i=0; i<5; i++){
-			
 			zombies[i].addActionListener(c);
 		}
 		//adds actionlistener to plants list
 		for (int k=0; k<5; k++){
-			
 			plants[k].addActionListener(c);
 		}
 	}

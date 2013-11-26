@@ -25,24 +25,33 @@ public class SeedPacket {
 	 * @param suns
 	 * @return requested Plant if it exists else returns null
 	 */
-	public Actor getPlant(String string, int suns) {
-		Actor actor = null;
+	public Plant getPlant(String string, int suns) {				//should use an enum instead of a string...
+		Plant plant = null;
 		if(string.equals("sunflower")){
-			actor = new SunFlower(level);
+			plant = new SunFlower(level);
 		}
 		
 		else if (string.equals("shooter")){
-			actor = new Shooter(level);
+			plant = new Shooter(level);
+		}
+		else if(string.equals("snowshooter")){
+			plant = new SnowShooter(level);
+		}
+		else if(string.equals("potato")){
+			plant = new PotatoMine(level);
+		}
+		else if(string.equals("walnut")){
+			plant = new Walnut(level);
 		}
 		else{
 			return null;
 		}
 		// Check if there are enough suns for the plant
-		if(actor.getCost() > suns){
+		if(plant.getCost() > suns){
 			return null;
 		}
 		else{
-			return actor;
+			return plant;
 		}
 	}
 

@@ -9,7 +9,6 @@ import model.Tile;
 import org.junit.Before;
 import org.junit.Test;
 
-import controller.*;
 
 /**
  * Tests DefZombie class and Actor class
@@ -52,7 +51,7 @@ public class ActorDefZombieTest {
 		leftTile.setOccupant(null);
 		assertTrue(1 == actor.act());
 		tile.setLeft(null);
-		assertTrue(0 == actor.act());
+		assertTrue(-1 == actor.act());
 		
 	}
 /**
