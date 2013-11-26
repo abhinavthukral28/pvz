@@ -11,7 +11,7 @@ public class Walnut extends Plant {
 	private static final int COST = 20;
 	// Default Sprite for the Plant
 	private static final String DEFSPRITE = "images/walnut.jpg";
-	private static final String CRACKEDSPRITE = "images/damedwalnut2";
+	private static final String CRACKEDSPRITE = "images/damagedwalnut2.jpg";
 	
 
 	public Walnut(int level) {

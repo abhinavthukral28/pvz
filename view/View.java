@@ -45,13 +45,13 @@ public class View extends JFrame implements Observer {
 	private static JPanel sunFlowerPanel;
 	private static JPanel zombiePanel;
 	private static JPanel statusPanel;
-	private static final String zombie="images/healthyZombie.png";
+	private static final String zombie="images/damagedExplosiveZombie.png";
 	private static final String sunflowerpic="images/sunflower.jpg";
 	private static final String peaShooter="images/peashooter.jpg";
 	private static final String grass="images/grass3b.gif";
 	private static final String walnut = "images/walnut.jpg";
 	private static final String potato = "images/potatoMine.jpg";
-	private static final String snowShooter = "";							//TODO
+	private static final String snowShooter = "images/peashooterFreeze.jpg";							//TODO
 	private static final int MAX_ROWS = 6;
 	private static final int MAX_COLS = 12;
 	private static final int WINDOW_WIDTH = 800;
