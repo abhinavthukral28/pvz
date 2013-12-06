@@ -31,38 +31,26 @@ public class SnowShooter extends Plant {
 	 * @returns 0 for no movement, 1 for movement and 2 for successful attack
 	 */
 	@Override
-	public int act() {
-		return attack();
+	public int act(LevelData grid) {
+		return attack(grid);
 	}
 	
 	/**
 	 * attack() iterates through the grid to check if there is any zombie in the vicinity
 	 * @return 2 if zombie successfully attacked else returns 0
 	 */
-	private int attack() {
+	private int attack(LevelData grid) {
 		// iterates through the grid to till it reaches the end of the grid
-		Tile tempTile = super.tile;
-		while(tempTile != null){
-			tempTile = tempTile.getRight();
-			if(tempTile != null && tempTile.isOccupied()){
-				Actor actor = tempTile.getOccupant();
-				if (actor instanceof Zombie) {
-					if(actor instanceof PoleZombie){
-						((PoleZombie) actor).setFrozen(true);
-						actor.takeDamage(DF * super.level);
-						return 2;
-					}
-					else{
-						actor.takeDamage(2 * DF * super.level);
-						return 2;
-					}
-					
-				}
+		int x = 0;
+		Actor zombie;
+		while(grid.actorAt(x, this.y)){
+			if(grid.zombieAt(x, this.y)) {
+				zombie = grid.getActorAt(x, this.y);
+				//TODO deal damage, freeze pole-zombies. would be cool if snowshooter could freeze other types of zombies as well
+				return 2;
 			}
-				
+			x++;
 		}
-		return 0;
-		
+		return 0;	
 	}
-
 }

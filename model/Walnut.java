@@ -24,7 +24,7 @@ public class Walnut extends Plant {
 	 * @returns 0 for no movement, 1 for movement and 2 for successful attack
 	 */
 	@Override
-	public int act() {
+	public int act(LevelData grid) {
 		return 0;
 		
 	}

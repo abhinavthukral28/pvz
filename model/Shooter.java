@@ -26,33 +26,24 @@ public class Shooter extends Plant {
 	/**
 	 * @return 2 if zombie successfully attacked else returns 0
 	 */
-	public int act() {
-		return attack();
+	public int act(LevelData grid) {
+		return attack(grid);
 	}
 	
 	/**
 	 * attack() iterates through the grid to check if there is any zombie in the vicinity
 	 * @return 2 if zombie successfully attacked else returns 0
 	 */
-	private int attack() {
+	private int attack(LevelData grid) {
 		// iterates through the grid to till it reaches the end of the grid
-		Tile tempTile = super.tile;
-		while(tempTile != null){
-			tempTile = tempTile.getRight();
-			if(tempTile != null && tempTile.isOccupied()){
-				Actor actor = tempTile.getOccupant();
-				if (actor instanceof Zombie) {
-					actor.takeDamage(DF * super.level);
-					return 2;
-				}
+		int x = 0;
+		while(grid.actorAt(x, this.y)){
+			if(grid.zombieAt(x, this.y)) {
+				grid.getActorAt(x, this.y).takeDamage(DF * super.level);
+				return 2;
 			}
-				
+			x++;
 		}
 		return 0;
-		
 	}
-	
-	
-	
-
 }

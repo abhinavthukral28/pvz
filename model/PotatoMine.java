@@ -26,19 +26,16 @@ public class PotatoMine extends Plant {
 	 * @returns 0 for no movement, 1 for movement and 2 for successful attack
 	 */
 	@Override
-	public int act() {
+	public int act(LevelData grid) {
 		this.turn++;
-		return attack();
+		return attack(grid);
 	}
 	
-	private int attack(){
-		Tile tile = super.tile.getRight();
-		if(tile != null && tile.isOccupied() && this.turn > 2){
-			if(!(tile.getOccupant().isFriendly())){
-				tile.getOccupant().takeDamage(DF);
-				this.takeDamage(1000);
-				return 2;
-			}
+	private int attack(LevelData grid){
+		if(grid.zombieAt(this.x + 1, this.y) && this.turn > 2){
+			grid.getActorAt(this.x + 1, this.y).takeDamage(DF);
+			this.takeDamage(1000);
+			return 2;
 		}
 		return 0;
 	}

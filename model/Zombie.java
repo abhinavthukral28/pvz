@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * The Zombie class, an abstract super class for zombies
  * @author Abhinav Thukral
@@ -25,21 +27,19 @@ public abstract class Zombie extends Actor {
 	/**
 	 * move() method moves the zombie to the left in the grid
 	 */
-	 protected int move() {
+	 protected int move(LevelData grid) {
 		//the next tile is the tile to the right, so zombies walk backwards, to the left
-		Tile nextTile = tile.getLeft();				
-		if(nextTile != null){
-			if(nextTile.isOccupied()){
+		//TODO bound checking	
+			if(grid.plantAt(this.x - 1, this.y)){
 				return 0;
 			}
 			else {
-				super.tile.setOccupant(null);
-				this.setTile(nextTile);
-				super.tile.setOccupant(this);
+				grid.getActorsAt(this.x, this.y).remove(this);
+				this.x = this.x -1;
+				grid.getActorsAt(this.x, this.y).add(this);
 				return 1;
 			}
-		}
-		return -1;
+		//return -1;
 	}
 	/**
 	 * @returns a cracked sprite if the health has fallen below 40% of max health

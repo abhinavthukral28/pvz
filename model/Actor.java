@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Abstract Class Actor implements many common functions for plants and Zombies.
  * It acts as a super class to all plants and zombies
@@ -9,8 +11,6 @@ package model;
  */
 public abstract class Actor {
 
-	// The tile that the actor occupies
-	protected Tile tile;
 	// Status of the Actor if it is dead or alive
 	protected boolean status;
 	// Current Health of the Actor
@@ -27,6 +27,9 @@ public abstract class Actor {
 	protected boolean cracked;
 	// The graphical representation of the Actor
 	protected String sprite;
+	
+	protected int x;
+	protected int y;
 	
 	/**
 	 * Constructor for class Actor, usually only used by sub classes
@@ -50,7 +53,7 @@ public abstract class Actor {
 	 * This method defines the activity that any given plant can do during the game
 	 * @return
 	 */
-	 abstract public int act();
+	 abstract public int act(LevelData grid);
 	 
 	
 	
@@ -88,24 +91,10 @@ public abstract class Actor {
 	private void die() {
 		status = false;
 		currHealth = 0;
-		this.tile.setOccupant(null);
-		setTile(null);
+		//TODO remove from board
 	}
 	
-	/**
-	 * Method for changing the tile that contains the Actor
-	 * @param tile
-	 */
-	public void setTile(Tile tile) {
-		this.tile = tile;
-	}
-	/**
-	 * 
-	 * @return tile of the Actor
-	 */
-	public Tile getTile() {
-		return tile;
-	}	
+
 	/**
 	 * @return status that is true if its alive, otherwise false if its dead
 	 */
@@ -144,4 +133,17 @@ public abstract class Actor {
 		return cracked;
 	}
 	
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
+	public boolean setXY(int x, int y){
+		this.x = x;
+		this.y = y;
+		return true;
+	}
 }

@@ -37,10 +37,10 @@ public class ExplosiveZombie extends Zombie {
 	 * @returns 0 for no movement, 1 for movement and 2 for successful attack
 	 */
 	@Override
-	public int act() {
-		int move = super.move();
+	public int act(LevelData grid) {
+		int move = super.move(grid);
 		if(move == 0){
-			Actor actor = tile.getLeft().getOccupant();
+			Actor actor = grid.getActorAt(this.x -1 , y);
 			if (actor instanceof Zombie) {
 				return 0;
 			}
@@ -56,10 +56,9 @@ public class ExplosiveZombie extends Zombie {
 	 * overriding the Actor's take damage to cause an explosion when it dies.
 	 */
 	public int takeDamage(int damage){
-		Tile tile = super.tile;
 		super.takeDamage(damage);
 		if(!isAlive()){
-			explode(tile);
+			explode(x, y);
 		}
 		return super.currHealth;
 	}
@@ -68,17 +67,16 @@ public class ExplosiveZombie extends Zombie {
 	 * causes Actor to explode
 	 * @param tempTile
 	 */
-	private void explode(Tile tempTile){
-		while(tempTile != null){
-			tempTile = tempTile.getLeft();
-			if(tempTile != null && tempTile.isOccupied()){
-				Actor actor = tempTile.getOccupant();
-				if (actor instanceof Plant) {
-					actor.takeDamage(1000);
-					return;
-				}
-			}
-				
-		}
+	private void explode(int x, int y){
+//		while(tempTile != null){
+//			tempTile = tempTile.getLeft();
+//			if(tempTile != null && tempTile.isOccupied()){
+//				Actor actor = tempTile.getOccupant();
+//				if (actor instanceof Plant) {
+//					actor.takeDamage(1000);
+//					return;
+//				}
+//			}
+//		}
 	}
 }

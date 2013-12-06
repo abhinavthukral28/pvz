@@ -27,9 +27,9 @@ public class Model extends Observable {
 	public void update(){	
 		Random generator = new Random();
 		
-		for(Actor a: currLevel.actorList){	
+		for(Actor a: currLevel.getActorList()){	
 			if(a.isAlive()){
-				if(a.act() == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
+				if(a.act(currLevel) == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
 					currPlayer.solarPower+= 5;
 				}
 			}
@@ -47,48 +47,27 @@ public class Model extends Observable {
 	 * @return True if a zombie was added, false otherwise
 	 */
 	private boolean addZombie(){				
-		if(currLevel.waitingZombiesList.size() > 0){
-			int endOfList = currLevel.waitingZombiesList.size() - 1;
-			Actor newZombie = currLevel.waitingZombiesList.get(endOfList);
-			currLevel.waitingZombiesList.remove(newZombie);
+		if(currLevel.getWaitingZombiesList().size() > 0){
+			int endOfList = currLevel.getWaitingZombiesList().size() - 1;
+			Actor newZombie = currLevel.getWaitingZombiesList().get(endOfList);
+			currLevel.getWaitingZombiesList().remove(newZombie);
 			Random generator = new Random();
 			int y;
 			int tries = 0;
 			y = generator.nextInt(MAX_ROWS);
-			Tile destination = getTile(MAX_COLS, y);
-			while(tries < 5){			//if the spot is occupied, choose another
-				if(destination != null){
-					if(destination.getOccupant() == null){
-						newZombie.setTile(destination);
-						destination.setOccupant(newZombie);
-						currLevel.actorList.add(newZombie);
-						return true;
-					}
+			ArrayList<Actor> destination = LevelData.getGrid()[y][MAX_COLS];
+			while(tries < 5 && destination != null){			//if the spot is occupied, choose another
+				if(!currLevel.actorAt(MAX_COLS, y)){
+					return (currLevel.addActor(newZombie, MAX_COLS, y));
 				}
 				y = (y + 1) % MAX_COLS;
 				tries++;
 			}
-			currLevel.waitingZombiesList.add(newZombie);		//zombie goes back in line
+			currLevel.getWaitingZombiesList().add(newZombie);		//zombie goes back in line
 		}
 		return false;						 	//all rows are blocked
 	}
 
-	/**
-	 * Searches for and returns a requested tile.
-	 * @param x coordinate of a Tile
-	 * @param y coordinate of a Tile
-	 * @return the Tile at the given location
-	 */
-	public Tile getTile(int x, int y){
-		if(x >= 0 && x <= MAX_COLS && y >= 0 && y < MAX_ROWS){
-			Tile baseTile = currLevel.gameGrid.get(y);
-			for(int n = 0; n < x; n++){
-				baseTile = baseTile.getRight();
-			}
-			return baseTile;
-		}
-		return null;		//kind of rude
-	}
 	
 	/**
 	 * Attempts to purchase a plant. Decreases solar reserves by the cost of the plant if successful.
@@ -113,18 +92,14 @@ public class Model extends Observable {
 	 * @param type the type of plant to be placed
 	 * @return True if the plant was placed, false otherwise;
 	 */
-	public boolean placePlant(Tile destination, String type){
-		if(destination != null){
-			if(destination.getOccupant() == null){
+	public boolean placePlant(int x, int y, String type){
+		//TODO check bounds of x y
+			if(!currLevel.plantAt(x, y)){
 				Actor newPlant = purchasePlant(type);			//this decreases your solarPower. we should split it into createPlant() and payForPlant() methods. 
 				if (newPlant != null) {							//otherwise there will be times where we will want to refund the player if they screw up.
-					currLevel.actorList.add(newPlant);
-					newPlant.setTile(destination);
-					destination.setOccupant(newPlant);
-					return true;
+					return(currLevel.addActor(newPlant, x, y));
 				}
 			}
-		}
 		return false;		
 	}
 	
@@ -135,19 +110,13 @@ public class Model extends Observable {
 	 * @return -1 if the player lost, 1 if they won, 0 otherwise
 	 */
 	public int state(){
-		Tile tempTile = null;
 		for(int y = 0; y <= MAX_ROWS; y++){
-			tempTile = getTile(0,y);
-			if(tempTile != null){
-				if(tempTile.isOccupied()){
-					if(!getTile(0,y).getOccupant().isFriendly()){ 
-						return -1; 								//game loss if there is a zombie in the first column
-					}
-				}
+			if(currLevel.zombieAt(0, y)){ 
+				return -1; 								//game loss if there is a zombie in the first column
 			}
 		}
-		if(currLevel.waitingZombiesList.isEmpty()){
-			for(Actor a: currLevel.actorList){
+		if(currLevel.getWaitingZombiesList().isEmpty()){
+			for(Actor a: currLevel.getActorList()){
 				if(!a.isFriendly() && a.isAlive()){								
 					return 0;
 				}
@@ -174,12 +143,13 @@ public class Model extends Observable {
 	*/
 	public ArrayList<Actor> getZombies(){
 		
-		return this.currLevel.waitingZombiesList;
+		return this.currLevel.getWaitingZombiesList();
 	}
 
 
-	public ArrayList<Tile> getGameGrid() {
-		return currLevel.gameGrid;
+	//TODO reaching through is... bad
+	public ArrayList<Actor>[][] getGameGrid() {
+		return currLevel.getGrid();
 	}
 
 
@@ -193,29 +163,29 @@ public class Model extends Observable {
 	}
 
 
-	public int getLevel() {
-		return currLevel.level;
-	}
-
-
-	public ArrayList<Actor> getActorList() {
-		return currLevel.actorList;
-	}
-
-
-	public void setActorList(ArrayList<Actor> actorList) {
-		this.currLevel.actorList = actorList;
-	}
-
-
-	public ArrayList<Actor> getWaitingZombiesList() {
-		return currLevel.waitingZombiesList;
-	}
-
-
-	public void setWaitingZombiesList(ArrayList<Actor> waitingZombiesList) {
-		this.currLevel.waitingZombiesList = waitingZombiesList;
-	}
+//	public int getLevel() {
+//		return currLevel.level;
+//	}
+//
+//
+//	public ArrayList<Actor> getActorList() {
+//		return currLevel.actorList;
+//	}
+//
+//
+//	public void setActorList(ArrayList<Actor> actorList) {
+//		this.currLevel.actorList = actorList;
+//	}
+//
+//
+//	public ArrayList<Actor> getWaitingZombiesList() {
+//		return currLevel.waitingZombiesList;
+//	}
+//
+//
+//	public void setWaitingZombiesList(ArrayList<Actor> waitingZombiesList) {
+//		this.currLevel.waitingZombiesList = waitingZombiesList;
+//	}
 	
 	/**
 	 * Returns the choice

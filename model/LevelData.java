@@ -13,38 +13,96 @@ public class LevelData {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	
-	public ArrayList<Actor> actorList;
-	public ArrayList<Actor> waitingZombiesList;
-	public ArrayList<Tile> gameGrid;
-	public int level;
+	private ArrayList<Actor> actorList;
+	private ArrayList<Actor> waitingZombiesList;
+	private static ArrayList<Actor> grid[][];
+	private int level;
 
 	public LevelData(int level) {
 		this.level = level;
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
-		gameGrid = new ArrayList<Tile>();
 		
-		for(int y = 0; y < MAX_ROWS; y++){				//for each row
-			Tile newTile = new Tile();					
-			gameGrid.add(newTile);						//add a new tile at the start of the row
-			for(int x = 0; x < MAX_COLS; x++){			//for each column in the row
-				Tile tempTile = gameGrid.get(y);
-				while(tempTile.getRight() != null){		//navigate to the end of the row
-					tempTile = tempTile.getRight();
-				}
-				tempTile.setRight(new Tile());			//link on a new tile
-				tempTile.getRight().setLeft(tempTile);	//and link it back
+		for(int y = 0; y < MAX_ROWS; y++){
+			for(int x = 0; x < MAX_COLS; x++){
+				grid[x][y] = new ArrayList<Actor>();
 			}
 		}
 		
 		for(int x = 0; x < (5 + level); x++){
-			waitingZombiesList.add(new DefZombie(level)); 			//add some basic zombies
+			getWaitingZombiesList().add(new DefZombie(level)); 			//add some basic zombies
 		}
 		for(int x = 0; x < (level); x++){
-			waitingZombiesList.add(new PoleZombie(level)); 			//add some pole-vault zombies
+			getWaitingZombiesList().add(new PoleZombie(level)); 			//add some pole-vault zombies
 		}
 		for(int x = 0; x < (level+2); x++){
-			waitingZombiesList.add(new ExplosiveZombie(level)); 	//add some exploding zombies
+			getWaitingZombiesList().add(new ExplosiveZombie(level)); 	//add some exploding zombies
 		}
+	}
+
+	public ArrayList<Actor> getActorList() {
+		return actorList;
+	}
+
+	public ArrayList<Actor> getWaitingZombiesList() {
+		return waitingZombiesList;
+	}
+
+	public static ArrayList<Actor>[][] getGrid() {
+		return grid;
+	}
+	
+	public boolean actorAt(int x, int y){
+		return !grid[y][x].isEmpty();
+	}
+	
+	public boolean zombieAt(int x, int y){
+		for(Actor a: grid[y][x]){
+			if(!a.isFriendly()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Adds a new Actor to the level at a certain position. Position is stored in the actor, and in the grid.
+	 * Actor is also enrolled in the actorList
+	 * @param newActor
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public boolean addActor(Actor newActor, int x, int y){
+		return(grid[y][x].add(newActor) && newActor.setXY(x, y) && actorList.add(newActor));
+	}
+	
+	/**
+	 * Searches the grid for a plant actor at a position.
+	 * Because this information is also stored in actors, a search of the actorList would also work
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public boolean plantAt(int x, int y){
+		for(Actor a: grid[y][x]){
+			if(a.isFriendly()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public ArrayList<Actor> getActorsAt(int x, int y){
+		return grid[y][x];
+	}
+	
+	public Actor getActorAt(int x, int y){
+		return grid[y][x].get(0);
+	}
+	
+	//TODO call this a lot
+	public boolean inbounds(int x, int y){
+		return(x >= 0 && x < MAX_COLS && y >= 0 && y < MAX_ROWS);
 	}
 }
