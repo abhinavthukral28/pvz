@@ -15,6 +15,7 @@ public class LevelData {
 	
 	private ArrayList<Actor> actorList;
 	private ArrayList<Actor> waitingZombiesList;
+	//grid may be redundant. All the positional information in it is also stored in ActorList.
 	private static ArrayList<Actor> grid[][];
 	private int level;
 
