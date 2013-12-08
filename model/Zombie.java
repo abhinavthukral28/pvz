@@ -29,7 +29,7 @@ public abstract class Zombie extends Actor {
 	 */
 	 protected int move(LevelData grid) {
 		//the next tile is the tile to the right, so zombies walk backwards, to the left
-		//TODO bound checking	
+		 if(grid.inBounds(x-1, y)){
 			if(grid.plantAt(this.x - 1, this.y)){
 				return 0;
 			}
@@ -39,7 +39,10 @@ public abstract class Zombie extends Actor {
 				grid.getActorsAt(this.x, this.y).add(this);
 				return 1;
 			}
-		//return -1;
+		 }
+		 else{
+			 return -1;
+		 }
 	}
 	/**
 	 * @returns a cracked sprite if the health has fallen below 40% of max health

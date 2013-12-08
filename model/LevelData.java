@@ -103,7 +103,7 @@ public class LevelData {
 	}
 	
 	//TODO call this a lot
-	public boolean inbounds(int x, int y){
+	public boolean inBounds(int x, int y){
 		return(x >= 0 && x < MAX_COLS && y >= 0 && y < MAX_ROWS);
 	}
 }

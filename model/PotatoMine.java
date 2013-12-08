@@ -30,13 +30,21 @@ public class PotatoMine extends Plant {
 		this.turn++;
 		return attack(grid);
 	}
-	
+
 	private int attack(LevelData grid){
-		if(grid.zombieAt(this.x + 1, this.y) && this.turn > 2){
-			grid.getActorAt(this.x + 1, this.y).takeDamage(DF);
-			this.takeDamage(1000);
-			return 2;
+		if(grid.inBounds(x+1, y)){
+			if(grid.zombieAt(this.x + 1, this.y) && this.turn > 2){
+				grid.getActorAt(this.x + 1, this.y).takeDamage(DF);
+				this.takeDamage(1000);
+				return 2;
+			}
+			else{
+				return 0;
+			}
 		}
-		return 0;
+
+		else{
+			return 0; 
+		}
 	}
 }

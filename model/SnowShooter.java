@@ -11,14 +11,14 @@ package model;
  */
 public class SnowShooter extends Plant {
 	// Default Health Factor multiplies with level to increase max health (Experimental)
-		private static final int HF = 40;
-		// Default Damage Factor multiplies with level to increase damage (Experimental)
-		private static final int DF = 10; 
-		// The solar cost of the plant
-		private static final int COST = 4;
-		// Default Sprite for the Plant
-		private static final String DEFSPRITE = "images/peashooterFreeze.jpg";
-		
+	private static final int HF = 40;
+	// Default Damage Factor multiplies with level to increase damage (Experimental)
+	private static final int DF = 10; 
+	// The solar cost of the plant
+	private static final int COST = 4;
+	// Default Sprite for the Plant
+	private static final String DEFSPRITE = "images/peashooterFreeze.jpg";
+
 	/**
 	 * @param level
 	 */
@@ -34,22 +34,37 @@ public class SnowShooter extends Plant {
 	public int act(LevelData grid) {
 		return attack(grid);
 	}
-	
+
 	/**
 	 * attack() iterates through the grid to check if there is any zombie in the vicinity
 	 * @return 2 if zombie successfully attacked else returns 0
 	 */
 	private int attack(LevelData grid) {
 		// iterates through the grid to till it reaches the end of the grid
-		int x = 0;
+		int x = this.x;
 		Actor zombie;
 		while(grid.actorAt(x, this.y)){
 			if(grid.zombieAt(x, this.y)) {
 				zombie = grid.getActorAt(x, this.y);
-				//TODO deal damage, freeze pole-zombies. would be cool if snowshooter could freeze other types of zombies as well
-				return 2;
+				if(zombie instanceof PoleZombie){
+					((PoleZombie) zombie).setFrozen(true);
+					zombie.takeDamage(DF * super.level);
+					return 2;
+				}
+				else if(zombie instanceof ExplosiveZombie){
+					((ExplosiveZombie) zombie).setFrozen(true);
+					zombie.takeDamage(DF * super.level);
+					return 2;
+				}
+				else{
+					zombie.takeDamage(2 * DF);
+					return 2;
+				}
 			}
 			x++;
+			if(!grid.inBounds(x, y)){
+				break;
+			}
 		}
 		return 0;	
 	}

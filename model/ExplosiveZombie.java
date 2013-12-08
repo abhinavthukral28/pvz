@@ -17,6 +17,8 @@ public class ExplosiveZombie extends Zombie {
 	private static final String DEFSPRITE = "images/HealthyExplosiveZombie.jpg";
 	// Cracked Sprite for the Zombie
 	private static final String CRACKEDSPRITE = "images/damagedExplosiveZombie.png";
+	// boolean frozen to see if the zombie has been frozen
+	private boolean isFrozen;
 	/**
 	 * @param level
 	 */
@@ -40,18 +42,23 @@ public class ExplosiveZombie extends Zombie {
 	public int act(LevelData grid) {
 		int move = super.move(grid);
 		if(move == 0){
-			Actor actor = grid.getActorAt(this.x -1 , y);
-			if (actor instanceof Zombie) {
-				return 0;
+			if(grid.inBounds(x-1, y)){
+				Actor actor = grid.getActorAt(this.x -1 , y);
+				if (actor instanceof Zombie) {
+					return 0;
+				}
+				attack(actor);
+				return 2;	
 			}
-			attack(actor);
-			return 2;	
+			else{
+				return move;
+			}
 		}
 		else{
-			return move;
+			return -1;
 		}
 	}
-	
+
 	/**
 	 * overriding the Actor's take damage to cause an explosion when it dies.
 	 */
@@ -62,21 +69,43 @@ public class ExplosiveZombie extends Zombie {
 		}
 		return super.currHealth;
 	}
-	
+
 	/**
 	 * causes Actor to explode
 	 * @param tempTile
 	 */
-	private void explode(int x, int y){
-//		while(tempTile != null){
-//			tempTile = tempTile.getLeft();
-//			if(tempTile != null && tempTile.isOccupied()){
-//				Actor actor = tempTile.getOccupant();
-//				if (actor instanceof Plant) {
-//					actor.takeDamage(1000);
-//					return;
-//				}
-//			}
-//		}
+	/* 
+		private void explode(LevelData grid){
+			int x = this.x;
+			while(grid.At(x, this.y)){
+				if(grid.zombieAt(x, this.y)) {
+					grid.getActorAt(x, this.y).takeDamage(DF * super.level);
+					return 2;
+				}
+				x++;
+				if(!grid.inBounds(x, y)){
+					break;
+				}
+			}
+			return 0;
+		}
+				while(tempTile != null){
+					tempTile = tempTile.getLeft();
+					if(tempTile != null && tempTile.isOccupied()){
+						Actor actor = tempTile.getOccupant();
+						if (actor instanceof Plant) {
+							actor.takeDamage(1000);
+							return;
+						}
+					}
+				}
+		}
+ */
+
+	/**
+	 * @param isFrozen the isFrozen to set
+	 */
+	public void setFrozen(boolean isFrozen) {
+		this.isFrozen = isFrozen;
 	}
 }

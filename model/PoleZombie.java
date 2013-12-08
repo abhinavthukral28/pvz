@@ -27,7 +27,7 @@ public class PoleZombie extends Zombie {
 		this.jumped = false;
 		this.isFrozen = false;
 	}
-	
+
 
 	/**
 	 * @param boolean, true to prevent jumping, false otherwise
@@ -44,15 +44,18 @@ public class PoleZombie extends Zombie {
 	public int act(LevelData grid) {
 		int move = move(grid);
 		if(move == 0){
-			Actor leftActor = grid.getActorAt(x - 1, y);
-			if(leftActor != null){
+			if(grid.inBounds(x-1,y)){ 
+				Actor leftActor = grid.getActorAt(x - 1, y);
+				if(leftActor != null){
 					if (leftActor instanceof Zombie) {
 						return 0;
 					}
 					attack(leftActor);
 					return 2;
 				}
-			return 0;
+				return 0;
+			}
+			else return -1;
 		}
 		else{
 			return move;
@@ -82,9 +85,9 @@ public class PoleZombie extends Zombie {
 			else{
 				return 1;
 			}
-			
+
 		}
-		
+
 
 	}
 	/**
@@ -93,32 +96,26 @@ public class PoleZombie extends Zombie {
 	 */
 
 	private int jump(LevelData grid){
-//		if(!this.jumped){
-//			Tile nextTile = tile.getLeft();				
-//			if(nextTile != null){
-//				if(nextTile.isOccupied()){
-//					Tile nextLeft = nextTile.getLeft();
-//					if(nextLeft != null){
-//						if(nextLeft.isOccupied()){
-//							return 0;
-//						}
-//						else{
-//							super.tile.setOccupant(null);
-//							this.setTile(nextLeft);
-//							super.tile.setOccupant(this);
-//							this.jumped = true;
-//							return 1;
-//						}
-//					}
-//					else{
-//						return 0;
-//					}
-//				}
-//				return 1;
-//			}
-//			return -1;
-//		}
-		return 0;
+		if(!this.jumped){
+			if(grid.inBounds(x - 2, y)){
+				if(grid.plantAt(x-2, y)){
+					return 0;
+				}
+				else{
+					grid.getActorsAt(this.x, this.y).remove(this);
+					this.x = this.x - 2;
+					grid.getActorsAt(this.x, this.y).add(this);
+					this.jumped = true;
+					return 1;
+				}
+			}
+			else{
+				return -1;
+			}
+		}
+		else{
+			return 0;
+		}
 	}
 
 

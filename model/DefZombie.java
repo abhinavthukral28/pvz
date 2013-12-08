@@ -34,13 +34,17 @@ public class DefZombie extends Zombie {
 	public int act(LevelData grid){
 		int move = super.move(grid);
 		if(move == 0){
+			if (grid.inBounds(x-1, y)){
 			Actor actor = grid.getActorAt(this.x - 1, y);
 			if (actor instanceof Zombie) {
 				return 0;
 			}
 			attack(actor);
 			return 2;	
-			
+			}
+			else{
+				return -1;
+			}
 		}
 		else{
 			return move;
