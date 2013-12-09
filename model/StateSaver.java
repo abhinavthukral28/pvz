@@ -23,6 +23,7 @@ public class StateSaver {
 		pastPlayer.push((PlayerData) presentPlayer.clone());
 		futureLevel.clear();		//future timelines... are cut off
 		futurePlayer.clear();
+		//System.out.println("State Saved.\n");
 	}
 	
 	public LevelData undoLevel(){
@@ -32,6 +33,7 @@ public class StateSaver {
 			//printGrid(templist);
 			futureLevel.push(tempLevel);
 		}
+		//System.out.println("Undid\n");
 		return tempLevel;
 	}
 	

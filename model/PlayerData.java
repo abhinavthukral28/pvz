@@ -17,6 +17,7 @@ public class PlayerData implements Cloneable {
 		seeds = new SeedPacket(level);
 		solarPower = 10;
 		solarRate = 5;
+		choice = null;
 	}
 	
 	void update(){
@@ -45,7 +46,12 @@ public class PlayerData implements Cloneable {
 	
 	public Object clone() throws CloneNotSupportedException{
 		PlayerData clone = (PlayerData)super.clone();
-		clone.choice = new String(this.choice);
+		if(choice != null){
+			clone.choice = new String(this.choice);
+		}
+		else{
+			clone.choice = null;
+		}
 		clone.seeds = (SeedPacket)seeds.clone();
 		clone.solarPower = this.solarPower;
 		clone.solarRate = this.solarRate;

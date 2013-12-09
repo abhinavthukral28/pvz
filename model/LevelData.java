@@ -141,8 +141,16 @@ public class LevelData implements Cloneable{
 	
 	public Object clone() throws CloneNotSupportedException{
 		LevelData clone = (LevelData)super.clone();
-		clone.waitingZombiesList = (ArrayList<Actor>) this.waitingZombiesList.clone();
-		clone.actorList = (ArrayList<Actor>) this.actorList.clone();
+		clone.waitingZombiesList = new ArrayList<Actor>();
+		clone.actorList = new ArrayList<Actor>();
+		for(Actor a: waitingZombiesList){
+			clone.waitingZombiesList.add((Actor) a.clone());
+		}
+		//clone.waitingZombiesList = (ArrayList<Actor>) this.waitingZombiesList.clone();
+		for(Actor a: actorList){
+			clone.actorList.add((Actor) a.clone());
+		}
+		//clone.actorList = (ArrayList<Actor>) this.actorList.clone();
 		clone.level = this.level;
 		return clone;
 	}

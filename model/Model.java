@@ -18,11 +18,17 @@ public class Model extends Observable/* implements Cloneable*/ {
 	/**
 	 * 
 	 * @param level determines the game level and difficulty of the game generated. only 1 level is implemented currently
+	 * @throws CloneNotSupportedException 
 	 */
 	public Model(int level){
 		currPlayer = new PlayerData(level);
 		currLevel = new LevelData(level);	
 		undoManager = new StateSaver();
+		try {
+			undoManager.saveState(currLevel, currPlayer);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 		this.setChanged();
 	}
 	
@@ -32,8 +38,7 @@ public class Model extends Observable/* implements Cloneable*/ {
 	 * @throws CloneNotSupportedException 
 	 */
 	public void update() throws CloneNotSupportedException{	
-		Random generator = new Random();
-		undoManager.saveState(currLevel, currPlayer);
+		Random generator = new Random();	
 		
 		for(Actor a: currLevel.getActorList()){	
 			if(a.isAlive()){
@@ -45,6 +50,7 @@ public class Model extends Observable/* implements Cloneable*/ {
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
+		undoManager.saveState(currLevel, currPlayer);	
 		this.setChanged();
 		notifyObservers();
 	}
@@ -63,7 +69,6 @@ public class Model extends Observable/* implements Cloneable*/ {
 			currLevel.getWaitingZombiesList().remove(newZombie);
 			y = generator.nextInt(MAX_ROWS);
 			currLevel.addActor(newZombie, MAX_COLS, y);
-			
 		}
 		return false;						 	//all rows are blocked
 	}
@@ -129,19 +134,19 @@ public class Model extends Observable/* implements Cloneable*/ {
 	
 	/**
 	 * Primitive display method. A view system will be responsible for all of this in later versions.
-	 *//*
+	 */
 	public void printGrid(){
 		for (int y = 0; y < MAX_ROWS; y++){
-			Tile tempTile = gameGrid.get(y);
-			while(tempTile != null){
-				System.out.print(tempTile.toString());
-				tempTile = tempTile.getRight();
+			for(int x = 0; x < MAX_COLS; x++){
+				if(currLevel.actorAt(x, y)){
+					currLevel.getActorAt(x, y).getSprite();
+				}
 			}
 			System.out.print("\n");
 		}
 		System.out.print("\n");
 	}
-	*/
+	
 	public ArrayList<Actor> getZombies(){
 		
 		return this.currLevel.getWaitingZombiesList();
@@ -192,6 +197,9 @@ public class Model extends Observable/* implements Cloneable*/ {
 		if(undoManager.canUndo()){
 			this.currLevel = undoManager.undoLevel();
 			this.currPlayer = undoManager.undoPlayer();
+			this.setChanged();
+			notifyObservers();
+			return(true);
 		}
 		return false;
 	}
@@ -200,6 +208,9 @@ public class Model extends Observable/* implements Cloneable*/ {
 		if(undoManager.canRedo()){
 			this.currLevel = undoManager.redoLevel();
 			this.currPlayer = undoManager.redoPlayer();
+			this.setChanged();
+			notifyObservers();
+			return(true);
 		}
 		return false;
 	}
