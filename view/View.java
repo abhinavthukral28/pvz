@@ -25,8 +25,8 @@ import controller.Controller;
 
 
 public class View extends JFrame implements Observer {
-	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 600;
+	private static final int WINDOW_WIDTH = 1024;
+	private static final int WINDOW_HEIGHT = 768;
 	
 	
 	private  JPanel mainPanel;

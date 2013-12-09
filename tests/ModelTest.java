@@ -13,6 +13,10 @@ public class ModelTest {
 
 	@Test
 	public void test() {
+		
+		//update
+		//addZombie
+		//purchasePlant
 		fail("Not yet implemented");
 	}
 
