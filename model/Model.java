@@ -18,11 +18,17 @@ public class Model extends Observable/* implements Cloneable*/ {
 	/**
 	 * 
 	 * @param level determines the game level and difficulty of the game generated. only 1 level is implemented currently
+	 * @throws CloneNotSupportedException 
 	 */
 	public Model(int level){
 		currPlayer = new PlayerData(level);
 		currLevel = new LevelData(level);	
 		undoManager = new StateSaver();
+		try {
+			undoManager.saveState(currLevel, currPlayer);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 		this.setChanged();
 	}
 	
@@ -32,8 +38,7 @@ public class Model extends Observable/* implements Cloneable*/ {
 	 * @throws CloneNotSupportedException 
 	 */
 	public void update() throws CloneNotSupportedException{	
-		Random generator = new Random();
-		
+		Random generator = new Random();	
 		
 		for(Actor a: currLevel.getActorList()){	
 			if(a.isAlive()){
@@ -45,7 +50,7 @@ public class Model extends Observable/* implements Cloneable*/ {
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
-		undoManager.saveState(currLevel, currPlayer);
+		undoManager.saveState(currLevel, currPlayer);	
 		this.setChanged();
 		notifyObservers();
 	}
