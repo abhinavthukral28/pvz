@@ -57,7 +57,7 @@ public class GamePanel {
 			x = a.getX();
 			y = a.getY();	
 			if(gameState.inBounds(x, y)){
-				b[x][y].setIcon(new ImageIcon(a.getSprite()));
+				b[y][x].setIcon(new ImageIcon(a.getSprite()));
 			}
 		}
 	}
