@@ -17,11 +17,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import model.Actor;
 import model.DefZombie;
+import model.LevelData;
 import model.Model;
 import model.Shooter;
 import model.SunFlower;
-import model.Tile;
+
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
@@ -38,13 +40,7 @@ import controller.Controller;
 
 
 public class View extends JFrame implements Observer {
-	
-	//Game panels 
-	private static JPanel gridPanel;
-	private static JPanel mainPanel;
-	private static JPanel sunFlowerPanel;
-	private static JPanel zombiePanel;
-	private static JPanel statusPanel;
+	//constants
 	private static final String zombie="images/damagedExplosiveZombie.png";
 	private static final String sunflowerpic="images/sunflower.jpg";
 	private static final String peaShooter="images/peashooter.jpg";
@@ -56,27 +52,29 @@ public class View extends JFrame implements Observer {
 	private static final int MAX_COLS = 12;
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
-	private JButton zombies[];
-	private JButton plants[];
-	private JButton skipTurn;
-	private JMenu mainMenu;
-	private JMenuBar menuBar;
-	private JMenuItem startGame;
-	private JMenuItem closeGame;
+	
+	
+	//Game panels 
+	private  JPanel gridPanel;
+	private  JPanel mainPanel;
+	private  JPanel statusPanel;
+	private ZombiePanel zombiesPanel;
+	private PlantPanel sunFlowerPanel;
+
 	private JLabel money;
 	
 	
+	private GameMenu mainMenu;
 	//grid buttons
 	private static JButton b[][];
 	
 	private JFrame frame;
 	public View(){
 		
-		zombies = new JButton[5];
-		plants = new JButton[5];
+		
+		
+		
 		//house.setIcon(arg0);
-		skipTurn = new JButton("Skip Turn");
-		skipTurn.setEnabled(false);
 		//Initializing the grid 
 		b = new JButton[MAX_ROWS][MAX_COLS];
 		money =  new JLabel("Sun Power = 0");
@@ -86,9 +84,9 @@ public class View extends JFrame implements Observer {
 		mainPanel = new JPanel();
 		gridPanel = new JPanel();
 		
+		sunFlowerPanel = new PlantPanel();
+		zombiesPanel = new ZombiePanel();
 		
-		sunFlowerPanel = new JPanel();
-		zombiePanel = new JPanel();
 		statusPanel = new JPanel();
 		statusPanel.add(money);
 		//setting the layout of the game grid
@@ -102,47 +100,19 @@ public class View extends JFrame implements Observer {
 				gridPanel.add(b[x][y]);
 			}
 		}
-		for (int i=0; i<5; i++){
-			
-			zombies[i] = new JButton();
-			zombies[i].setIcon(new ImageIcon(zombie));
-			zombiePanel.add(zombies[i]);
-		}
-		zombiePanel.setLayout(new GridLayout(0,1));
-		sunFlowerPanel.setLayout(new FlowLayout());
-		for (int i=0; i<5; i++){
-			
-			plants[i] = new JButton();
-			plants[i].setIcon(new ImageIcon(grass));
-			sunFlowerPanel.add(plants[i]);
-		}
-		sunFlowerPanel.add(skipTurn);
+		
 		statusPanel.setLayout(new FlowLayout());
 		
 		//adding panels to the main pane
 		mainPanel.add(gridPanel, BorderLayout.CENTER);
-		mainPanel.add(sunFlowerPanel, BorderLayout.SOUTH);
-		mainPanel.add(zombiePanel, BorderLayout.EAST);
+		mainPanel.add(sunFlowerPanel.getSunFlowerPanel(), BorderLayout.SOUTH);
+		mainPanel.add(zombiesPanel.getZombiePanel(), BorderLayout.EAST);
 		mainPanel.add(statusPanel, BorderLayout.NORTH);
 
-		//adding the menu to the frame
-		//Creating a menu bar 
-		menuBar= new JMenuBar();
-		//Creating menus
-				
-		mainMenu = new JMenu("File");
-				
-		//Items
-		startGame = new JMenuItem("New");
-		closeGame = new JMenuItem("Exit");
-		//add the menuItems to the mainMenu
-		mainMenu.add(startGame);
-		mainMenu.add(closeGame);
-		//add the main menu to the menubar
-		menuBar.add(mainMenu);
-				
+		mainMenu = new GameMenu();
+		
 		frame = new JFrame("PVZ");
-		frame.setJMenuBar(menuBar);
+		frame.setJMenuBar(mainMenu.menuBar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 		
@@ -159,10 +129,10 @@ public class View extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		
-		ArrayList<Tile> tempArrayList = ((Model)o).getGameGrid();
+		LevelData gameState = ((Model)o).getCurrLevel();
 		int x=0;
 		int y=0;
-		Tile tCol;
+		
 		//check to see if the user chose a non-valid or skip button
 		if (((Model)o).getChoice()==null){
 			this.setGridButtons(false);
@@ -171,32 +141,26 @@ public class View extends JFrame implements Observer {
 		else if(((Model)o).getChoice() != null){
 			this.setGridButtons(true);
 		}
-		//go through the game grid to update the position of zombies and the static position of plants
-		for(Tile tRow: tempArrayList){
-			tCol=tRow;
-			y=0;
-			do{
-				if(y>MAX_COLS || x> MAX_ROWS){
-					break;
-				}
-				if(tCol.getOccupant() != null){										
-					b[x][y].setIcon(new ImageIcon(tCol.getOccupant().getSprite()));
-				}
-				y++;
-				tCol=tCol.getRight();
-			}while(tCol.getRight() != null);
-			x++;
+		//draw each actor in play
+		for(Actor a: gameState.getActorList()){
+			x = a.getX();
+			y = a.getY();	
+			if(gameState.inBounds(x, y)){
+				b[x][y].setIcon(new ImageIcon(a.getSprite()));
+			}
 		}
+		
 		//update the sun money
 		money.setText("Sun Power = " + ((Model)o).getSolarPower());
 		//initialize the first level view
-		if(((Model)o).getLevel() == 1){
-			plants[0].setIcon(new ImageIcon(sunflowerpic));
-			plants[1].setIcon(new ImageIcon(peaShooter));
-			plants[2].setIcon(new ImageIcon(snowShooter));
-			plants[3].setIcon(new ImageIcon(walnut));
-			plants[4].setIcon(new ImageIcon(potato)); 
-			skipTurn.setEnabled(true);
+		if(((Model)o).getCurrLevel().getLevel() == 1){			//TODO this should go off of seedpackets
+			sunFlowerPanel.plants[0].setIcon(new ImageIcon(sunflowerpic));
+			sunFlowerPanel.plants[1].setIcon(new ImageIcon(peaShooter));
+			sunFlowerPanel.plants[2].setIcon(new ImageIcon(snowShooter));
+			sunFlowerPanel.plants[3].setIcon(new ImageIcon(walnut));
+			sunFlowerPanel.plants[4].setIcon(new ImageIcon(potato)); 
+			//hope this was the right place for that
+			sunFlowerPanel.toggleSkipTurn(true);
 		}
 	}
 	/**
@@ -205,10 +169,9 @@ public class View extends JFrame implements Observer {
 	 */
 	public void addAction(Controller c){
 		//adds actionlistener to the menu items
-		startGame.addActionListener(c);
-	    closeGame.addActionListener(c);
-	    //adds actionlistener to the skipTurn button
-	    skipTurn.addActionListener(c);
+		mainMenu.startGame.addActionListener(c);
+	    mainMenu.closeGame.addActionListener(c);
+	   
 	    //adds actionlistener to the game grid
 		for(int x =0; x<MAX_ROWS; x++){
 			for (int y=0; y<MAX_COLS; y++){
@@ -217,11 +180,11 @@ public class View extends JFrame implements Observer {
 		}
 		//adds actionlistener to zombie list
 		for (int i=0; i<5; i++){
-			zombies[i].addActionListener(c);
+			zombiesPanel.zombies[i].addActionListener(c);
 		}
 		//adds actionlistener to plants list
 		for (int k=0; k<5; k++){
-			plants[k].addActionListener(c);
+			sunFlowerPanel.plants[k].addActionListener(c);
 		}
 	}
 	/**
@@ -230,7 +193,7 @@ public class View extends JFrame implements Observer {
 	 */
 	public JButton getSkipTurn()
 	{
-		return skipTurn;
+		return sunFlowerPanel.getSkipTurn();
 	}
 	/**
 	 * Return startGame JMenuItem.
@@ -238,7 +201,7 @@ public class View extends JFrame implements Observer {
 	 */
 	public JMenuItem getNewGame()
 	{
-		return startGame;
+		return mainMenu.startGame;
 	}
 	/**
 	 * Return closeGame JMenuItem.
@@ -246,7 +209,7 @@ public class View extends JFrame implements Observer {
 	 */
 	public JMenuItem getExitGame()
 	{
-		return closeGame;
+		return mainMenu.closeGame;
 	}
 	/**
 	 * Returns the game grid.
@@ -263,7 +226,7 @@ public class View extends JFrame implements Observer {
 	public JButton[] getPlantsList()
 	{
 		
-		return plants;
+		return sunFlowerPanel.plants;
 	}
 	/**
 	 * Sets the buttons enabled according to the given parameter.

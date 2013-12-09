@@ -123,4 +123,8 @@ public class LevelData implements Cloneable{
 		clone.level = this.level;
 		return clone;
 	}
+
+	public int getLevel() {
+		return level;
+	}
 }

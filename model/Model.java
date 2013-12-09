@@ -53,17 +53,9 @@ public class Model extends Observable implements Cloneable {
 			currLevel.getWaitingZombiesList().remove(newZombie);
 			Random generator = new Random();
 			int y;
-			int tries = 0;
 			y = generator.nextInt(MAX_ROWS);
-			ArrayList<Actor> destination = LevelData.getGrid()[y][MAX_COLS];
-			while(tries < 5 && destination != null){			//if the spot is occupied, choose another
-				if(!currLevel.actorAt(MAX_COLS, y)){
-					return (currLevel.addActor(newZombie, MAX_COLS, y));
-				}
-				y = (y + 1) % MAX_COLS;
-				tries++;
-			}
-			currLevel.getWaitingZombiesList().add(newZombie);		//zombie goes back in line
+			currLevel.addActor(newZombie, MAX_COLS, y);
+			
 		}
 		return false;						 	//all rows are blocked
 	}
@@ -146,17 +138,9 @@ public class Model extends Observable implements Cloneable {
 		return this.currLevel.getWaitingZombiesList();
 	}
 
-
-	//TODO reaching through is... bad
-	public ArrayList<Actor>[][] getGameGrid() {
-		return currLevel.getGrid();
-	}
-
-
 	public int getSolarPower() {
 		return currPlayer.solarPower;
 	}
-
 
 	public int getSolarRate() {
 		return currPlayer.solarRate;
@@ -188,5 +172,10 @@ public class Model extends Observable implements Cloneable {
 		clone.currPlayer = (PlayerData) currPlayer.clone();
 		clone.currLevel = (LevelData) currLevel.clone();
 		return clone;
+	}
+
+
+	public LevelData getCurrLevel() {
+		return currLevel;
 	}
 }
