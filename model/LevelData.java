@@ -23,7 +23,7 @@ public class LevelData implements Cloneable{
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
 		
-		/*for(int x = 0; x < (5 + level); x++){
+		for(int x = 0; x < (5 + level); x++){
 			getWaitingZombiesList().add(new DefZombie(level)); 			//add some basic zombies
 		}
 		for(int x = 0; x < (level); x++){
@@ -31,7 +31,7 @@ public class LevelData implements Cloneable{
 		}
 		for(int x = 0; x < (level+2); x++){
 			getWaitingZombiesList().add(new ExplosiveZombie(level)); 	//add some exploding zombies
-		}*/
+		}
 	}
 	/**
 	 * @return the maxY

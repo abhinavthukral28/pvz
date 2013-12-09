@@ -24,6 +24,7 @@ public class ExplosiveZombie extends Zombie {
 	 */
 	public ExplosiveZombie(int level) {
 		super((HF * level), level, "ZE", DEFSPRITE, CRACKEDSPRITE);
+		isFrozen = false;
 	}
 
 	/* (non-Javadoc)
@@ -48,20 +49,19 @@ public class ExplosiveZombie extends Zombie {
 		int move = super.move(grid);
 		if(move == 0){
 			if(grid.inBounds(x-1, y)){
-				Actor actor = grid.getActorAt(this.x -1 , y);
-				if (actor instanceof Zombie) {
-					return 0;
+				if (grid.plantAt(this.x - 1, this.y)) {
+					attack(grid.getActorAt(this.x -1, y));
+					return 2;
 				}
-				attack(actor);
-				return 2;	
 			}
 			else{
-				return move;
+				return -1;
 			}
 		}
 		else{
-			return -1;
+			return move;
 		}
+		return move;
 	}
 
 
@@ -73,15 +73,12 @@ public class ExplosiveZombie extends Zombie {
 	 
 		private int explode(LevelData grid){
 			int x = this.x;
-			while(grid.plantAt(x, this.y)){
+			while(grid.inBounds(x, this.y)){
 				if(grid.plantAt(x, this.y)) {
 					grid.getActorAt(x, this.y).takeDamage(1000);
 					return 2;
 				}
 				x--;
-				if(!grid.inBounds(x, y)){
-					break;
-				}
 			}
 			return 0;
 		}
