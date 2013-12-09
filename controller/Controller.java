@@ -79,7 +79,7 @@ public class Controller implements ActionListener{
 			for(int col = 0; col<gameInterface.getGridList()[row].length; col++ ){
 				if(e.getSource() == gameInterface.getGridList()[row][col] )	{
 					if(pvz.getChoice()!=null)	{
-						if(pvz.placePlant(pvz.getTile(col, row), pvz.getChoice())){
+						if(pvz.placePlant(col, row, pvz.getChoice())){
 							pvz.update();
 						}
 					}
