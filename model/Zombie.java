@@ -54,5 +54,11 @@ public abstract class Zombie extends Actor {
 		 }
 		 
 	 }
+	 
+	 public Object clone()throws CloneNotSupportedException{
+		 Zombie clone = (Zombie)super.clone();
+		 clone.crackedSprite = this.crackedSprite;
+		 return clone;
+	 }
 	
 }

@@ -122,5 +122,11 @@ public class PoleZombie extends Zombie {
 		return this.isFrozen;
 	}
 	
+	public Object clone()throws CloneNotSupportedException{
+		 PoleZombie clone = (PoleZombie)super.clone();
+		 clone.isFrozen = this.isFrozen;
+		 clone.jumped = this.jumped;
+		 return clone;
+	}
 
 }

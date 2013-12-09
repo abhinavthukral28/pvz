@@ -21,5 +21,11 @@ public Plant(int maxHealth, int level, String string, int cost, String sprite) {
 	public int getCost(){
 		return cost;
 	}
+	
+	 public Object clone()throws CloneNotSupportedException{
+		 Plant clone = (Plant)super.clone();
+		 clone.cost = this.cost;
+		 return clone;
+	 }
 
 }
