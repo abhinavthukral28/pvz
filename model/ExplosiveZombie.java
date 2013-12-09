@@ -5,7 +5,7 @@ package model;
 
 /**
  * @author Abhinav Thukral
- * ExplosiveZombie creates a zombie which has double the attack power of DefZombie and when the Zombie dies, it also kills the next plant in line
+ * ExplosiveZombie creates a zombie which has double the attack power of DefZombie and when the Zombie has less than 20, it also kills the next plant in line
  *
  */
 public class ExplosiveZombie extends Zombie {
@@ -31,7 +31,7 @@ public class ExplosiveZombie extends Zombie {
 	 */
 	@Override
 	protected void attack(Actor actor) {
-		actor.takeDamage(DF * super.level);
+		actor.takeDamage(DF * 2);
 	}
 
 	/** 
@@ -40,6 +40,11 @@ public class ExplosiveZombie extends Zombie {
 	 */
 	@Override
 	public int act(LevelData grid) {
+		if (super.currHealth <= 0.2 * super.maxHealth && !this.isFrozen){
+			explode(grid);
+			this.takeDamage(1000);
+			return 2;
+		}
 		int move = super.move(grid);
 		if(move == 0){
 			if(grid.inBounds(x-1, y)){
@@ -59,48 +64,28 @@ public class ExplosiveZombie extends Zombie {
 		}
 	}
 
-	/**
-	 * overriding the Actor's take damage to cause an explosion when it dies.
-	 */
-	public int takeDamage(int damage){
-		super.takeDamage(damage);
-		if(!isAlive()){
-			explode(x, y);
-		}
-		return super.currHealth;
-	}
 
 	/**
 	 * causes Actor to explode
 	 * @param tempTile
+	 * @return 
 	 */
-	/* 
-		private void explode(LevelData grid){
+	 
+		private int explode(LevelData grid){
 			int x = this.x;
-			while(grid.At(x, this.y)){
-				if(grid.zombieAt(x, this.y)) {
-					grid.getActorAt(x, this.y).takeDamage(DF * super.level);
+			while(grid.plantAt(x, this.y)){
+				if(grid.plantAt(x, this.y)) {
+					grid.getActorAt(x, this.y).takeDamage(1000);
 					return 2;
 				}
-				x++;
+				x--;
 				if(!grid.inBounds(x, y)){
 					break;
 				}
 			}
 			return 0;
 		}
-				while(tempTile != null){
-					tempTile = tempTile.getLeft();
-					if(tempTile != null && tempTile.isOccupied()){
-						Actor actor = tempTile.getOccupant();
-						if (actor instanceof Plant) {
-							actor.takeDamage(1000);
-							return;
-						}
-					}
-				}
-		}
- */
+			
 
 	/**
 	 * @param isFrozen the isFrozen to set
