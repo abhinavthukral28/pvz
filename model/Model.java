@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Observable;
 
-public class Model extends Observable implements Cloneable {
+public class Model extends Observable/* implements Cloneable*/ {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	private PlayerData currPlayer;
@@ -52,11 +52,11 @@ public class Model extends Observable implements Cloneable {
 	 */
 	private boolean addZombie(){				
 		if(currLevel.getWaitingZombiesList().size() > 0){
+			Random generator = new Random();
+			int y;
 			int endOfList = currLevel.getWaitingZombiesList().size() - 1;
 			Actor newZombie = currLevel.getWaitingZombiesList().get(endOfList);
 			currLevel.getWaitingZombiesList().remove(newZombie);
-			Random generator = new Random();
-			int y;
 			y = generator.nextInt(MAX_ROWS);
 			currLevel.addActor(newZombie, MAX_COLS, y);
 			
@@ -171,14 +171,14 @@ public class Model extends Observable implements Cloneable {
 		notifyObservers();
 	}
 	
-	
+	/*
 	public Object clone() throws CloneNotSupportedException{
 		Model clone = (Model) super.clone();
 		clone.currPlayer = (PlayerData) currPlayer.clone();
 		clone.currLevel = (LevelData) currLevel.clone();
 		return clone;
 	}
-
+	*/
 
 	public LevelData getCurrLevel() {
 		return currLevel;

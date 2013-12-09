@@ -22,7 +22,7 @@ public class PlantPanel {
 	private JButton skipTurn;
 
 	public PlantPanel() {
-		plants = (new JButton[5]);
+		plants = (new JButton[6]);
 		sunFlowerPanel = (new JPanel());
 		getSunFlowerPanel().setLayout(new FlowLayout());
 		for (int i=0; i<5; i++){
@@ -32,18 +32,10 @@ public class PlantPanel {
 			getSunFlowerPanel().add(getPlants()[i]);
 		}
 		skipTurn = new JButton("Skip Turn");
-		skipTurn.setEnabled(false);
+		skipTurn.setEnabled(true);
 		getSunFlowerPanel().add(skipTurn);
 	}
 	
-	public void toggleSkipTurn(boolean toggle){
-		if(toggle){
-			skipTurn.setEnabled(true);
-		}
-		else{
-			
-		}
-	}
 	public void addAction(Controller c){
 		 //adds actionlistener to the skipTurn button
 	    skipTurn.addActionListener(c);
@@ -69,7 +61,7 @@ public class PlantPanel {
 			getPlants()[3].setIcon(new ImageIcon(walnut));
 			getPlants()[4].setIcon(new ImageIcon(potato)); 
 		}
-		toggleSkipTurn(true);
+		skipTurn.setEnabled(true);
 	}
 
 	public JButton[] getPlants() {

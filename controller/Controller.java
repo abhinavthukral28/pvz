@@ -48,7 +48,12 @@ public class Controller implements ActionListener{
 		if(e.getSource() == gameInterface.getSkipTurn())
 		{
 			pvz.setChoice(null);
-			pvz.update();
+			try {
+				pvz.update();
+			} catch (CloneNotSupportedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		if(pvz!=null){
 			for(int plantInd=0; plantInd<gameInterface.getPlantsList().length;plantInd++){
@@ -80,7 +85,12 @@ public class Controller implements ActionListener{
 				if(e.getSource() == gameInterface.getGridList()[row][col] )	{
 					if(pvz.getChoice()!=null)	{
 						if(pvz.placePlant(col, row, pvz.getChoice())){
-							pvz.update();
+							try {
+								pvz.update();
+							} catch (CloneNotSupportedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 					}
 				}
