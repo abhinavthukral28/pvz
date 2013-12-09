@@ -44,18 +44,9 @@ public class PoleZombie extends Zombie {
 	public int act(LevelData grid) {
 		int move = move(grid);
 		if(move == 0){
-			if(grid.inBounds(x-1,y)){ 
-				Actor leftActor = grid.getActorAt(x - 1, y);
-				if(leftActor != null){
-					if (leftActor instanceof Zombie) {
-						return 0;
-					}
-					attack(leftActor);
-					return 2;
-				}
-				return 0;
-			}
-			else return -1;
+			Actor leftActor = grid.getActorAt(x - 1, y);
+			attack(leftActor);
+			return 2;
 		}
 		else{
 			return move;
@@ -91,7 +82,7 @@ public class PoleZombie extends Zombie {
 
 	}
 	/**
-	 * Makes the zobie jump a plant
+	 * Makes the zombie jump a plant
 	 * @return
 	 */
 

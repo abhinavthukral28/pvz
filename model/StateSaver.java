@@ -6,37 +6,64 @@ import java.util.Stack;
 public class StateSaver {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
-	private static Stack<Model> history;
-	private static Stack<Model> future;
+	private static Stack<LevelData> pastLevel;
+	private static Stack<LevelData> futureLevel;
+	private static Stack<PlayerData> pastPlayer;
+	private static Stack<PlayerData> futurePlayer;
 	
-	public void saveState(Model present) throws CloneNotSupportedException{
-		history.push((Model) present.clone());
-		future.clear();
+	public void saveState(LevelData presentLevel, PlayerData presentPlayer) throws CloneNotSupportedException{
+		pastLevel.push((LevelData) presentLevel.clone());
+		pastPlayer.push((PlayerData) presentPlayer.clone());
+		futureLevel.clear();
+		futurePlayer.clear();
 	}
 	
-	public Model undo(){
-		Model tempModel = null;
-		if(!history.isEmpty()){
-			tempModel = history.pop();
+	public LevelData undoLevel(){
+		LevelData tempLevel = null;
+		if(!pastLevel.isEmpty()){
+			tempLevel = pastLevel.pop();
 			//printGrid(templist);
-			future.push(tempModel);
+			futureLevel.push(tempLevel);
 		}
-		return tempModel;
+		return tempLevel;
 	}
 	
-	public Model redo(){
-		Model tempModel = null;
-		if(!future.isEmpty()){
-			tempModel = future.pop();
+	public PlayerData undoPlayer(){
+		PlayerData tempPlayer = null;
+		if(!pastPlayer.isEmpty()){
+			tempPlayer = pastPlayer.pop();
 			//printGrid(templist);
-			history.push(tempModel);
+			futurePlayer.push(tempPlayer);
 		}
-		return tempModel;
+		return tempPlayer;
+		
+	}
+	
+	public PlayerData redoPlayer(){
+		PlayerData tempPlayer = null;
+		if(!futurePlayer.isEmpty()){
+			tempPlayer = futurePlayer.pop();
+			//printGrid(templist);
+			pastPlayer.push(tempPlayer);
+		}
+		return tempPlayer;
+	}
+	
+	public LevelData redoLevel(){
+		LevelData tempLevel = null;
+		if(!futureLevel.isEmpty()){
+			tempLevel = futureLevel.pop();
+			//printGrid(templist);
+			pastLevel.push(tempLevel);
+		}
+		return tempLevel;
 	}
 	
 	public StateSaver(){
-		history = new Stack<Model>();
-		future = new Stack<Model>();
+		pastPlayer = new Stack<PlayerData>();
+		futurePlayer = new Stack<PlayerData>();
+		pastLevel = new Stack<LevelData>();
+		futureLevel = new Stack<LevelData>();
 	}
 	
 	

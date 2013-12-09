@@ -48,20 +48,20 @@ public class ExplosiveZombie extends Zombie {
 		}
 		int move = super.move(grid);
 		if(move == 0){
-			if(grid.inBounds(x-1, y)){
-				if (grid.plantAt(this.x - 1, this.y)) {
+			//if(grid.inBounds(x-1, y)){				//redundant, checked in move
+				//if (grid.plantAt(this.x - 1, this.y)) {
 					attack(grid.getActorAt(this.x -1, y));
 					return 2;
-				}
-			}
-			else{
-				return -1;
-			}
+				//}
+			//}
+			//else{
+			//	return -1;
+			//}
 		}
 		else{
 			return move;
 		}
-		return move;
+		//return move;
 	}
 
 
@@ -72,13 +72,14 @@ public class ExplosiveZombie extends Zombie {
 	 */
 	 
 		private int explode(LevelData grid){
-			int x = this.x;
-			while(grid.inBounds(x, this.y)){
-				if(grid.plantAt(x, this.y)) {
-					grid.getActorAt(x, this.y).takeDamage(1000);
-					return 2;
+			Actor target;
+			for(int i = -1; i < 2; i++){
+				for(int j = -1; j < 2; j++){
+					target = grid.getActorAt(x + i, y + j);
+					if(target != null){
+						target.takeDamage(1000);
+					}
 				}
-				x--;
 			}
 			return 0;
 		}

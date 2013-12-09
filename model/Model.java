@@ -85,13 +85,14 @@ public class Model extends Observable implements Cloneable {
 	 * @return True if the plant was placed, false otherwise;
 	 */
 	public boolean placePlant(int x, int y, String type){
-		//TODO check bounds of x y
-			if(!currLevel.plantAt(x, y)){
+		if(currLevel.inBounds(x, y)){
+			if(!currLevel.actorAt(x, y)){
 				Actor newPlant = purchasePlant(type);			//this decreases your solarPower. we should split it into createPlant() and payForPlant() methods. 
 				if (newPlant != null) {							//otherwise there will be times where we will want to refund the player if they screw up.
 					return(currLevel.addActor(newPlant, x, y));
 				}
 			}
+		}
 		return false;		
 	}
 	
