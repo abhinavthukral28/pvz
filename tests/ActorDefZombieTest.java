@@ -2,9 +2,10 @@ package tests;
 import java.util.Random;
 
 import static org.junit.Assert.*;
+import model.Actor;
 import model.DefZombie;
+import model.LevelData;
 import model.SunFlower;
-import model.Tile;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,19 +18,13 @@ import org.junit.Test;
  */
 public class ActorDefZombieTest {
 	private DefZombie actor;
-	private Tile tile;
+	private LevelData grid;
 
 	@Before
 	public void setUp() throws Exception{
 		actor = new DefZombie(1);
-		Tile prevTile = new Tile();
-		Tile nextTile = new Tile();
-		tile = new Tile();
-		tile.setLeft(prevTile);
-		tile.setRight(nextTile);
-		actor.setTile(tile);
-		tile.setOccupant(actor);
-		
+		grid = new LevelData(1);
+		grid.addActor(actor, grid.getMaxX(), 0);
 	}
 	/**
 	 * Tests Act() in DefZombie and also private methods
@@ -37,27 +32,23 @@ public class ActorDefZombieTest {
 	 */
 	@Test
 	public void testAct() {
-		Tile leftTile = tile.getLeft();
-		//Testing attack
-		leftTile.setOccupant(new DefZombie(1));
-		leftTile.getOccupant().setTile(leftTile);
-		assertTrue(0 == actor.act());
-		leftTile.setOccupant(new SunFlower(1));
-		leftTile.getOccupant().setTile(leftTile);
-		assertTrue(2 == actor.act());
-		assertTrue(leftTile.getOccupant().getCurrHealth() < leftTile.getOccupant().getMaxHealth());
-		
-		//Testing move
-		leftTile.setOccupant(null);
-		assertTrue(1 == actor.act());
-		tile.setLeft(null);
-		assertTrue(-1 == actor.act());
-		
+		Actor plant = new SunFlower(1);
+		grid.addActor(plant,grid.getMaxX() - 1, 0);
+		assertTrue(2 == this.actor.act(grid));
+		assertTrue(plant.getMaxHealth() > plant.getCurrHealth());
 	}
-/**
- * Testing takeDamage inherited from Actor
- * Also tests private methods die() and isAlive()
- */
+
+	@Test
+	public void testMove(){
+		assertTrue(1 == actor.act(grid));
+		actor.setXY(0, 0);
+		assertTrue(-1 == actor.act(grid));
+
+	}
+	/**
+	 * Testing takeDamage inherited from Actor
+	 * Also tests private methods die() and isAlive()
+	 */
 	@Test 
 	public void testTakeDamage() {
 		//Also tests is alive
@@ -71,6 +62,6 @@ public class ActorDefZombieTest {
 		assertTrue(actor.takeDamage(1000) == 0);
 		//Also tests private method die()
 		assertFalse(actor.isAlive());
-		
+
 	}
 }

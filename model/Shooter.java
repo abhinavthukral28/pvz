@@ -37,15 +37,12 @@ public class Shooter extends Plant {
 	private int attack(LevelData grid) {
 		// iterates through the grid to till it reaches the end of the grid
 		int x = this.x;
-		while(grid.actorAt(x, this.y)){
+		while(grid.inBounds(x, this.y)){
 			if(grid.zombieAt(x, this.y)) {
 				grid.getActorAt(x, this.y).takeDamage(DF * super.level);
 				return 2;
 			}
 			x++;
-			if(!grid.inBounds(x, y)){
-				break;
-			}
 		}
 		return 0;
 	}

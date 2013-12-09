@@ -126,4 +126,10 @@ public class PoleZombie extends Zombie {
 		this.isFrozen = isFrozen;
 	}
 
+
+	public boolean isFrozen() {
+		return this.isFrozen;
+	}
+	
+
 }

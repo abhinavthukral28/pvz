@@ -43,7 +43,7 @@ public class SnowShooter extends Plant {
 		// iterates through the grid to till it reaches the end of the grid
 		int x = this.x;
 		Actor zombie;
-		while(grid.actorAt(x, this.y)){
+		while(grid.inBounds(x, this.y)){
 			if(grid.zombieAt(x, this.y)) {
 				zombie = grid.getActorAt(x, this.y);
 				if(zombie instanceof PoleZombie){
@@ -62,9 +62,6 @@ public class SnowShooter extends Plant {
 				}
 			}
 			x++;
-			if(!grid.inBounds(x, y)){
-				break;
-			}
 		}
 		return 0;	
 	}

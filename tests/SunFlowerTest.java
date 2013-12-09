@@ -3,6 +3,7 @@
  */
 package tests;
 import static org.junit.Assert.*;
+import model.LevelData;
 import model.SunFlower;
 
 import org.junit.Before;
@@ -16,6 +17,7 @@ import controller.*;
  */
 public class SunFlowerTest {
 	private SunFlower sunflower;
+	private LevelData grid;
 	
 
 	/**
@@ -32,10 +34,10 @@ public class SunFlowerTest {
 	 */
 	@Test
 	public void testAct() {
-		assertTrue(sunflower.act() == 5);
-		assertTrue(sunflower.act() == 0);
-		assertTrue(sunflower.act() == 0);
-		assertTrue(sunflower.act() == 5);
+		assertTrue(sunflower.act(grid) == 5);
+		assertTrue(sunflower.act(grid) == 0);
+		assertTrue(sunflower.act(grid) == 0);
+		assertTrue(sunflower.act(grid) == 5);
 	}
 
 }

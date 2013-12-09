@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 
 public class LevelData implements Cloneable{
-	public static final int MAX_ROWS = 6;
-	public static final int MAX_COLS = 12;
+	public static final int MAX_Y = 6;
+	public static final int MAX_X = 12;
 	
 	private ArrayList<Actor> actorList;
 	private ArrayList<Actor> waitingZombiesList;
@@ -23,7 +23,7 @@ public class LevelData implements Cloneable{
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
 		
-		for(int x = 0; x < (5 + level); x++){
+		/*for(int x = 0; x < (5 + level); x++){
 			getWaitingZombiesList().add(new DefZombie(level)); 			//add some basic zombies
 		}
 		for(int x = 0; x < (level); x++){
@@ -31,9 +31,22 @@ public class LevelData implements Cloneable{
 		}
 		for(int x = 0; x < (level+2); x++){
 			getWaitingZombiesList().add(new ExplosiveZombie(level)); 	//add some exploding zombies
-		}
+		}*/
+	}
+	/**
+	 * @return the maxY
+	 */
+	public static int getMaxY() {
+		return MAX_Y;
 	}
 
+	/**
+	 * @return the maxX
+	 */
+	public int getMaxX() {
+		return MAX_X;
+	}
+	
 	public ArrayList<Actor> getActorList() {
 		return actorList;
 	}
@@ -113,7 +126,7 @@ public class LevelData implements Cloneable{
 	
 	//TODO call this a lot
 	public boolean inBounds(int x, int y){
-		return(x >= 0 && x < MAX_COLS && y >= 0 && y < MAX_ROWS);
+		return(x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y);
 	}
 	
 	public Object clone() throws CloneNotSupportedException{
