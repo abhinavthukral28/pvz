@@ -8,7 +8,7 @@ package model;
 public class PotatoMine extends Plant {
 
 	private static final int COST = 7;
-	private static final int HF = 30;
+	private static final int HF = 70;
 	private static final int DF =  40;
 	// Default Sprite for the Plant
 	private static final String DEFSPRITE = "images/potatoMine.jpg";
