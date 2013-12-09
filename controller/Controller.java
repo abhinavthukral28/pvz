@@ -7,7 +7,6 @@ import view.View;
 import model.Model;
 
 /**
- * 
  * Class Controller is the design controller 
  * The Class communicates with View and Model classes
  * @author AlhetiMamoon

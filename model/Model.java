@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Observable;
 
+/**
+ * The Model class is responsible for the overall simulation of the game state
+ * @author StuartMacdonald
+ */
 public class Model extends Observable/* implements Cloneable*/ {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
@@ -182,5 +186,21 @@ public class Model extends Observable/* implements Cloneable*/ {
 
 	public LevelData getCurrLevel() {
 		return currLevel;
+	}
+	
+	public boolean undo(){
+		if(undoManager.canUndo()){
+			this.currLevel = undoManager.undoLevel();
+			this.currPlayer = undoManager.undoPlayer();
+		}
+		return false;
+	}
+	
+	public boolean redo(){
+		if(undoManager.canRedo()){
+			this.currLevel = undoManager.redoLevel();
+			this.currPlayer = undoManager.redoPlayer();
+		}
+		return false;
 	}
 }

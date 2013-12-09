@@ -12,6 +12,12 @@ import model.LevelData;
 import model.Model;
 import controller.Controller;
 
+/**
+ * The GamePanel class contains the button array that the Actors are displayed upon.
+ * @author StuartMacdonald
+ * @author AlhetiMamoon
+ * @author Fady Ibrahim
+ */
 public class GamePanel {
 	private static final int MAX_ROWS = 6;
 	private static final int MAX_COLS = 12;

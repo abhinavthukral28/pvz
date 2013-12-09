@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
 /**
  * The Zombie class, an abstract super class for zombies
  * @author Abhinav Thukral

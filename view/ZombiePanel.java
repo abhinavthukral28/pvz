@@ -7,7 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.Controller;
-
+/**
+ * The ZombiePanel... is a bit of a stub. It shows the oncoming zombies to the right.
+ * Except, not exactly.
+ * @author StuartMacdonald
+ * @author AlhetiMamoon
+ * @author Fady Ibrahim
+ */
 public class ZombiePanel {
 	private static final String zombie="images/damagedExplosiveZombie.png";
 	private JPanel zombiePanel;

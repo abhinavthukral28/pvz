@@ -1,8 +1,15 @@
+
+
+
 package model;
 
-import java.util.ArrayList;
 import java.util.Stack;
-
+/**
+ * The StateSaver class is responsible for tracking 
+ * the previous and future sates of the game, for 
+ * undo and redo capabilities
+ * @author StuartMacdonald
+ */
 public class StateSaver {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
@@ -14,7 +21,7 @@ public class StateSaver {
 	public void saveState(LevelData presentLevel, PlayerData presentPlayer) throws CloneNotSupportedException{
 		pastLevel.push((LevelData) presentLevel.clone());
 		pastPlayer.push((PlayerData) presentPlayer.clone());
-		futureLevel.clear();
+		futureLevel.clear();		//future timelines... are cut off
 		futurePlayer.clear();
 	}
 	
@@ -66,5 +73,12 @@ public class StateSaver {
 		futureLevel = new Stack<LevelData>();
 	}
 	
+	boolean canUndo(){
+		return(!pastPlayer.isEmpty() && !pastLevel.isEmpty());
+	}
+	
+	boolean canRedo(){
+		return(!futurePlayer.isEmpty() && !futureLevel.isEmpty());
+	}
 	
 }

@@ -10,6 +10,14 @@ import javax.swing.JPanel;
 import model.Model;
 import controller.Controller;
 
+/**
+ * The PlantPanel contains all the buttons used by the player.
+ * Buttons for placing plants, as well as the skip turn and undo/redo buttons.
+ * @author StuartMacdonald
+ * @author AlhetiMamoon
+ * @author Fady Ibrahim
+ *
+ */
 public class PlantPanel {
 	private static final String sunflowerpic="images/sunflower.jpg";
 	private static final String peaShooter="images/peashooter.jpg";
@@ -27,19 +35,17 @@ public class PlantPanel {
 		getSunFlowerPanel().setLayout(new FlowLayout());
 		for (int i=0; i<5; i++){
 			
-			getPlants()[i] = new JButton();
-			getPlants()[i].setIcon(new ImageIcon(grass));
-			getSunFlowerPanel().add(getPlants()[i]);
+			plants[i] = new JButton();
+			plants[i].setIcon(new ImageIcon(grass));
+			getSunFlowerPanel().add(plants[i]);
 		}
 		skipTurn = new JButton("Skip Turn");
-		skipTurn.setEnabled(true);
+	//	skipTurn.setEnabled(true);
 		getSunFlowerPanel().add(skipTurn);
 	}
 	
 	public void addAction(Controller c){
-		 //adds actionlistener to the skipTurn button
 	    skipTurn.addActionListener(c);
-		//adds actionlistener to plants list
 		for (int k=0; k<5; k++){
 			getPlants()[k].addActionListener(c);
 		}
@@ -54,7 +60,7 @@ public class PlantPanel {
 	}
 	
 	public void update(Observable o){
-		if(((Model)o).getCurrLevel().getLevel() == 1){			//TODO this should go off of seedpackets
+		if(((Model)o).getCurrLevel().getLevel() == 1){			
 			getPlants()[0].setIcon(new ImageIcon(sunflowerpic));
 			getPlants()[1].setIcon(new ImageIcon(peaShooter));
 			getPlants()[2].setIcon(new ImageIcon(snowShooter));
@@ -68,4 +74,5 @@ public class PlantPanel {
 		return plants;
 	}
 
+	
 }

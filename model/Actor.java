@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
 /**
  * Abstract Class Actor implements many common functions for plants and Zombies.
  * It acts as a super class to all plants and zombies

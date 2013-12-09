@@ -4,27 +4,47 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import controller.Controller;
+
+/**
+ * GameMenu is the menu bar containing such functions as making a new game, exiting,
+ * opening the level builder, saving and loading games.
+ * @author StuartMacdonald
+ * @author AlhetiMamoon
+ * @author Fady Ibrahim
+ */
 public class GameMenu {
-	public JMenu mainMenu;
-	public JMenuBar menuBar;
-	public JMenuItem startGame;
-	public JMenuItem closeGame;
-	//TODO move more stuff from view to here?
+	private JMenu mainMenu;
+	private JMenuBar menuBar;
+	private JMenuItem startGame;
+	private JMenuItem closeGame;
+
 	public GameMenu() {
-		//adding the menu to the frame
-			//Creating a menu bar 
+
 			menuBar= new JMenuBar();
-			//Creating menus
-					
-			mainMenu = new JMenu("File");
-					
-			//Items
+			mainMenu = new JMenu("File");		
+			//menuItems
 			startGame = new JMenuItem("New");
 			closeGame = new JMenuItem("Exit");
-			//add the menuItems to the mainMenu
 			mainMenu.add(startGame);
 			mainMenu.add(closeGame);
-			//add the main menu to the menubar
 			menuBar.add(mainMenu);
+	}
+	
+	public void addAction(Controller c){
+		startGame.addActionListener(c);
+		closeGame.addActionListener(c);
+	}
+	
+	public JMenuItem getStartGame(){
+		return startGame;
+	}
+	
+	public JMenuItem getCloseGame(){
+		return closeGame;
+	}
+	
+	public JMenuBar getMenuBar(){
+		return menuBar;
 	}
 }

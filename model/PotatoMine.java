@@ -9,7 +9,7 @@ public class PotatoMine extends Plant {
 
 	private static final int COST = 7;
 	private static final int HF = 30;
-	private static final int DF =  40;
+	//private static final int DF =  40;
 	// Default Sprite for the Plant
 	private static final String DEFSPRITE = "images/potatoMine.jpg";
 	private int turn;
@@ -61,7 +61,6 @@ public class PotatoMine extends Plant {
 	}
 	
 	private boolean zombieAround(LevelData grid){
-		Actor target;
 		for(int i = -1; i < 2; i++){
 			for(int j = -1; j < 2; j++){
 				if(grid.zombieAt(x + i, y + j)){

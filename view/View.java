@@ -1,32 +1,17 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import model.Actor;
-import model.DefZombie;
-import model.LevelData;
 import model.Model;
-import model.Shooter;
-import model.SunFlower;
-
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 import controller.Controller;
 
 /**
@@ -40,9 +25,6 @@ import controller.Controller;
 
 
 public class View extends JFrame implements Observer {
-	//constants
-	private static final int MAX_ROWS = 6;
-	private static final int MAX_COLS = 12;
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 600;
 	
@@ -82,7 +64,7 @@ public class View extends JFrame implements Observer {
 		mainMenu = new GameMenu();
 		
 		frame = new JFrame("PVZ");
-		frame.setJMenuBar(mainMenu.menuBar);
+		frame.setJMenuBar(mainMenu.getMenuBar());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 		
@@ -110,11 +92,7 @@ public class View extends JFrame implements Observer {
 	 * @param c -c is the controller object that is assigned to listen to this object instances GUI components.
 	 */
 	public void addAction(Controller c){
-		//adds actionlistener to the menu items
-		mainMenu.startGame.addActionListener(c);
-	    mainMenu.closeGame.addActionListener(c);
-	   
-	    //adds actionlistener to the game grid
+		mainMenu.addAction(c);	   
 		gridPanel.addAction(c);		
 		zombiesPanel.addAction(c);
 		sunFlowerPanel.addAction(c);
@@ -134,7 +112,7 @@ public class View extends JFrame implements Observer {
 	 */
 	public JMenuItem getNewGame()
 	{
-		return mainMenu.startGame;
+		return mainMenu.getStartGame();
 	}
 	/**
 	 * Return closeGame JMenuItem.
@@ -142,7 +120,7 @@ public class View extends JFrame implements Observer {
 	 */
 	public JMenuItem getExitGame()
 	{
-		return mainMenu.closeGame;
+		return mainMenu.getCloseGame();
 	}
 	/**
 	 * Returns the game grid.
