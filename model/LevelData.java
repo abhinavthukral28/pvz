@@ -9,42 +9,145 @@ import java.util.ArrayList;
  *
  */
 
-public class LevelData {
-	public static final int MAX_ROWS = 6;
-	public static final int MAX_COLS = 12;
+public class LevelData implements Cloneable{
+	public static final int MAX_Y = 6;
+	public static final int MAX_X = 12;
 	
-	public ArrayList<Actor> actorList;
-	public ArrayList<Actor> waitingZombiesList;
-	public ArrayList<Tile> gameGrid;
-	public int level;
+	private ArrayList<Actor> actorList;
+	private ArrayList<Actor> waitingZombiesList;
+	//grid may be redundant. All the positional information in it is also stored in ActorList.
+	private int level;
 
 	public LevelData(int level) {
 		this.level = level;
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
-		gameGrid = new ArrayList<Tile>();
-		
-		for(int y = 0; y < MAX_ROWS; y++){				//for each row
-			Tile newTile = new Tile();					
-			gameGrid.add(newTile);						//add a new tile at the start of the row
-			for(int x = 0; x < MAX_COLS; x++){			//for each column in the row
-				Tile tempTile = gameGrid.get(y);
-				while(tempTile.getRight() != null){		//navigate to the end of the row
-					tempTile = tempTile.getRight();
-				}
-				tempTile.setRight(new Tile());			//link on a new tile
-				tempTile.getRight().setLeft(tempTile);	//and link it back
-			}
-		}
 		
 		for(int x = 0; x < (5 + level); x++){
-			waitingZombiesList.add(new DefZombie(level)); 			//add some basic zombies
+			getWaitingZombiesList().add(new DefZombie(level)); 			//add some basic zombies
 		}
 		for(int x = 0; x < (level); x++){
-			waitingZombiesList.add(new PoleZombie(level)); 			//add some pole-vault zombies
+			//getWaitingZombiesList().add(new PoleZombie(level)); 			//add some pole-vault zombies
 		}
 		for(int x = 0; x < (level+2); x++){
-			waitingZombiesList.add(new ExplosiveZombie(level)); 	//add some exploding zombies
+			//getWaitingZombiesList().add(new ExplosiveZombie(level)); 	//add some exploding zombies
 		}
+	}
+	/**
+	 * @return the maxY
+	 */
+	public static int getMaxY() {
+		return MAX_Y;
+	}
+
+	/**
+	 * @return the maxX
+	 */
+	public int getMaxX() {
+		return MAX_X;
+	}
+	
+	public ArrayList<Actor> getActorList() {
+		return actorList;
+	}
+	
+	public ArrayList<Actor> getLivingActors(){
+		ArrayList<Actor> liveOnes = new ArrayList<Actor>();
+		for(Actor a: actorList){
+			if(a.isAlive()){
+				liveOnes.add(a);
+			}
+		}
+		return liveOnes;
+	}
+
+	public ArrayList<Actor> getWaitingZombiesList() {
+		return waitingZombiesList;
+	}
+
+	public boolean actorAt(int x, int y){
+		for(Actor a: actorList){
+			if(a.isAt(x, y) && a.isAlive()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean zombieAt(int x, int y){
+		for(Actor a: actorList){
+			if(a.isAt(x, y)){
+				if(!a.isFriendly() && a.isAlive()){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Adds a new Actor to the level at a certain position. Position is stored in the actor, and in the grid.
+	 * Actor is also enrolled in the actorList
+	 * @param newActor
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public boolean addActor(Actor newActor, int x, int y){
+		return(newActor.setXY(x, y) && actorList.add(newActor));
+	}
+	
+	/**
+	 * Searches the grid for a plant actor at a position.
+	 * Because this information is also stored in actors, a search of the actorList would also work
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public boolean plantAt(int x, int y){
+		for(Actor a: actorList){
+			if(a.isAt(x,y)){
+				if(a.isFriendly() && a.isAlive()){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public ArrayList<Actor> getActorsAt(int x, int y){
+		ArrayList<Actor> returnList = new ArrayList<Actor>();
+		for(Actor a: actorList){
+			if(a.isAt(x,y) && a.isAlive()){
+				returnList.add(a);
+			}
+		}
+		return returnList;
+	}
+	
+	public Actor getActorAt(int x, int y){
+		for(Actor a: actorList){
+			if(a.isAt(x,y)){
+				return(a);
+			}
+		}
+		return null;
+	}
+	
+	//TODO call this a lot
+	public boolean inBounds(int x, int y){
+		return(x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y);
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		LevelData clone = (LevelData)super.clone();
+		clone.waitingZombiesList = (ArrayList<Actor>) this.waitingZombiesList.clone();
+		clone.actorList = (ArrayList<Actor>) this.actorList.clone();
+		clone.level = this.level;
+		return clone;
+	}
+
+	public int getLevel() {
+		return level;
 	}
 }

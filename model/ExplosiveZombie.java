@@ -5,7 +5,7 @@ package model;
 
 /**
  * @author Abhinav Thukral
- * ExplosiveZombie creates a zombie which has double the attack power of DefZombie and when the Zombie dies, it also kills the next plant in line
+ * ExplosiveZombie creates a zombie which has double the attack power of DefZombie and when the Zombie has less than 20, it also kills the next plant in line
  *
  */
 public class ExplosiveZombie extends Zombie {
@@ -17,11 +17,14 @@ public class ExplosiveZombie extends Zombie {
 	private static final String DEFSPRITE = "images/HealthyExplosiveZombie.jpg";
 	// Cracked Sprite for the Zombie
 	private static final String CRACKEDSPRITE = "images/damagedExplosiveZombie.png";
+	// boolean frozen to see if the zombie has been frozen
+	private boolean isFrozen;
 	/**
 	 * @param level
 	 */
 	public ExplosiveZombie(int level) {
 		super((HF * level), level, "ZE", DEFSPRITE, CRACKEDSPRITE);
+		isFrozen = false;
 	}
 
 	/* (non-Javadoc)
@@ -29,7 +32,7 @@ public class ExplosiveZombie extends Zombie {
 	 */
 	@Override
 	protected void attack(Actor actor) {
-		actor.takeDamage(DF * super.level);
+		actor.takeDamage(DF * 2);
 	}
 
 	/** 
@@ -37,48 +40,55 @@ public class ExplosiveZombie extends Zombie {
 	 * @returns 0 for no movement, 1 for movement and 2 for successful attack
 	 */
 	@Override
-	public int act() {
-		int move = super.move();
+	public int act(LevelData grid) {
+		if (super.currHealth <= 0.2 * super.maxHealth && !this.isFrozen){
+			explode(grid);
+			this.takeDamage(1000);
+			return 2;
+		}
+		int move = super.move(grid);
 		if(move == 0){
-			Actor actor = tile.getLeft().getOccupant();
-			if (actor instanceof Zombie) {
-				return 0;
-			}
-			attack(actor);
-			return 2;	
+			//if(grid.inBounds(x-1, y)){				//redundant, checked in move
+				//if (grid.plantAt(this.x - 1, this.y)) {
+					attack(grid.getActorAt(this.x -1, y));
+					return 2;
+				//}
+			//}
+			//else{
+			//	return -1;
+			//}
 		}
 		else{
 			return move;
 		}
+		//return move;
 	}
-	
-	/**
-	 * overriding the Actor's take damage to cause an explosion when it dies.
-	 */
-	public int takeDamage(int damage){
-		Tile tile = super.tile;
-		super.takeDamage(damage);
-		if(!isAlive()){
-			explode(tile);
-		}
-		return super.currHealth;
-	}
-	
+
+
 	/**
 	 * causes Actor to explode
 	 * @param tempTile
+	 * @return 
 	 */
-	private void explode(Tile tempTile){
-		while(tempTile != null){
-			tempTile = tempTile.getLeft();
-			if(tempTile != null && tempTile.isOccupied()){
-				Actor actor = tempTile.getOccupant();
-				if (actor instanceof Plant) {
-					actor.takeDamage(1000);
-					return;
+	 
+		private int explode(LevelData grid){
+			Actor target;
+			for(int i = -1; i < 2; i++){
+				for(int j = -1; j < 2; j++){
+					target = grid.getActorAt(x + i, y + j);
+					if(target != null){
+						target.takeDamage(1000);
+					}
 				}
 			}
-				
+			return 0;
 		}
+			
+
+	/**
+	 * @param isFrozen the isFrozen to set
+	 */
+	public void setFrozen(boolean isFrozen) {
+		this.isFrozen = isFrozen;
 	}
 }

@@ -7,7 +7,7 @@ package model;
  *
  */
 
-public class PlayerData {
+public class PlayerData implements Cloneable {
 	private String choice;
 	private SeedPacket seeds;
 	public int solarPower;
@@ -41,5 +41,14 @@ public class PlayerData {
 	
 	public Plant getPlant(String type){
 		return seeds.getPlant(type, solarPower);
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		PlayerData clone = (PlayerData)super.clone();
+		clone.choice = new String(this.choice);
+		clone.seeds = (SeedPacket)seeds.clone();
+		clone.solarPower = this.solarPower;
+		clone.solarRate = this.solarRate;
+		return clone;
 	}
 }

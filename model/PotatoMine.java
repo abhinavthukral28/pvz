@@ -9,7 +9,7 @@ public class PotatoMine extends Plant {
 
 	private static final int COST = 7;
 	private static final int HF = 30;
-	private static final int DF =  40;
+	//private static final int DF =  40;
 	// Default Sprite for the Plant
 	private static final String DEFSPRITE = "images/potatoMine.jpg";
 	private int turn;
@@ -26,20 +26,48 @@ public class PotatoMine extends Plant {
 	 * @returns 0 for no movement, 1 for movement and 2 for successful attack
 	 */
 	@Override
-	public int act() {
-		this.turn++;
-		return attack();
+	public int act(LevelData grid) {
+		if(zombieAround(grid)){
+			this.turn++;
+		}
+		return attack(grid);
+	}
+
+	private int attack(LevelData grid){
+		if(this.turn > 1){
+			return this.explode(grid);
+		}
+		else{
+			return 0; 
+		}
 	}
 	
-	private int attack(){
-		Tile tile = super.tile.getRight();
-		if(tile != null && tile.isOccupied() && this.turn > 2){
-			if(!(tile.getOccupant().isFriendly())){
-				tile.getOccupant().takeDamage(DF);
-				this.takeDamage(1000);
-				return 2;
+	private int explode(LevelData grid){
+		Actor target;
+		int damage = 0;
+		for(int i = -1; i < 2; i++){
+			for(int j = -1; j < 2; j++){
+				if(grid.zombieAt(x + i, y + j)){
+					target = grid.getActorAt(x + i, y + j);
+					if(target != null){
+						target.takeDamage(1000);
+						damage = 2;
+					}
+				}
 			}
 		}
-		return 0;
+		this.takeDamage(1000);
+		return damage;
+	}
+	
+	private boolean zombieAround(LevelData grid){
+		for(int i = -1; i < 2; i++){
+			for(int j = -1; j < 2; j++){
+				if(grid.zombieAt(x + i, y + j)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

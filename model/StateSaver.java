@@ -1,50 +1,84 @@
+
+
+
 package model;
 
-import java.util.ArrayList;
 import java.util.Stack;
-
+/**
+ * The StateSaver class is responsible for tracking 
+ * the previous and future sates of the game, for 
+ * undo and redo capabilities
+ * @author StuartMacdonald
+ */
 public class StateSaver {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
-	private static Stack<ArrayList<Tile>> history;
-	private static Stack<ArrayList<Tile>> future;
+	private static Stack<LevelData> pastLevel;
+	private static Stack<LevelData> futureLevel;
+	private static Stack<PlayerData> pastPlayer;
+	private static Stack<PlayerData> futurePlayer;
 	
-	public void saveState(ArrayList<Tile> present){
-		ArrayList<Tile> tempList = new ArrayList<Tile>(present);
-		//tempList = present;
-		printGrid(tempList);
-		 history.push(tempList);
-		 //future.clear();
+	public void saveState(LevelData presentLevel, PlayerData presentPlayer) throws CloneNotSupportedException{
+		pastLevel.push((LevelData) presentLevel.clone());
+		pastPlayer.push((PlayerData) presentPlayer.clone());
+		futureLevel.clear();		//future timelines... are cut off
+		futurePlayer.clear();
 	}
 	
-	public ArrayList<Tile> undo(){
-		ArrayList<Tile> templist = history.pop();
-		printGrid(templist);
-		future.push(templist);
-		return  templist;
+	public LevelData undoLevel(){
+		LevelData tempLevel = null;
+		if(!pastLevel.isEmpty()){
+			tempLevel = pastLevel.pop();
+			//printGrid(templist);
+			futureLevel.push(tempLevel);
+		}
+		return tempLevel;
 	}
 	
-	public ArrayList<Tile> redo(){
-		ArrayList<Tile> templist = future.pop();
-		printGrid(templist);
-		history.push(templist);
-		return templist;
+	public PlayerData undoPlayer(){
+		PlayerData tempPlayer = null;
+		if(!pastPlayer.isEmpty()){
+			tempPlayer = pastPlayer.pop();
+			//printGrid(templist);
+			futurePlayer.push(tempPlayer);
+		}
+		return tempPlayer;
+		
+	}
+	
+	public PlayerData redoPlayer(){
+		PlayerData tempPlayer = null;
+		if(!futurePlayer.isEmpty()){
+			tempPlayer = futurePlayer.pop();
+			//printGrid(templist);
+			pastPlayer.push(tempPlayer);
+		}
+		return tempPlayer;
+	}
+	
+	public LevelData redoLevel(){
+		LevelData tempLevel = null;
+		if(!futureLevel.isEmpty()){
+			tempLevel = futureLevel.pop();
+			//printGrid(templist);
+			pastLevel.push(tempLevel);
+		}
+		return tempLevel;
 	}
 	
 	public StateSaver(){
-		history = new Stack<ArrayList<Tile>>();
-		future = new Stack<ArrayList<Tile>>();
+		pastPlayer = new Stack<PlayerData>();
+		futurePlayer = new Stack<PlayerData>();
+		pastLevel = new Stack<LevelData>();
+		futureLevel = new Stack<LevelData>();
 	}
 	
-	public void printGrid(ArrayList<Tile> gameGrid){
-		for (int y = 0; y < MAX_ROWS; y++){
-			Tile tempTile = gameGrid.get(y);
-			while(tempTile != null){
-				System.out.print(tempTile.toString());
-				tempTile = tempTile.getRight();
-			}
-			System.out.print("\n");
-		}
-		System.out.print("\n");
+	boolean canUndo(){
+		return(!pastPlayer.isEmpty() && !pastLevel.isEmpty());
 	}
+	
+	boolean canRedo(){
+		return(!futurePlayer.isEmpty() && !futureLevel.isEmpty());
+	}
+	
 }

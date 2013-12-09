@@ -27,7 +27,7 @@ public class PoleZombie extends Zombie {
 		this.jumped = false;
 		this.isFrozen = false;
 	}
-	
+
 
 	/**
 	 * @param boolean, true to prevent jumping, false otherwise
@@ -41,20 +41,12 @@ public class PoleZombie extends Zombie {
 	 * @see model.Actor#act()
 	 */
 	@Override
-	public int act() {
-		int move = move();
+	public int act(LevelData grid) {
+		int move = move(grid);
 		if(move == 0){
-			if(tile.getLeft() != null){
-				if(tile.getLeft().isOccupied()){
-					Actor actor = tile.getLeft().getOccupant();
-					if (actor instanceof Zombie) {
-						return 0;
-					}
-					attack(actor);
-					return 2;
-				}
-			}
-			return 0;
+			Actor leftActor = grid.getActorAt(x - 1, y);
+			attack(leftActor);
+			return 2;
 		}
 		else{
 			return move;
@@ -69,58 +61,52 @@ public class PoleZombie extends Zombie {
 		actor.takeDamage(DF * super.level);
 	}
 
-	protected int move(){
+	protected int move(LevelData grid){
 		if(this.isFrozen){
-			return super.move();
+			return super.move(grid);
 		}
 		else{
 			int i = 0;
-			while(i<2 && super.move() > 0){
+			while(i<2 && super.move(grid) > 0){
 				i++;	
 			}
 			if(i<2){
-				return jump();
+				return jump(grid);
 			}
 			else{
 				return 1;
 			}
-			
+
 		}
-		
+
 
 	}
 	/**
-	 * Makes the zobie jump a plant
+	 * Makes the zombie jump a plant
 	 * @return
 	 */
 
-	private int jump(){
+	private int jump(LevelData grid){
 		if(!this.jumped){
-			Tile nextTile = tile.getLeft();				
-			if(nextTile != null){
-				if(nextTile.isOccupied()){
-					Tile nextLeft = nextTile.getLeft();
-					if(nextLeft != null){
-						if(nextLeft.isOccupied()){
-							return 0;
-						}
-						else{
-							super.tile.setOccupant(null);
-							this.setTile(nextLeft);
-							super.tile.setOccupant(this);
-							this.jumped = true;
-							return 1;
-						}
-					}
-					else{
-						return 0;
-					}
+			if(grid.inBounds(x - 2, y)){
+				if(grid.plantAt(x-2, y)){
+					return 0;
 				}
-				return 1;
+				else{
+					grid.getActorsAt(this.x, this.y).remove(this);
+					this.x = this.x - 2;
+					grid.getActorsAt(this.x, this.y).add(this);
+					this.jumped = true;
+					return 1;
+				}
 			}
-			return -1;
+			else{
+				return -1;
+			}
 		}
-		return 0;
+		else{
+			return 0;
+		}
 	}
 
 
@@ -131,5 +117,10 @@ public class PoleZombie extends Zombie {
 		this.isFrozen = isFrozen;
 	}
 
+
+	public boolean isFrozen() {
+		return this.isFrozen;
+	}
+	
 
 }

@@ -31,7 +31,7 @@ public class SunFlower extends Plant {
 	 * act() method for SunFlower, generates suns on every third turn since the creation of the plant
 	 * @return 5 if sun is generated else returns a 0
 	 */
-	public int act() {
+	public int act(LevelData grid) {
 		if((this.turn % 3) == 0){
 			turn++;
 			return 5;
@@ -39,8 +39,4 @@ public class SunFlower extends Plant {
 		turn++;
 		return 0;
 	}
-	
-	
-	
-	
 }

@@ -1,12 +1,11 @@
-/**
- * 
- */
 package tests;
 import static org.junit.Assert.*;
 import model.DefZombie;
 import model.LevelData;
 import model.Plant;
+import model.PoleZombie;
 import model.Shooter;
+import model.SnowShooter;
 import model.SunFlower;
 
 import org.junit.Before;
@@ -15,27 +14,27 @@ import org.junit.Test;
 import controller.*;
 
 /**
- * This class tests shooter class
+ * This class tests SnowShooter class
  * @author Abhinav Thukral
  *
  */
-public class ShooterTest {
-	private DefZombie zombie;
-	private Shooter shooter;
+public class SnowShooterTest {
+	private PoleZombie zombie;
+	private SnowShooter shooter;
 	private LevelData grid;
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		zombie = new DefZombie(1);
-		shooter = new Shooter(1);
+		zombie = new PoleZombie(1);
+		shooter = new SnowShooter(1);
 		grid = new LevelData(1);
 		grid.addActor(shooter, 0, 0);
 	}
 
 	/**
-	 * Test method for {@link model.Shooter#act()}.
+	 * Test method for checking no shooting against friendlies
 	 */
 	@Test
 	public void testNoShooting() {
@@ -46,9 +45,10 @@ public class ShooterTest {
 	}
 	
 	@Test
-	public void testAttack(){
-		grid.addActor(zombie, 2, 0);
+	public void testAttackFrozen(){
+		grid.addActor(zombie, grid.getMaxX() -1, 0);
 		assertTrue(2 == shooter.act(grid));
+		assertTrue(zombie.isFrozen());
 		assertTrue(zombie.getCurrHealth() < zombie.getMaxHealth());
 	}
 

@@ -7,10 +7,8 @@ package model;
  * @version 2.0
  * 
  */
-public abstract class Actor {
+public abstract class Actor implements Cloneable {
 
-	// The tile that the actor occupies
-	protected Tile tile;
 	// Status of the Actor if it is dead or alive
 	protected boolean status;
 	// Current Health of the Actor
@@ -22,11 +20,14 @@ public abstract class Actor {
 	// The level of the actor based on the level of the game
 	protected int level;		
 	// True if the Actor is allied with the player
-	protected boolean friendly;
+	protected boolean friendly;	//TODO see if this can be removed
 	// True if current health is less than 40% of max health
 	protected boolean cracked;
 	// The graphical representation of the Actor
 	protected String sprite;
+	
+	protected int x;
+	protected int y;
 	
 	/**
 	 * Constructor for class Actor, usually only used by sub classes
@@ -50,7 +51,7 @@ public abstract class Actor {
 	 * This method defines the activity that any given plant can do during the game
 	 * @return
 	 */
-	 abstract public int act();
+	 abstract public int act(LevelData grid);
 	 
 	
 	
@@ -88,24 +89,10 @@ public abstract class Actor {
 	private void die() {
 		status = false;
 		currHealth = 0;
-		this.tile.setOccupant(null);
-		setTile(null);
+		//TODO remove from board
 	}
 	
-	/**
-	 * Method for changing the tile that contains the Actor
-	 * @param tile
-	 */
-	public void setTile(Tile tile) {
-		this.tile = tile;
-	}
-	/**
-	 * 
-	 * @return tile of the Actor
-	 */
-	public Tile getTile() {
-		return tile;
-	}	
+
 	/**
 	 * @return status that is true if its alive, otherwise false if its dead
 	 */
@@ -144,4 +131,36 @@ public abstract class Actor {
 		return cracked;
 	}
 	
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
+	public boolean setXY(int x, int y){
+		this.x = x;
+		this.y = y;
+		return true;
+	}
+	
+	public boolean isAt(int x, int y){
+		return (this.x == x & this.y == y);
+	}
+	
+	public Object clone()throws CloneNotSupportedException{
+		Actor clone = (Actor)super.clone();
+		clone.status = this.status;
+		clone.friendly = this.friendly;
+		clone.cracked = this.cracked;
+		clone.currHealth = this.currHealth;
+		clone.maxHealth = this.maxHealth;
+		clone.level = this.level;
+		clone.sprite = new String(this.sprite);
+		clone.string = new String(this.string);
+		clone.x = this.x;
+		clone.y = this.y;
+		return clone;
+	}
 }

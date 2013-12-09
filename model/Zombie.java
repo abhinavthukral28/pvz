@@ -25,21 +25,22 @@ public abstract class Zombie extends Actor {
 	/**
 	 * move() method moves the zombie to the left in the grid
 	 */
-	 protected int move() {
-		//the next tile is the tile to the right, so zombies walk backwards, to the left
-		Tile nextTile = tile.getLeft();				
-		if(nextTile != null){
-			if(nextTile.isOccupied()){
+	 protected int move(LevelData grid) {
+		//zombies walk to the left
+		 if(grid.inBounds(x-1, y)){
+			if(grid.plantAt(this.x - 1, this.y)){
 				return 0;
 			}
 			else {
-				super.tile.setOccupant(null);
-				this.setTile(nextTile);
-				super.tile.setOccupant(this);
+				//grid.getActorsAt(this.x, this.y).remove(this);
+				this.x = this.x -1;
+				//grid.getActorsAt(this.x, this.y).add(this);
 				return 1;
 			}
-		}
-		return -1;
+		 }
+		 else{
+			 return -1;
+		 }
 	}
 	/**
 	 * @returns a cracked sprite if the health has fallen below 40% of max health

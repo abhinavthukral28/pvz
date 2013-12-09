@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Observable;
 
-public class Model extends Observable {
+/**
+ * The Model class is responsible for the overall simulation of the game state
+ * @author StuartMacdonald
+ */
+public class Model extends Observable/* implements Cloneable*/ {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	private PlayerData currPlayer;
 	private LevelData currLevel;
+	private StateSaver undoManager;
 
 	/**
 	 * 
@@ -16,20 +21,23 @@ public class Model extends Observable {
 	 */
 	public Model(int level){
 		currPlayer = new PlayerData(level);
-		currLevel = new LevelData(level);		
+		currLevel = new LevelData(level);	
+		undoManager = new StateSaver();
 		this.setChanged();
 	}
 	
 
 	/**
 	 * simulates the game system, updates the model. Every moving part moves.
+	 * @throws CloneNotSupportedException 
 	 */
-	public void update(){	
+	public void update() throws CloneNotSupportedException{	
 		Random generator = new Random();
+		undoManager.saveState(currLevel, currPlayer);
 		
-		for(Actor a: currLevel.actorList){	
+		for(Actor a: currLevel.getActorList()){	
 			if(a.isAlive()){
-				if(a.act() == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
+				if(a.act(currLevel) == 5){			//sunflowers will have act(){return 5} unless anyone can think of a better way to do this?
 					currPlayer.solarPower+= 5;
 				}
 			}
@@ -47,48 +55,19 @@ public class Model extends Observable {
 	 * @return True if a zombie was added, false otherwise
 	 */
 	private boolean addZombie(){				
-		if(currLevel.waitingZombiesList.size() > 0){
-			int endOfList = currLevel.waitingZombiesList.size() - 1;
-			Actor newZombie = currLevel.waitingZombiesList.get(endOfList);
-			currLevel.waitingZombiesList.remove(newZombie);
+		if(currLevel.getWaitingZombiesList().size() > 0){
 			Random generator = new Random();
 			int y;
-			int tries = 0;
+			int endOfList = currLevel.getWaitingZombiesList().size() - 1;
+			Actor newZombie = currLevel.getWaitingZombiesList().get(endOfList);
+			currLevel.getWaitingZombiesList().remove(newZombie);
 			y = generator.nextInt(MAX_ROWS);
-			Tile destination = getTile(MAX_COLS, y);
-			while(tries < 5){			//if the spot is occupied, choose another
-				if(destination != null){
-					if(destination.getOccupant() == null){
-						newZombie.setTile(destination);
-						destination.setOccupant(newZombie);
-						currLevel.actorList.add(newZombie);
-						return true;
-					}
-				}
-				y = (y + 1) % MAX_COLS;
-				tries++;
-			}
-			currLevel.waitingZombiesList.add(newZombie);		//zombie goes back in line
+			currLevel.addActor(newZombie, MAX_COLS, y);
+			
 		}
 		return false;						 	//all rows are blocked
 	}
 
-	/**
-	 * Searches for and returns a requested tile.
-	 * @param x coordinate of a Tile
-	 * @param y coordinate of a Tile
-	 * @return the Tile at the given location
-	 */
-	public Tile getTile(int x, int y){
-		if(x >= 0 && x <= MAX_COLS && y >= 0 && y < MAX_ROWS){
-			Tile baseTile = currLevel.gameGrid.get(y);
-			for(int n = 0; n < x; n++){
-				baseTile = baseTile.getRight();
-			}
-			return baseTile;
-		}
-		return null;		//kind of rude
-	}
 	
 	/**
 	 * Attempts to purchase a plant. Decreases solar reserves by the cost of the plant if successful.
@@ -113,15 +92,12 @@ public class Model extends Observable {
 	 * @param type the type of plant to be placed
 	 * @return True if the plant was placed, false otherwise;
 	 */
-	public boolean placePlant(Tile destination, String type){
-		if(destination != null){
-			if(destination.getOccupant() == null){
+	public boolean placePlant(int x, int y, String type){
+		if(currLevel.inBounds(x, y)){
+			if(!currLevel.actorAt(x, y)){
 				Actor newPlant = purchasePlant(type);			//this decreases your solarPower. we should split it into createPlant() and payForPlant() methods. 
 				if (newPlant != null) {							//otherwise there will be times where we will want to refund the player if they screw up.
-					currLevel.actorList.add(newPlant);
-					newPlant.setTile(destination);
-					destination.setOccupant(newPlant);
-					return true;
+					return(currLevel.addActor(newPlant, x, y));
 				}
 			}
 		}
@@ -135,19 +111,13 @@ public class Model extends Observable {
 	 * @return -1 if the player lost, 1 if they won, 0 otherwise
 	 */
 	public int state(){
-		Tile tempTile = null;
 		for(int y = 0; y <= MAX_ROWS; y++){
-			tempTile = getTile(0,y);
-			if(tempTile != null){
-				if(tempTile.isOccupied()){
-					if(!getTile(0,y).getOccupant().isFriendly()){ 
-						return -1; 								//game loss if there is a zombie in the first column
-					}
-				}
+			if(currLevel.zombieAt(0, y)){ 
+				return -1; 								//game loss if there is a zombie in the first column
 			}
 		}
-		if(currLevel.waitingZombiesList.isEmpty()){
-			for(Actor a: currLevel.actorList){
+		if(currLevel.getWaitingZombiesList().isEmpty()){
+			for(Actor a: currLevel.getActorList()){
 				if(!a.isFriendly() && a.isAlive()){								
 					return 0;
 				}
@@ -174,47 +144,15 @@ public class Model extends Observable {
 	*/
 	public ArrayList<Actor> getZombies(){
 		
-		return this.currLevel.waitingZombiesList;
+		return this.currLevel.getWaitingZombiesList();
 	}
-
-
-	public ArrayList<Tile> getGameGrid() {
-		return currLevel.gameGrid;
-	}
-
 
 	public int getSolarPower() {
 		return currPlayer.solarPower;
 	}
 
-
 	public int getSolarRate() {
 		return currPlayer.solarRate;
-	}
-
-
-	public int getLevel() {
-		return currLevel.level;
-	}
-
-
-	public ArrayList<Actor> getActorList() {
-		return currLevel.actorList;
-	}
-
-
-	public void setActorList(ArrayList<Actor> actorList) {
-		this.currLevel.actorList = actorList;
-	}
-
-
-	public ArrayList<Actor> getWaitingZombiesList() {
-		return currLevel.waitingZombiesList;
-	}
-
-
-	public void setWaitingZombiesList(ArrayList<Actor> waitingZombiesList) {
-		this.currLevel.waitingZombiesList = waitingZombiesList;
 	}
 	
 	/**
@@ -235,5 +173,42 @@ public class Model extends Observable {
 		this.setChanged();
 		currPlayer.setChoice(choosen);
 		notifyObservers();
+	}
+	
+	/*
+	public Object clone() throws CloneNotSupportedException{
+		Model clone = (Model) super.clone();
+		clone.currPlayer = (PlayerData) currPlayer.clone();
+		clone.currLevel = (LevelData) currLevel.clone();
+		return clone;
+	}
+	*/
+
+	public LevelData getCurrLevel() {
+		return currLevel;
+	}
+	
+	public boolean undo(){
+		if(undoManager.canUndo()){
+			this.currLevel = undoManager.undoLevel();
+			this.currPlayer = undoManager.undoPlayer();
+		}
+		return false;
+	}
+	
+	public boolean redo(){
+		if(undoManager.canRedo()){
+			this.currLevel = undoManager.redoLevel();
+			this.currPlayer = undoManager.redoPlayer();
+		}
+		return false;
+	}
+	
+	public boolean canUndo(){
+		return(undoManager.canUndo());
+	}
+	
+	public boolean canRedo(){
+		return(undoManager.canRedo());
 	}
 }
