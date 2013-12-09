@@ -91,4 +91,12 @@ public class ExplosiveZombie extends Zombie {
 	public void setFrozen(boolean isFrozen) {
 		this.isFrozen = isFrozen;
 	}
+	
+	public Object clone()throws CloneNotSupportedException{
+		 ExplosiveZombie clone = (ExplosiveZombie)super.clone();
+		 clone.isFrozen = this.isFrozen;
+		 return clone;
+	}
+
 }
+
