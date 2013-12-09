@@ -4,6 +4,7 @@ import model.Actor;
 import model.DefZombie;
 import model.ExplosiveZombie;
 import model.LevelData;
+import model.Shooter;
 import model.SunFlower;
 
 import org.junit.Before;
@@ -47,9 +48,12 @@ public class ExplosiveZombieTest {
 	public void testExplode(){
 		Actor plant = new SunFlower(1);
 		grid.addActor(plant,grid.getMaxX() - 2, 0);
+		Actor anotherPlant = new Shooter(1);
+		grid.addActor(anotherPlant, grid.getMaxX() - 2, 1);
 		actor.takeDamage((int) (0.83 * actor.getMaxHealth()));
 		assertTrue(2 == actor.act(grid));
 		assertTrue(!actor.isAlive());
 		assertTrue(!plant.isAlive());
+		assertTrue(!anotherPlant.isAlive());
 	}
 }

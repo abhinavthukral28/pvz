@@ -18,6 +18,8 @@ public class GameMenu {
 	private JMenuBar menuBar;
 	private JMenuItem startGame;
 	private JMenuItem closeGame;
+	private JMenuItem newLevel;
+	
 
 	public GameMenu() {
 
@@ -26,8 +28,10 @@ public class GameMenu {
 			//menuItems
 			startGame = new JMenuItem("New");
 			closeGame = new JMenuItem("Exit");
+			newLevel = new JMenuItem("New Level");
 			mainMenu.add(startGame);
 			mainMenu.add(closeGame);
+			mainMenu.add(newLevel);
 			menuBar.add(mainMenu);
 	}
 	
@@ -43,8 +47,11 @@ public class GameMenu {
 	public JMenuItem getCloseGame(){
 		return closeGame;
 	}
-	
+	public JMenuItem getNewLevel(){
+		return newLevel;
+	}
 	public JMenuBar getMenuBar(){
 		return menuBar;
 	}
+	
 }
