@@ -24,12 +24,14 @@ public class LevelData {
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
 		
+		
 		for(int y = 0; y < MAX_ROWS; y++){
 			for(int x = 0; x < MAX_COLS; x++){
 				grid[x][y] = new ArrayList<Actor>();
 			}
 		}
-		
+		//Perhaps move the commented section to level builder or something as it deals with adding zombies.
+		/*
 		for(int x = 0; x < (5 + level); x++){
 			getWaitingZombiesList().add(new DefZombie(level)); 			//add some basic zombies
 		}
@@ -39,6 +41,21 @@ public class LevelData {
 		for(int x = 0; x < (level+2); x++){
 			getWaitingZombiesList().add(new ExplosiveZombie(level)); 	//add some exploding zombies
 		}
+		*/
+	}
+
+	/**
+	 * @return the maxRows
+	 */
+	public static int getMaxRows() {
+		return MAX_ROWS;
+	}
+
+	/**
+	 * @return the maxCols
+	 */
+	public int getMaxCols() {
+		return MAX_COLS;
 	}
 
 	public ArrayList<Actor> getActorList() {

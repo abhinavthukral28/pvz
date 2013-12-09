@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class StateSaver {
-	public static final int MAX_ROWS = 6;
+/*	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	private static Stack<ArrayList<Tile>> history;
 	private static Stack<ArrayList<Tile>> future;
@@ -46,5 +46,5 @@ public class StateSaver {
 			System.out.print("\n");
 		}
 		System.out.print("\n");
-	}
+	}*/
 }

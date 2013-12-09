@@ -3,8 +3,8 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 import model.DefZombie;
+import model.LevelData;
 import model.SunFlower;
-import model.Tile;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,18 +17,13 @@ import org.junit.Test;
  */
 public class ActorDefZombieTest {
 	private DefZombie actor;
-	private Tile tile;
+	private LevelData grid;
 
 	@Before
 	public void setUp() throws Exception{
 		actor = new DefZombie(1);
-		Tile prevTile = new Tile();
-		Tile nextTile = new Tile();
-		tile = new Tile();
-		tile.setLeft(prevTile);
-		tile.setRight(nextTile);
-		actor.setTile(tile);
-		tile.setOccupant(actor);
+		grid = new LevelData(1);
+		grid.addActor(actor, grid.getMaxCols() - 1, 0);
 		
 	}
 	/**
@@ -36,7 +31,7 @@ public class ActorDefZombieTest {
 	 * move() and attack()
 	 */
 	@Test
-	public void testAct() {
+	/*public void testAct() {
 		Tile leftTile = tile.getLeft();
 		//Testing attack
 		leftTile.setOccupant(new DefZombie(1));
@@ -46,12 +41,13 @@ public class ActorDefZombieTest {
 		leftTile.getOccupant().setTile(leftTile);
 		assertTrue(2 == actor.act());
 		assertTrue(leftTile.getOccupant().getCurrHealth() < leftTile.getOccupant().getMaxHealth());
+	}*/
+	//Testing move
+		public void testMove(){
 		
-		//Testing move
-		leftTile.setOccupant(null);
-		assertTrue(1 == actor.act());
-		tile.setLeft(null);
-		assertTrue(-1 == actor.act());
+		assertTrue(1 == actor.act(grid));
+		actor.setXY(0, 0);
+		assertTrue(-1 == actor.act(grid));
 		
 	}
 /**
