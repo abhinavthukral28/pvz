@@ -9,6 +9,7 @@ public class Model extends Observable implements Cloneable {
 	public static final int MAX_COLS = 12;
 	private PlayerData currPlayer;
 	private LevelData currLevel;
+	private StateSaver undoManager;
 
 	/**
 	 * 
@@ -16,16 +17,19 @@ public class Model extends Observable implements Cloneable {
 	 */
 	public Model(int level){
 		currPlayer = new PlayerData(level);
-		currLevel = new LevelData(level);		
+		currLevel = new LevelData(level);	
+		undoManager = new StateSaver();
 		this.setChanged();
 	}
 	
 
 	/**
 	 * simulates the game system, updates the model. Every moving part moves.
+	 * @throws CloneNotSupportedException 
 	 */
-	public void update(){	
+	public void update() throws CloneNotSupportedException{	
 		Random generator = new Random();
+		undoManager.saveState(currLevel, currPlayer);
 		
 		for(Actor a: currLevel.getActorList()){	
 			if(a.isAlive()){
