@@ -203,4 +203,12 @@ public class Model extends Observable/* implements Cloneable*/ {
 		}
 		return false;
 	}
+	
+	public boolean canUndo(){
+		return(undoManager.canUndo());
+	}
+	
+	public boolean canRedo(){
+		return(undoManager.canRedo());
+	}
 }

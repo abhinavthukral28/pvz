@@ -28,6 +28,8 @@ public class PlantPanel {
 	private JPanel sunFlowerPanel;
 	private JButton[] plants;
 	private JButton skipTurn;
+	private JButton undoButton;
+	private JButton redoButton;
 
 	public PlantPanel() {
 		plants = (new JButton[6]);
@@ -40,12 +42,18 @@ public class PlantPanel {
 			getSunFlowerPanel().add(plants[i]);
 		}
 		skipTurn = new JButton("Skip Turn");
+		undoButton = new JButton("Undo");
+		redoButton = new JButton("Redo");
 	//	skipTurn.setEnabled(true);
 		getSunFlowerPanel().add(skipTurn);
+		getSunFlowerPanel().add(undoButton);
+		getSunFlowerPanel().add(redoButton);
 	}
 	
 	public void addAction(Controller c){
 	    skipTurn.addActionListener(c);
+	    undoButton.addActionListener(c);
+	    redoButton.addActionListener(c);
 		for (int k=0; k<5; k++){
 			getPlants()[k].addActionListener(c);
 		}
@@ -68,10 +76,31 @@ public class PlantPanel {
 			getPlants()[4].setIcon(new ImageIcon(potato)); 
 		}
 		skipTurn.setEnabled(true);
+		if(((Model)o).canUndo()){
+			undoButton.setEnabled(true);
+		}
+		else{
+			undoButton.setEnabled(false);
+		}
+		
+		if(((Model)o).canRedo()){
+			redoButton.setEnabled(true);
+		}
+		else{
+			redoButton.setEnabled(false);
+		}
 	}
 
 	public JButton[] getPlants() {
 		return plants;
+	}
+
+	public JButton getUndoButton() {
+		return undoButton;
+	}
+
+	public JButton getRedoButton() {
+		return redoButton;
 	}
 
 	

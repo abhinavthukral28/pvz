@@ -138,6 +138,14 @@ public class View extends JFrame implements Observer {
 	{
 		return sunFlowerPanel.getPlants();
 	}
+	
+	public JButton getUndo(){
+		return sunFlowerPanel.getUndoButton();
+	}
+	
+	public JButton getRedo(){
+		return sunFlowerPanel.getRedoButton();
+	}
 
 }
 

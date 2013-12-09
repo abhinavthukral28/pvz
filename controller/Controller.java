@@ -44,57 +44,64 @@ public class Controller implements ActionListener{
 			gameInterface.dispose();
 			System.exit(0);
 		}
-		if(e.getSource() == gameInterface.getSkipTurn())
-		{
-			pvz.setChoice(null);
-			try {
-				pvz.update();
-			} catch (CloneNotSupportedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
 		if(pvz!=null){
-			for(int plantInd=0; plantInd<gameInterface.getPlantsList().length;plantInd++){
-				if(e.getSource() == gameInterface.getPlantsList()[plantInd] ){
-					switch(plantInd){
-						case 0:
-							pvz.setChoice("sunflower");
-							break;
-						case 1:
-							pvz.setChoice("shooter");
-							break;
-						case 2:
-							pvz.setChoice("snowshooter");
-							break;
-						case 3:
-							pvz.setChoice("walnut");
-							break;
-						case 4:
-							pvz.setChoice("potato");
-							break;
-						default:
-							pvz.setChoice(null);
-							break;
-					}
+			if(e.getSource() == gameInterface.getSkipTurn())
+			{
+				pvz.setChoice(null);
+				try {
+					pvz.update();
+				} catch (CloneNotSupportedException e1) {
+					e1.printStackTrace();
 				}
 			}
-		for(int row = 0; row < gameInterface.getGridList().length; row++){
-			for(int col = 0; col<gameInterface.getGridList()[row].length; col++ ){
-				if(e.getSource() == gameInterface.getGridList()[row][col] )	{
-					if(pvz.getChoice()!=null)	{
-						if(pvz.placePlant(col, row, pvz.getChoice())){
-							try {
-								pvz.update();
-							} catch (CloneNotSupportedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+			else if(e.getSource() == gameInterface.getUndo()){				//TODO test!
+				pvz.undo();
+			}
+			else if(e.getSource() == gameInterface.getRedo()){
+				pvz.redo();
+			}
+			else{
+				for(int plantInd=0; plantInd<gameInterface.getPlantsList().length;plantInd++){
+					if(e.getSource() == gameInterface.getPlantsList()[plantInd] ){
+						switch(plantInd){
+							case 0:
+								pvz.setChoice("sunflower");
+								break;
+							case 1:
+								pvz.setChoice("shooter");
+								break;
+							case 2:
+								pvz.setChoice("snowshooter");
+								break;
+							case 3:
+								pvz.setChoice("walnut");
+								break;
+							case 4:
+								pvz.setChoice("potato");
+								break;
+							default:
+								pvz.setChoice(null);
+								break;
+						}
+					}
+				}
+			
+				for(int row = 0; row < gameInterface.getGridList().length; row++){
+					for(int col = 0; col<gameInterface.getGridList()[row].length; col++ ){
+						if(e.getSource() == gameInterface.getGridList()[row][col] )	{
+							if(pvz.getChoice()!=null)	{
+								if(pvz.placePlant(col, row, pvz.getChoice())){
+									try {
+										pvz.update();
+									} catch (CloneNotSupportedException e1) {
+										e1.printStackTrace();
+									}
+								}
 							}
 						}
 					}
 				}
 			}
-		}
         if(pvz.state() == 1){
             System.out.println("You won. You killed all the zombies.");
             //TODO advance level here
