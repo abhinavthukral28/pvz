@@ -147,6 +147,10 @@ public abstract class Actor implements Cloneable {
 		return true;
 	}
 	
+	public boolean isAt(int x, int y){
+		return (this.x == x & this.y == y);
+	}
+	
 	public Object clone()throws CloneNotSupportedException{
 		Actor clone = (Actor)super.clone();
 		clone.status = this.status;

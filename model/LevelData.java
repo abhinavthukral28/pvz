@@ -16,19 +16,12 @@ public class LevelData implements Cloneable{
 	private ArrayList<Actor> actorList;
 	private ArrayList<Actor> waitingZombiesList;
 	//grid may be redundant. All the positional information in it is also stored in ActorList.
-	private static ArrayList<Actor> grid[][];
 	private int level;
 
 	public LevelData(int level) {
 		this.level = level;
 		actorList = new ArrayList<Actor>();
 		waitingZombiesList = new ArrayList<Actor>();
-		
-		for(int y = 0; y < MAX_ROWS; y++){
-			for(int x = 0; x < MAX_COLS; x++){
-				grid[x][y] = new ArrayList<Actor>();
-			}
-		}
 		
 		for(int x = 0; x < (5 + level); x++){
 			getWaitingZombiesList().add(new DefZombie(level)); 			//add some basic zombies
@@ -49,18 +42,21 @@ public class LevelData implements Cloneable{
 		return waitingZombiesList;
 	}
 
-	public static ArrayList<Actor>[][] getGrid() {
-		return grid;
-	}
-	
 	public boolean actorAt(int x, int y){
-		return !grid[y][x].isEmpty();
+		for(Actor a: actorList){
+			if(a.isAt(x, y)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean zombieAt(int x, int y){
-		for(Actor a: grid[y][x]){
-			if(!a.isFriendly()){
-				return true;
+		for(Actor a: actorList){
+			if(a.isAt(x, y)){
+				if(!a.isFriendly()){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -75,7 +71,7 @@ public class LevelData implements Cloneable{
 	 * @return
 	 */
 	public boolean addActor(Actor newActor, int x, int y){
-		return(grid[y][x].add(newActor) && newActor.setXY(x, y) && actorList.add(newActor));
+		return(newActor.setXY(x, y) && actorList.add(newActor));
 	}
 	
 	/**
@@ -86,20 +82,33 @@ public class LevelData implements Cloneable{
 	 * @return
 	 */
 	public boolean plantAt(int x, int y){
-		for(Actor a: grid[y][x]){
-			if(a.isFriendly()){
-				return true;
+		for(Actor a: actorList){
+			if(a.isAt(x,y)){
+				if(a.isFriendly()){
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 	
 	public ArrayList<Actor> getActorsAt(int x, int y){
-		return grid[y][x];
+		ArrayList<Actor> returnList = new ArrayList<Actor>();
+		for(Actor a: actorList){
+			if(a.isAt(x,y)){
+				returnList.add(a);
+			}
+		}
+		return returnList;
 	}
 	
 	public Actor getActorAt(int x, int y){
-		return grid[y][x].get(0);
+		for(Actor a: actorList){
+			if(a.isAt(x,y)){
+				return(a);
+			}
+		}
+		return null;
 	}
 	
 	//TODO call this a lot
@@ -111,11 +120,6 @@ public class LevelData implements Cloneable{
 		LevelData clone = (LevelData)super.clone();
 		clone.waitingZombiesList = (ArrayList<Actor>) this.waitingZombiesList.clone();
 		clone.actorList = (ArrayList<Actor>) this.actorList.clone();
-		for(int x = 0; x < MAX_ROWS; x++){
-			for(int y = 0; y < MAX_COLS; y++){
-				clone.grid[x][y] = (ArrayList<Actor>) this.grid[x][y].clone();
-			}
-		}
 		clone.level = this.level;
 		return clone;
 	}
