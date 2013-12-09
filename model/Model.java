@@ -33,7 +33,7 @@ public class Model extends Observable/* implements Cloneable*/ {
 	 */
 	public void update() throws CloneNotSupportedException{	
 		Random generator = new Random();
-		undoManager.saveState(currLevel, currPlayer);
+		
 		
 		for(Actor a: currLevel.getActorList()){	
 			if(a.isAlive()){
@@ -45,6 +45,7 @@ public class Model extends Observable/* implements Cloneable*/ {
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
+		undoManager.saveState(currLevel, currPlayer);
 		this.setChanged();
 		notifyObservers();
 	}
