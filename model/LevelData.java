@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  */
 
-public class LevelData {
+public class LevelData implements Cloneable{
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	
@@ -105,5 +105,18 @@ public class LevelData {
 	//TODO call this a lot
 	public boolean inBounds(int x, int y){
 		return(x >= 0 && x < MAX_COLS && y >= 0 && y < MAX_ROWS);
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		LevelData clone = (LevelData)super.clone();
+		clone.waitingZombiesList = (ArrayList<Actor>) this.waitingZombiesList.clone();
+		clone.actorList = (ArrayList<Actor>) this.actorList.clone();
+		for(int x = 0; x < MAX_ROWS; x++){
+			for(int y = 0; y < MAX_COLS; y++){
+				clone.grid[x][y] = (ArrayList<Actor>) this.grid[x][y].clone();
+			}
+		}
+		clone.level = this.level;
+		return clone;
 	}
 }

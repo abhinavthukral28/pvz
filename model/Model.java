@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Observable;
 
-public class Model extends Observable {
+public class Model extends Observable implements Cloneable {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	private PlayerData currPlayer;
@@ -161,31 +161,6 @@ public class Model extends Observable {
 	public int getSolarRate() {
 		return currPlayer.solarRate;
 	}
-
-
-//	public int getLevel() {
-//		return currLevel.level;
-//	}
-//
-//
-//	public ArrayList<Actor> getActorList() {
-//		return currLevel.actorList;
-//	}
-//
-//
-//	public void setActorList(ArrayList<Actor> actorList) {
-//		this.currLevel.actorList = actorList;
-//	}
-//
-//
-//	public ArrayList<Actor> getWaitingZombiesList() {
-//		return currLevel.waitingZombiesList;
-//	}
-//
-//
-//	public void setWaitingZombiesList(ArrayList<Actor> waitingZombiesList) {
-//		this.currLevel.waitingZombiesList = waitingZombiesList;
-//	}
 	
 	/**
 	 * Returns the choice
@@ -205,5 +180,13 @@ public class Model extends Observable {
 		this.setChanged();
 		currPlayer.setChoice(choosen);
 		notifyObservers();
+	}
+	
+	
+	public Object clone() throws CloneNotSupportedException{
+		Model clone = (Model) super.clone();
+		clone.currPlayer = (PlayerData) currPlayer.clone();
+		clone.currLevel = (LevelData) currLevel.clone();
+		return clone;
 	}
 }

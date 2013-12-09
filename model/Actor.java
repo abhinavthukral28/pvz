@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @version 2.0
  * 
  */
-public abstract class Actor {
+public abstract class Actor implements Cloneable {
 
 	// Status of the Actor if it is dead or alive
 	protected boolean status;
@@ -22,7 +22,7 @@ public abstract class Actor {
 	// The level of the actor based on the level of the game
 	protected int level;		
 	// True if the Actor is allied with the player
-	protected boolean friendly;
+	protected boolean friendly;	//TODO see if this can be removed
 	// True if current health is less than 40% of max health
 	protected boolean cracked;
 	// The graphical representation of the Actor
@@ -145,5 +145,20 @@ public abstract class Actor {
 		this.x = x;
 		this.y = y;
 		return true;
+	}
+	
+	public Object clone()throws CloneNotSupportedException{
+		Actor clone = (Actor)super.clone();
+		clone.status = this.status;
+		clone.friendly = this.friendly;
+		clone.cracked = this.cracked;
+		clone.currHealth = this.currHealth;
+		clone.maxHealth = this.maxHealth;
+		clone.level = this.level;
+		clone.sprite = new String(this.sprite);
+		clone.string = new String(this.string);
+		clone.x = this.x;
+		clone.y = this.y;
+		return clone;
 	}
 }

@@ -7,7 +7,7 @@ package model;
  *	@author Stuart
  *	@author Abhinav
  */
-public class SeedPacket {
+public class SeedPacket implements Cloneable{
 	private int level;
 	//private Map<String, Integer> map;
 		
@@ -55,18 +55,9 @@ public class SeedPacket {
 		}
 	}
 
-	/*
-	 * for cooldown
-	 * to be implemented later
-	 *
-	private void MapPopulate(){
-		map.put("sunflower", 3);
-		map.put("shooter", 5);
-		
-	}*/
-	/*
-	public int getCooldown() {
-		return cooldown;
+	public Object clone() throws CloneNotSupportedException{
+		SeedPacket clone = (SeedPacket)super.clone();
+		clone.level = this.level;
+		return clone;
 	}
-	*/
 }
