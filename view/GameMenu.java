@@ -9,7 +9,7 @@ public class GameMenu {
 	public JMenuBar menuBar;
 	public JMenuItem startGame;
 	public JMenuItem closeGame;
-
+	//TODO move more stuff from view to here?
 	public GameMenu() {
 		//adding the menu to the frame
 			//Creating a menu bar 

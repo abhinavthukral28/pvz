@@ -158,7 +158,6 @@ public class View extends JFrame implements Observer {
 	 */
 	public JButton[] getPlantsList()
 	{
-		
 		return sunFlowerPanel.getPlants();
 	}
 

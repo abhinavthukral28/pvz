@@ -53,7 +53,7 @@ public class GamePanel {
 			this.setGridButtons(true);
 		}
 		//draw each actor in play
-		for(Actor a: gameState.getActorList()){
+		for(Actor a: gameState.getLivingActors()){
 			x = a.getX();
 			y = a.getY();	
 			if(gameState.inBounds(x, y)){

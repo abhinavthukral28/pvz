@@ -27,10 +27,10 @@ public class LevelData implements Cloneable{
 			getWaitingZombiesList().add(new DefZombie(level)); 			//add some basic zombies
 		}
 		for(int x = 0; x < (level); x++){
-			getWaitingZombiesList().add(new PoleZombie(level)); 			//add some pole-vault zombies
+			//getWaitingZombiesList().add(new PoleZombie(level)); 			//add some pole-vault zombies
 		}
 		for(int x = 0; x < (level+2); x++){
-			getWaitingZombiesList().add(new ExplosiveZombie(level)); 	//add some exploding zombies
+			//getWaitingZombiesList().add(new ExplosiveZombie(level)); 	//add some exploding zombies
 		}
 	}
 	/**
@@ -50,6 +50,16 @@ public class LevelData implements Cloneable{
 	public ArrayList<Actor> getActorList() {
 		return actorList;
 	}
+	
+	public ArrayList<Actor> getLivingActors(){
+		ArrayList<Actor> liveOnes = new ArrayList<Actor>();
+		for(Actor a: actorList){
+			if(a.isAlive()){
+				liveOnes.add(a);
+			}
+		}
+		return liveOnes;
+	}
 
 	public ArrayList<Actor> getWaitingZombiesList() {
 		return waitingZombiesList;
@@ -57,7 +67,7 @@ public class LevelData implements Cloneable{
 
 	public boolean actorAt(int x, int y){
 		for(Actor a: actorList){
-			if(a.isAt(x, y)){
+			if(a.isAt(x, y) && a.isAlive()){
 				return true;
 			}
 		}
@@ -67,7 +77,7 @@ public class LevelData implements Cloneable{
 	public boolean zombieAt(int x, int y){
 		for(Actor a: actorList){
 			if(a.isAt(x, y)){
-				if(!a.isFriendly()){
+				if(!a.isFriendly() && a.isAlive()){
 					return true;
 				}
 			}
@@ -97,7 +107,7 @@ public class LevelData implements Cloneable{
 	public boolean plantAt(int x, int y){
 		for(Actor a: actorList){
 			if(a.isAt(x,y)){
-				if(a.isFriendly()){
+				if(a.isFriendly() && a.isAlive()){
 					return true;
 				}
 			}
@@ -108,7 +118,7 @@ public class LevelData implements Cloneable{
 	public ArrayList<Actor> getActorsAt(int x, int y){
 		ArrayList<Actor> returnList = new ArrayList<Actor>();
 		for(Actor a: actorList){
-			if(a.isAt(x,y)){
+			if(a.isAt(x,y) && a.isAlive()){
 				returnList.add(a);
 			}
 		}

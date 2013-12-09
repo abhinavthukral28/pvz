@@ -28,15 +28,15 @@ public abstract class Zombie extends Actor {
 	 * move() method moves the zombie to the left in the grid
 	 */
 	 protected int move(LevelData grid) {
-		//the next tile is the tile to the right, so zombies walk backwards, to the left
+		//zombies walk to the left
 		 if(grid.inBounds(x-1, y)){
 			if(grid.plantAt(this.x - 1, this.y)){
 				return 0;
 			}
 			else {
-				grid.getActorsAt(this.x, this.y).remove(this);
+				//grid.getActorsAt(this.x, this.y).remove(this);
 				this.x = this.x -1;
-				grid.getActorsAt(this.x, this.y).add(this);
+				//grid.getActorsAt(this.x, this.y).add(this);
 				return 1;
 			}
 		 }
