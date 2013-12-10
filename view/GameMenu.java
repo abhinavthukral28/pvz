@@ -18,10 +18,15 @@ public class GameMenu {
 	private JMenuBar menuBar;
 	private JMenuItem startGame;
 	private JMenuItem closeGame;
+
 	private JMenuItem newLevel;
 	
 
 	public GameMenu() {
+    private JMenuItem saveGame;
+    private JMenuItem loadGame;
+	
+    public GameMenu() {
 
 			menuBar= new JMenuBar();
 			mainMenu = new JMenu("File");		
@@ -29,17 +34,31 @@ public class GameMenu {
 			startGame = new JMenuItem("New");
 			closeGame = new JMenuItem("Exit");
 			newLevel = new JMenuItem("New Level");
+			
+			mainMenu.add(newLevel);
+
+			saveGame = new JMenuItem("Save");
+			loadGame = new JMenuItem("Load");
 			mainMenu.add(startGame);
 			mainMenu.add(closeGame);
-			mainMenu.add(newLevel);
+			mainMenu.add(saveGame);
+			mainMenu.add(loadGame);
+
 			menuBar.add(mainMenu);
 	}
 	
 	public void addAction(Controller c){
 		startGame.addActionListener(c);
 		closeGame.addActionListener(c);
+		saveGame.addActionListener(c);
+		loadGame.addActionListener(c);
 	}
-	
+	public JMenuItem getLoadGame(){
+		return loadGame;
+	}
+	public JMenuItem getSaveGame(){
+		return saveGame;
+	}
 	public JMenuItem getStartGame(){
 		return startGame;
 	}

@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  *
  */
 
-public class LevelData implements Cloneable{
+public class LevelData implements Cloneable, Serializable{
 	public static final int MAX_Y = 6;
 	public static final int MAX_X = 12;
 	
