@@ -63,16 +63,17 @@ public class Controller implements ActionListener{
 				pvz.redo();
 			}
 			else if(e.getSource() == gameInterface.getSaveGame()){
-				File newFileOutput= new File("pvz saved state");
 				try {
-					pvz.writeObject("pvz saved state");
+					File newFileOutput=gameInterface.actionSaveFile();
+					pvz.writeObject(newFileOutput.getName());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 			else if(e.getSource() == gameInterface.getLoadGame()){
 				try {
-					pvz.readObject("pvz saved state");
+					File newFileOutput=gameInterface.actionOpenFile();
+					pvz.readObject(newFileOutput.getName());
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

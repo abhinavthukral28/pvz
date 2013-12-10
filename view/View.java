@@ -175,6 +175,14 @@ public class View extends JFrame implements Observer {
 	}
 	public File actionSaveFile()
 	{
+            int returnVal = fc.showSaveDialog(View.this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                return file;
+                //This is where a real application would save the file.
+              
+            }
+        
 		return null;
 		
 	}
