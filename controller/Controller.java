@@ -3,7 +3,9 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import view.LevelBuilderView;
 import view.View;
+import model.LevelBuilder;
 import model.Model;
 
 /**
@@ -22,6 +24,8 @@ public class Controller implements ActionListener{
 	private View gameInterface;
 	private Model pvz;
 	private int level;
+	private LevelBuilderView buildView;
+	private LevelBuilder builder;
 	
 	public Controller(int level){
 		this.level = level;
@@ -38,11 +42,28 @@ public class Controller implements ActionListener{
 		if (e.getSource() == gameInterface.getNewGame()){
 			pvz = new Model(level);
 			pvz.addObserver(gameInterface);
+			if(gameInterface.isBuilderMode()){
+				gameInterface.switchToPlayMode();
+			}
 			pvz.notifyObservers();
 		}
 		else if (e.getSource() == gameInterface.getExitGame()){
 			gameInterface.dispose();
 			System.exit(0);
+		}
+		else if (e.getSource() == gameInterface.getNewLevel()){
+			System.out.println("New Level Selected");
+			if(!gameInterface.isBuilderMode()){
+				gameInterface.switchToBuildMode();
+				if(buildView == null){
+					buildView = new LevelBuilderView();
+					buildView.addAction(this);
+				}
+				if(builder == null){
+					builder = new LevelBuilder(1);
+					builder.addObserver(buildView);
+				}
+			}
 		}
 		if(pvz!=null){
 			if(e.getSource() == gameInterface.getSkipTurn())
@@ -61,6 +82,30 @@ public class Controller implements ActionListener{
 				pvz.redo();
 			}
 			else{
+				if(builder != null && buildView != null){
+					for(int zombInd=0; zombInd<buildView.getZombies().length; zombInd++){
+						if(e.getSource() == buildView.getZombies()[zombInd] ){
+							switch(zombInd){
+								case 0:
+									builder.addZombie("defzombie");
+									break;
+								case 1:
+									builder.addZombie("explosivezombie");
+									break;
+								case 2:
+									builder.addZombie("polezombie");
+									break;
+								default:
+									break;
+							}
+						}
+					}
+				
+					if(e.getSource() == buildView.getUndo()){
+						builder.removeZombie();
+					}
+				}
+				
 				for(int plantInd=0; plantInd<gameInterface.getPlantsList().length;plantInd++){
 					if(e.getSource() == gameInterface.getPlantsList()[plantInd] ){
 						switch(plantInd){
@@ -85,7 +130,7 @@ public class Controller implements ActionListener{
 						}
 					}
 				}
-			
+				
 				for(int row = 0; row < gameInterface.getGridList().length; row++){
 					for(int col = 0; col<gameInterface.getGridList()[row].length; col++ ){
 						if(e.getSource() == gameInterface.getGridList()[row][col] )	{

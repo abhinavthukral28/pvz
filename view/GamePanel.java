@@ -22,7 +22,7 @@ public class GamePanel {
 	private static final int MAX_ROWS = 6;
 	private static final int MAX_COLS = 12;
 	private JPanel gridPanel;
-	private JButton[][] b;
+	protected JButton[][] b;
 
 	public GamePanel() {
 		b = new JButton[MAX_ROWS][MAX_COLS];

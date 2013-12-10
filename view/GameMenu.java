@@ -38,6 +38,7 @@ public class GameMenu {
 	public void addAction(Controller c){
 		startGame.addActionListener(c);
 		closeGame.addActionListener(c);
+		newLevel.addActionListener(c);
 	}
 	
 	public JMenuItem getStartGame(){
