@@ -65,6 +65,12 @@ public class LevelData implements Cloneable{
 		return waitingZombiesList;
 	}
 
+	/**
+	 * @param waitingZombiesList the waitingZombiesList to set
+	 */
+	public void setWaitingZombiesList(ArrayList<Actor> waitingZombiesList) {
+		this.waitingZombiesList = waitingZombiesList;
+	}
 	public boolean actorAt(int x, int y){
 		for(Actor a: actorList){
 			if(a.isAt(x, y) && a.isAlive()){
