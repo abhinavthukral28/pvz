@@ -51,6 +51,7 @@ public class GameMenu {
 		closeGame.addActionListener(c);
 		saveGame.addActionListener(c);
 		loadGame.addActionListener(c);
+		newLevel.addActionListener(c);
 	}
 	public JMenuItem getLoadGame(){
 		return loadGame;
@@ -58,7 +59,7 @@ public class GameMenu {
 	public JMenuItem getSaveGame(){
 		return saveGame;
 
-		newLevel.addActionListener(c);
+		
 
 	}
 	public JMenuItem getStartGame(){
