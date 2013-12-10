@@ -65,7 +65,7 @@ public class Controller implements ActionListener{
 			else if(e.getSource() == gameInterface.getSaveGame()){
 				try {
 					File newFileOutput=gameInterface.actionSaveFile();
-					pvz.writeObject(newFileOutput.getName());
+					pvz.writeObject(newFileOutput.getPath());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -73,7 +73,7 @@ public class Controller implements ActionListener{
 			else if(e.getSource() == gameInterface.getLoadGame()){
 				try {
 					File newFileOutput=gameInterface.actionOpenFile();
-					pvz.readObject(newFileOutput.getName());
+					pvz.readObject(newFileOutput.getPath());
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
