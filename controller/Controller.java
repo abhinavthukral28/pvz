@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import view.View;
 import model.Model;
@@ -54,11 +56,31 @@ public class Controller implements ActionListener{
 					e1.printStackTrace();
 				}
 			}
-			else if(e.getSource() == gameInterface.getUndo()){				//TODO test!
+			else if(e.getSource() == gameInterface.getUndo()){			
 				pvz.undo();
 			}
 			else if(e.getSource() == gameInterface.getRedo()){
 				pvz.redo();
+			}
+			else if(e.getSource() == gameInterface.getSaveGame()){
+				try {
+					File newFileOutput=gameInterface.actionSaveFile();
+					pvz.writeObject(newFileOutput.getPath());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			else if(e.getSource() == gameInterface.getLoadGame()){
+				try {
+					File newFileOutput=gameInterface.actionOpenFile();
+					pvz.readObject(newFileOutput.getPath());
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			else{
 				for(int plantInd=0; plantInd<gameInterface.getPlantsList().length;plantInd++){

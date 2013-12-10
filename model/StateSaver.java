@@ -18,11 +18,13 @@ public class StateSaver {
 	private static Stack<PlayerData> pastPlayer;
 	private static Stack<PlayerData> futurePlayer;
 	
+	
 	public void saveState(LevelData presentLevel, PlayerData presentPlayer) throws CloneNotSupportedException{
 		pastLevel.push((LevelData) presentLevel.clone());
 		pastPlayer.push((PlayerData) presentPlayer.clone());
 		futureLevel.clear();		//future timelines... are cut off
 		futurePlayer.clear();
+		//System.out.println("State Saved.\n");
 	}
 	
 	public LevelData undoLevel(){
@@ -32,6 +34,7 @@ public class StateSaver {
 			//printGrid(templist);
 			futureLevel.push(tempLevel);
 		}
+		//System.out.println("Undid\n");
 		return tempLevel;
 	}
 	

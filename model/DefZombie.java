@@ -19,7 +19,6 @@ public class DefZombie extends Zombie {
 
 	/**
 	 * Constructor for DefZombie 
-	 * @param tile
 	 * @param level
 	 */
 	public DefZombie(int level) {

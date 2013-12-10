@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 
 /**
  * SeedPacket class used to add new plants to the grid
@@ -7,7 +9,7 @@ package model;
  *	@author Stuart
  *	@author Abhinav
  */
-public class SeedPacket implements Cloneable{
+public class SeedPacket implements Cloneable, Serializable{
 	private int level;
 	//private Map<String, Integer> map;
 		

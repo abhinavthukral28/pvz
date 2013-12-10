@@ -1,5 +1,13 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Observable;
@@ -8,21 +16,31 @@ import java.util.Observable;
  * The Model class is responsible for the overall simulation of the game state
  * @author StuartMacdonald
  */
-public class Model extends Observable/* implements Cloneable*/ {
+public class Model extends Observable implements Serializable {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	private PlayerData currPlayer;
 	private LevelData currLevel;
 	private StateSaver undoManager;
+	private LevelBuilder levelbuilder;
+	private int index=0;
+
 
 	/**
 	 * 
 	 * @param level determines the game level and difficulty of the game generated. only 1 level is implemented currently
+	 * @throws CloneNotSupportedException 
 	 */
 	public Model(int level){
 		currPlayer = new PlayerData(level);
-		currLevel = new LevelData(level);	
+		currLevel = new LevelData(level);
+		levelbuilder = new LevelBuilder(level);
 		undoManager = new StateSaver();
+		try {
+			undoManager.saveState(currLevel, currPlayer);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 		this.setChanged();
 	}
 	
@@ -32,8 +50,7 @@ public class Model extends Observable/* implements Cloneable*/ {
 	 * @throws CloneNotSupportedException 
 	 */
 	public void update() throws CloneNotSupportedException{	
-		Random generator = new Random();
-		undoManager.saveState(currLevel, currPlayer);
+		Random generator = new Random();	
 		
 		for(Actor a: currLevel.getActorList()){	
 			if(a.isAlive()){
@@ -45,6 +62,7 @@ public class Model extends Observable/* implements Cloneable*/ {
 		if(generator.nextInt(100) > 50){
 			addZombie();
 		}
+		undoManager.saveState(currLevel, currPlayer);	
 		this.setChanged();
 		notifyObservers();
 	}
@@ -63,7 +81,6 @@ public class Model extends Observable/* implements Cloneable*/ {
 			currLevel.getWaitingZombiesList().remove(newZombie);
 			y = generator.nextInt(MAX_ROWS);
 			currLevel.addActor(newZombie, MAX_COLS, y);
-			
 		}
 		return false;						 	//all rows are blocked
 	}
@@ -129,19 +146,19 @@ public class Model extends Observable/* implements Cloneable*/ {
 	
 	/**
 	 * Primitive display method. A view system will be responsible for all of this in later versions.
-	 *//*
+	 */
 	public void printGrid(){
 		for (int y = 0; y < MAX_ROWS; y++){
-			Tile tempTile = gameGrid.get(y);
-			while(tempTile != null){
-				System.out.print(tempTile.toString());
-				tempTile = tempTile.getRight();
+			for(int x = 0; x < MAX_COLS; x++){
+				if(currLevel.actorAt(x, y)){
+					currLevel.getActorAt(x, y).getSprite();
+				}
 			}
 			System.out.print("\n");
 		}
 		System.out.print("\n");
 	}
-	*/
+	
 	public ArrayList<Actor> getZombies(){
 		
 		return this.currLevel.getWaitingZombiesList();
@@ -192,6 +209,9 @@ public class Model extends Observable/* implements Cloneable*/ {
 		if(undoManager.canUndo()){
 			this.currLevel = undoManager.undoLevel();
 			this.currPlayer = undoManager.undoPlayer();
+			this.setChanged();
+			notifyObservers();
+			return(true);
 		}
 		return false;
 	}
@@ -200,6 +220,9 @@ public class Model extends Observable/* implements Cloneable*/ {
 		if(undoManager.canRedo()){
 			this.currLevel = undoManager.redoLevel();
 			this.currPlayer = undoManager.redoPlayer();
+			this.setChanged();
+			notifyObservers();
+			return(true);
 		}
 		return false;
 	}
@@ -210,5 +233,41 @@ public class Model extends Observable/* implements Cloneable*/ {
 	
 	public boolean canRedo(){
 		return(undoManager.canRedo());
+	}
+
+	public void loadLevelBuilder(){
+		this.currLevel = levelbuilder.getZombies();
+		
+	}
+
+
+	/**
+	 * @return the levelbuilder
+	 */
+	public LevelBuilder getLevelbuilder() {
+		return levelbuilder;
+	}
+	
+	
+	
+	public void writeObject(String filePath) throws IOException{
+	//index++;
+	FileOutputStream streamToFile = new FileOutputStream(filePath);
+	ObjectOutputStream outStream= new ObjectOutputStream(streamToFile);
+	outStream.writeObject(currPlayer);
+	outStream.writeObject(currLevel);
+	this.setChanged();
+	notifyObservers();
+	outStream.close();
+	}
+	
+	public void readObject(String filePath) throws ClassNotFoundException, IOException{
+	FileInputStream streamToFile = new FileInputStream(filePath);
+	ObjectInputStream inStream = new ObjectInputStream(streamToFile);
+	currPlayer=(PlayerData) inStream.readObject();
+	currLevel=(LevelData) inStream.readObject();
+	this.setChanged();
+	notifyObservers();
+	inStream.close();
 	}
 }

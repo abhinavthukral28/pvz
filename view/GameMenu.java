@@ -19,23 +19,45 @@ public class GameMenu {
 	private JMenuItem startGame;
 	private JMenuItem closeGame;
 
-	public GameMenu() {
+	private JMenuItem newLevel;
+	
+
+    private JMenuItem saveGame;
+    private JMenuItem loadGame;
+	
+    public GameMenu() {
 
 			menuBar= new JMenuBar();
 			mainMenu = new JMenu("File");		
 			//menuItems
 			startGame = new JMenuItem("New");
 			closeGame = new JMenuItem("Exit");
+			newLevel = new JMenuItem("New Level");
+			
+			mainMenu.add(newLevel);
+
+			saveGame = new JMenuItem("Save");
+			loadGame = new JMenuItem("Load");
 			mainMenu.add(startGame);
 			mainMenu.add(closeGame);
+			mainMenu.add(saveGame);
+			mainMenu.add(loadGame);
+
 			menuBar.add(mainMenu);
 	}
 	
 	public void addAction(Controller c){
 		startGame.addActionListener(c);
 		closeGame.addActionListener(c);
+		saveGame.addActionListener(c);
+		loadGame.addActionListener(c);
 	}
-	
+	public JMenuItem getLoadGame(){
+		return loadGame;
+	}
+	public JMenuItem getSaveGame(){
+		return saveGame;
+	}
 	public JMenuItem getStartGame(){
 		return startGame;
 	}
@@ -43,8 +65,11 @@ public class GameMenu {
 	public JMenuItem getCloseGame(){
 		return closeGame;
 	}
-	
+	public JMenuItem getNewLevel(){
+		return newLevel;
+	}
 	public JMenuBar getMenuBar(){
 		return menuBar;
 	}
+	
 }
