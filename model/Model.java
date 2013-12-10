@@ -1,5 +1,13 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Observable;
@@ -8,12 +16,13 @@ import java.util.Observable;
  * The Model class is responsible for the overall simulation of the game state
  * @author StuartMacdonald
  */
-public class Model extends Observable/* implements Cloneable*/ {
+public class Model extends Observable implements Serializable {
 	public static final int MAX_ROWS = 6;
 	public static final int MAX_COLS = 12;
 	private PlayerData currPlayer;
 	private LevelData currLevel;
 	private StateSaver undoManager;
+	private int index=0;
 
 	/**
 	 * 
@@ -216,5 +225,26 @@ public class Model extends Observable/* implements Cloneable*/ {
 	
 	public boolean canRedo(){
 		return(undoManager.canRedo());
+	}
+	
+	public void writeObject(String filePath) throws IOException{
+	//index++;
+	FileOutputStream streamToFile = new FileOutputStream(filePath);
+	ObjectOutputStream outStream= new ObjectOutputStream(streamToFile);
+	outStream.writeObject(currPlayer);
+	outStream.writeObject(currLevel);
+	this.setChanged();
+	notifyObservers();
+	outStream.close();
+	}
+	
+	public void readObject(String filePath) throws ClassNotFoundException, IOException{
+	FileInputStream streamToFile = new FileInputStream(filePath);
+	ObjectInputStream inStream = new ObjectInputStream(streamToFile);
+	currPlayer=(PlayerData) inStream.readObject();
+	currLevel=(LevelData) inStream.readObject();
+	this.setChanged();
+	notifyObservers();
+	inStream.close();
 	}
 }

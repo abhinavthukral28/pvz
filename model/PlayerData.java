@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Contains data associated with the player.
  * The player has solar power, chooses a plant, and has seeds.
@@ -7,7 +9,7 @@ package model;
  *
  */
 
-public class PlayerData implements Cloneable {
+public class PlayerData implements Cloneable, Serializable {
 	private String choice;
 	private SeedPacket seeds;
 	public int solarPower;

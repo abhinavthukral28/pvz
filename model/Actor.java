@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Abstract Class Actor implements many common functions for plants and Zombies.
  * It acts as a super class to all plants and zombies
@@ -7,7 +9,7 @@ package model;
  * @version 2.0
  * 
  */
-public abstract class Actor implements Cloneable {
+public abstract class Actor implements Cloneable, Serializable {
 
 	// Status of the Actor if it is dead or alive
 	protected boolean status;
