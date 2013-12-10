@@ -10,7 +10,13 @@ import javax.swing.JPanel;
 import model.Model;
 import controller.Controller;
 
-public class BuildPanel {
+/**
+ * BuildPanel is similar to PlantPanel, but is used in the level building mode
+ * It features 3 buttons that can be used to add a zombie to the level, and one button to remove the last zombie added
+ * @author Stuart Macdonald
+ *
+ */
+public class ZombieSelectPanel {
 	private static final String DEFSPRITE = "images/damagedExplosiveZombie.png";
 	private static final String EXPSPRITE = "images/HealthyExplosiveZombie.jpg";
 	private static final String POLSPRITE = "images/PoleZombie.jpg";
@@ -18,7 +24,7 @@ public class BuildPanel {
 	private JButton[] zombies;
 	private JButton undoButton;
 
-	public BuildPanel() {
+	public ZombieSelectPanel() {
 		zombies = (new JButton[3]);
 		graveyardPanel = (new JPanel());
 		getGraveyardPanel().setLayout(new FlowLayout());
@@ -42,11 +48,11 @@ public class BuildPanel {
 	}
 	
 	public void update(Observable o){
-		if(((Model)o).getCurrLevel().getLevel() == 1){			
+		//if(((Model)o).getCurrLevel().getLevel() == 1){			
 			zombies[0].setIcon(new ImageIcon(DEFSPRITE));
 			zombies[1].setIcon(new ImageIcon(EXPSPRITE));
 			zombies[2].setIcon(new ImageIcon(POLSPRITE));
-		}
+		//}
 	}
 
 	public JButton[] getZombies() {

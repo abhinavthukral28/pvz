@@ -22,9 +22,11 @@ public class Model extends Observable implements Serializable {
 	private PlayerData currPlayer;
 	private LevelData currLevel;
 	private StateSaver undoManager;
+
 	private LevelBuilder levelbuilder;
 	private int index=0;
 
+	//private LevelBuilder levelbuilder;
 
 	/**
 	 * 
@@ -34,7 +36,7 @@ public class Model extends Observable implements Serializable {
 	public Model(int level){
 		currPlayer = new PlayerData(level);
 		currLevel = new LevelData(level);
-		levelbuilder = new LevelBuilder(level);
+		//levelbuilder = new LevelBuilder(level);
 		undoManager = new StateSaver();
 		try {
 			undoManager.saveState(currLevel, currPlayer);
@@ -235,18 +237,23 @@ public class Model extends Observable implements Serializable {
 		return(undoManager.canRedo());
 	}
 
+
+	
+	/*
+ 
 	public void loadLevelBuilder(){
-		this.currLevel = levelbuilder.getZombies();
+		this.currLevel = levelbuilder.getLevel();
 		
-	}
+	}*/
 
 
 	/**
 	 * @return the levelbuilder
 	 */
+	/*
 	public LevelBuilder getLevelbuilder() {
 		return levelbuilder;
-	}
+	}*/
 	
 	
 	
