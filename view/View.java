@@ -2,14 +2,17 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import model.Model;
 import controller.Controller;
@@ -36,6 +39,9 @@ public class View extends JFrame implements Observer {
 
 	private JLabel money;
 	
+	static private final String newline = "\n";
+	JButton openButton, saveButton;
+	JFileChooser fc;
 	
 	private GameMenu mainMenu;
 	private GamePanel gridPanel;
@@ -51,7 +57,7 @@ public class View extends JFrame implements Observer {
 		gridPanel = new GamePanel();		
 		statusPanel = new JPanel();
 		statusPanel.add(money);
-		
+		fc = new JFileChooser();
 		mainPanel.setLayout(new BorderLayout(40,5));
 		statusPanel.setLayout(new FlowLayout());
 		
@@ -152,6 +158,25 @@ public class View extends JFrame implements Observer {
 	public JButton getRedo(){
 		return sunFlowerPanel.getRedoButton();
 	}
+	public File actionOpenFile()
+	{
 
+        //Handle open button action.
+            int returnVal = fc.showOpenDialog(View.this);
+ 
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                return file;
+                //This is where a real application would open the file.
+            } 
+        //Handle save button action.
+			return null;
+        
+	}
+	public File actionSaveFile()
+	{
+		return null;
+		
+	}
 }
 
