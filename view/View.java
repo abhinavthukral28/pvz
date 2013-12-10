@@ -36,18 +36,25 @@ public class View extends JFrame implements Observer {
 	private  JPanel statusPanel;
 	private ZombiePanel zombiesPanel;
 	private PlantPanel sunFlowerPanel;
-	private BuildPanel buildPanel;
+	
 
 	private JLabel money;
+
 	
 	static private final String newline = "\n";
 	JButton openButton, saveButton;
 	JFileChooser fc;
 	
 	private GameMenu mainMenu;
+	
 	private GamePanel gridPanel;
+	//private ZombieSelectPanel buildPanel;
+	//private BuildGamePanel workingView;
 
 	private JFrame frame;
+	
+	private boolean builderMode;			//maybe pointless?
+	
 	public View(){
 		money =  new JLabel("Sun Power = 0");
 		
@@ -57,7 +64,8 @@ public class View extends JFrame implements Observer {
 		zombiesPanel = new ZombiePanel();
 		gridPanel = new GamePanel();		
 		statusPanel = new JPanel();
-		buildPanel = new BuildPanel();
+		//buildPanel = new ZombieSelectPanel();
+		//workingView = new BuildGamePanel();
 		statusPanel.add(money);
 		fc = new JFileChooser();
 		mainPanel.setLayout(new BorderLayout(40,5));
@@ -88,11 +96,16 @@ public class View extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {		
-		//update the sun money
-		money.setText("Sun Power = " + ((Model)o).getSolarPower());
-		//initialize the first level view
-		sunFlowerPanel.update(o);
-		gridPanel.update(o);
+		if(!builderMode){
+			//update the sun money
+			money.setText("Sun Power = " + ((Model)o).getSolarPower());
+			//initialize the first level view
+			sunFlowerPanel.update(o);
+			gridPanel.update(o);
+		}
+		else{
+			//workingView.update(o);
+		}
 	}
 	
 	/**
@@ -130,6 +143,11 @@ public class View extends JFrame implements Observer {
 	{
 		return mainMenu.getCloseGame();
 	}
+	
+	public JMenuItem getNewLevel(){
+		return mainMenu.getNewLevel();
+	}
+	
 	/**
 	 * Returns the game grid.
 	 * @return JButton[][] -Returns a JButton 
@@ -165,10 +183,11 @@ public class View extends JFrame implements Observer {
 	/**
 	 * Lays out the game for playing
 	 */
-	void switchToPlayMode(){
+	public void switchToPlayMode(){
 		mainPanel.setLayout(new BorderLayout(40,5));
 		statusPanel.setLayout(new FlowLayout());
 		mainPanel.removeAll();
+		builderMode = false;
 		//adding panels to the main pane
 		mainPanel.add(gridPanel.getGridPanel(), BorderLayout.CENTER);
 		mainPanel.add(sunFlowerPanel.getSunFlowerPanel(), BorderLayout.SOUTH);
@@ -181,18 +200,21 @@ public class View extends JFrame implements Observer {
 	 * Lays out the game for building levels
 	 * call when using the level builder
 	 */
-	void switchToBuildMode(){
+	public void switchToBuildMode(){
 		mainPanel.setLayout(new BorderLayout(40,5));
 		statusPanel.setLayout(new FlowLayout());
 		mainPanel.removeAll();
+		
+		builderMode = true;
 		//adding panels to the main pane
-		mainPanel.add(buildPanel.getGraveyardPanel(), BorderLayout.SOUTH);
-		//add the viewing area as well
+		//mainPanel.add(buildPanel.getGraveyardPanel(), BorderLayout.SOUTH);
+		//mainPanel.add(workingView.getGridPanel(), BorderLayout.NORTH);
 		
 	}
 
 	public File actionOpenFile()
 	{
+
 
 
         //Handle open button action.
@@ -220,5 +242,12 @@ public class View extends JFrame implements Observer {
 		return null;
 		
 	}
+
+	
+	public boolean isBuilderMode(){
+		return builderMode;
+	}
+
+
 }
 

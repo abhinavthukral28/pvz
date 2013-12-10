@@ -5,3 +5,7 @@
 /GamePanel.class
 /LevelBuilderView.class
 /BuildPanel.class
+/BuildGrid.class
+/ActorPanel.class
+/BuildGamePanel.class
+/ZombieSelectPanel.class

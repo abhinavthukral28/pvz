@@ -57,6 +57,9 @@ public class GameMenu {
 	}
 	public JMenuItem getSaveGame(){
 		return saveGame;
+
+		newLevel.addActionListener(c);
+
 	}
 	public JMenuItem getStartGame(){
 		return startGame;

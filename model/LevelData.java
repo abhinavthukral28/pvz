@@ -37,7 +37,7 @@ public class LevelData implements Cloneable, Serializable{
 	/**
 	 * @return the maxY
 	 */
-	public static int getMaxY() {
+	public int getMaxY() {
 		return MAX_Y;
 	}
 

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  *
  */
 
-public class LevelBuilder {
+public class LevelBuilder extends Observable{
 
 	private ArrayList<Actor> zombies;
 	private int level;
@@ -35,13 +36,17 @@ public class LevelBuilder {
 		if(z != null){
 			zombies.add(z);
 		}
+		this.setChanged();
+		notifyObservers();
 	}
 
-		public void removeZombie(Zombie z){
+		public void removeZombie(){
 			zombies.remove(zombies.size() - 1);
+			this.setChanged();
+			notifyObservers();
 		}
 
-		public LevelData getZombies(){
+		public LevelData getLevel(){
 			LevelData leveldata = new LevelData(level);
 			leveldata.setWaitingZombiesList(zombies);
 			return leveldata;
