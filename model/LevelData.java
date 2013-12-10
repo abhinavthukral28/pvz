@@ -75,7 +75,7 @@ public class LevelData implements Cloneable{
 	public void setWaitingZombiesList(ArrayList<Actor> waitingZombiesList) {
 		this.waitingZombiesList = waitingZombiesList;
 	}
-
+/**
 	 * 
 	 * @param x coordinate
 	 * @param y coordinate
