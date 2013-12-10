@@ -22,7 +22,6 @@ public class GameMenu {
 	private JMenuItem newLevel;
 	
 
-	public GameMenu() {
     private JMenuItem saveGame;
     private JMenuItem loadGame;
 	
