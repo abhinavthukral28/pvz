@@ -18,6 +18,7 @@ public class StateSaver {
 	private static Stack<PlayerData> pastPlayer;
 	private static Stack<PlayerData> futurePlayer;
 	
+	
 	public void saveState(LevelData presentLevel, PlayerData presentPlayer) throws CloneNotSupportedException{
 		pastLevel.push((LevelData) presentLevel.clone());
 		pastPlayer.push((PlayerData) presentPlayer.clone());

@@ -33,6 +33,7 @@ public class View extends JFrame implements Observer {
 	private  JPanel statusPanel;
 	private ZombiePanel zombiesPanel;
 	private PlantPanel sunFlowerPanel;
+	private BuildPanel buildPanel;
 
 	private JLabel money;
 	
@@ -50,6 +51,7 @@ public class View extends JFrame implements Observer {
 		zombiesPanel = new ZombiePanel();
 		gridPanel = new GamePanel();		
 		statusPanel = new JPanel();
+		buildPanel = new BuildPanel();
 		statusPanel.add(money);
 		
 		mainPanel.setLayout(new BorderLayout(40,5));
@@ -145,6 +147,35 @@ public class View extends JFrame implements Observer {
 	
 	public JButton getRedo(){
 		return sunFlowerPanel.getRedoButton();
+	}
+	
+	/**
+	 * Lays out the game for playing
+	 */
+	void switchToPlayMode(){
+		mainPanel.setLayout(new BorderLayout(40,5));
+		statusPanel.setLayout(new FlowLayout());
+		mainPanel.removeAll();
+		//adding panels to the main pane
+		mainPanel.add(gridPanel.getGridPanel(), BorderLayout.CENTER);
+		mainPanel.add(sunFlowerPanel.getSunFlowerPanel(), BorderLayout.SOUTH);
+		mainPanel.add(zombiesPanel.getZombiePanel(), BorderLayout.EAST);
+		mainPanel.add(statusPanel, BorderLayout.NORTH);
+		
+	}
+	
+	/**
+	 * Lays out the game for building levels
+	 * call when using the level builder
+	 */
+	void switchToBuildMode(){
+		mainPanel.setLayout(new BorderLayout(40,5));
+		statusPanel.setLayout(new FlowLayout());
+		mainPanel.removeAll();
+		//adding panels to the main pane
+		mainPanel.add(buildPanel.getGraveyardPanel(), BorderLayout.SOUTH);
+		//add the viewing area as well
+		
 	}
 
 }
